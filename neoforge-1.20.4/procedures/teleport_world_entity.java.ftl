@@ -1,0 +1,1 @@
+Util.teleportWorldEntity(world, ${input$entity}, ${input$x}, ${input$y}, ${input$z}, ${input$callback});

@@ -1,0 +1,1 @@
+TeamUtil.getStringColor(world, ${input$team_name}, ${input$lowercase})

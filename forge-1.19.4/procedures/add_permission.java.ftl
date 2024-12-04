@@ -1,0 +1,1 @@
+new BCKPermissions().addPermission(${input$entity}, ${input$permission}, ${input$callback});

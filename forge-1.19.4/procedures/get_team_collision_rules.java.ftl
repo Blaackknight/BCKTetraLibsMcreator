@@ -1,0 +1,1 @@
+TeamUtil.getStringCollisionRules(world, ${input$team_name})

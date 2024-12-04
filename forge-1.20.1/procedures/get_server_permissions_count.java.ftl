@@ -1,0 +1,1 @@
+new BCKPermissions().getServerPermissions().length

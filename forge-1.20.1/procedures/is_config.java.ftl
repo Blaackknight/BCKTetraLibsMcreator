@@ -1,0 +1,1 @@
+ConfigManager.getLoadedConfig().isConfigurationEnabled(${input$config})

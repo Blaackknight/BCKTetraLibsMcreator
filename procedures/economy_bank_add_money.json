@@ -1,0 +1,38 @@
+{
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "amount",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "player",
+        "check": "Entity"
+      },
+      {
+        "type": "input_value",
+        "name": "callback",
+        "check": "Boolean"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#fc0356",
+    "tooltip": "Add money to bank of player",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_ecos",
+      "toolbox_init": [
+        "<value name=\"amount\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+        "<value name=\"player\"><block type=\"entity_from_deps\"></block></value>",
+        "<value name=\"callback\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+      ],
+      "inputs": [
+        "amount",
+        "player",
+        "callback"
+      ]
+    }
+  }

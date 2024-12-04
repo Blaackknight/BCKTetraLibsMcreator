@@ -1,0 +1,1 @@
+(${input$player} instanceof Player ? EconomyManager.getMoney((Player) ${input$player}) : 0)

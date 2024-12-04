@@ -1,0 +1,31 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "entity",
+            "check": "Entity"
+        },
+        {
+            "type": "input_value",
+            "name": "permission",
+            "check": "String"
+        }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#303030",
+    "tooltip": "Return if player has permission",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_permissions",
+        "toolbox_init": [
+            "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>",
+            "<value name=\"permission\"><block type=\"text\"><field name=\"TEXT\">void</field></block></value>"
+        ],
+        "inputs": [
+            "entity",
+            "permission"
+        ],
+        "fields": []
+    }
+}

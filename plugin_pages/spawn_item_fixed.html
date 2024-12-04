@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .box-border {
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            color: #333;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+            color: #333;
+        }
+
+        td {
+            color: #555;
+        }
+
+        .procedure-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .procedure-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .procedure-table tr:first-child th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        .procedure-table tr:first-child th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        .procedure-table tr:last-child td:first-child {
+            border-bottom-left-radius: 10px;
+        }
+
+        .procedure-table tr:last-child td:last-child {
+            border-bottom-right-radius: 10px;
+        }
+
+        /* Style for the arguments table */
+        .argument-table {
+            margin-top: 20px;
+        }
+
+        .argument-table th {
+            background-color: #e1f1e1;
+        }
+
+        .argument-table td {
+            color: #333;
+        }
+
+        .blockly-container p {
+            color: black;
+        }
+
+        .blockly-container h4 {
+            color: black;
+            text-align: center;
+        }
+
+        /* For long text in MCreator, you can also use a tooltip or show full text on hover */
+        .mcreator-tooltip {
+            display: block;
+            width: 100%;
+            background-color: #ddd;
+            padding: 5px;
+            border-radius: 4px;
+            position: absolute;
+            z-index: 100;
+            top: 0;
+            left: 0;
+        }
+
+        .mcreator-column {
+            width: 200px; /* Adjust width for MCreator column */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="box-border">
+        <!-- French Language Section -->
+        <div class="blockly-container">
+            <div class="lang-content" data-lang="fr">
+                <p><b>Description:</b> Spawn dropped item with fixed coordinate</p>
+
+                <!-- Procedure Details Table -->
+                <table class="procedure-table">
+                    <thead>
+                        <tr>
+                            <th>Clé</th>
+                            <th>Entrée en Ligne</th>
+                            <th>Déclaration précédente</th>
+                            <th>Déclaration suivante</th>
+                            <th>Couleur</th>
+                            
+                            
+                            <th class="mcreator-column">MCreator</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>undefined</td>
+                            <td>true</td>
+                            <td>null</td>
+                            <td>null</td>
+                            <td style="color: 30;">30</td>
+                            Aucune
+                            Aucun
+                            <td class="mcreator-column">
+        <h5>Toolbox ID: <code>tetra_libs_actions</code></h5>
+        <h5>Toolbox Init:</h5>
+        <pre><value name="item"><block type="mcitem_all"><field name="value"></field></block></value><br><value name="x"><block type="coord_x"></block></value><br><value name="y"><block type="coord_y"></block></value><br><value name="z"><block type="coord_z"></block></value><br><value name="pickup_delay"><block type="math_number"><field name="NUM">1</field></block></value></pre>
+        <h5>Inputs:</h5>
+        <pre>item, x, y, z, pickup_delay</pre>
+        <h5>Fields:</h5>
+        <pre>despawn</pre>
+        <h5>Dépendances:</h5>
+        <ul><li>Nom: world, Type: world</li></ul></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Arguments Table -->
+                <h4>Arguments</h4>
+                <table class="argument-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Nom</th>
+                            <th>Check</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                <tr>
+                    <td>input_dummy</td>
+                    <td>Non défini</td>
+                    <td>Non défini</td>
+                </tr>
+                <tr>
+                    <td>input_value</td>
+                    <td>item</td>
+                    <td>MCItem</td>
+                </tr>
+                <tr>
+                    <td>input_dummy</td>
+                    <td>Non défini</td>
+                    <td>Non défini</td>
+                </tr>
+                <tr>
+                    <td>input_value</td>
+                    <td>x</td>
+                    <td>Number</td>
+                </tr>
+                <tr>
+                    <td>input_dummy</td>
+                    <td>Non défini</td>
+                    <td>Non défini</td>
+                </tr>
+                <tr>
+                    <td>input_value</td>
+                    <td>y</td>
+                    <td>Number</td>
+                </tr>
+                <tr>
+                    <td>input_dummy</td>
+                    <td>Non défini</td>
+                    <td>Non défini</td>
+                </tr>
+                <tr>
+                    <td>input_value</td>
+                    <td>z</td>
+                    <td>Number</td>
+                </tr>
+                <tr>
+                    <td>input_dummy</td>
+                    <td>Non défini</td>
+                    <td>Non défini</td>
+                </tr>
+                <tr>
+                    <td>input_value</td>
+                    <td>pickup_delay</td>
+                    <td>Number</td>
+                </tr>
+                <tr>
+                    <td>field_checkbox</td>
+                    <td>despawn</td>
+                    <td>Non défini</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- English Language Section -->
+    <div class="lang-content" data-lang="en">
+        <p><b>Description:</b> Spawn dropped item with fixed coordinate</p>
+
+        <!-- Procedure Details Table -->
+        <table class="procedure-table">
+            <thead>
+                <tr>
+                    <th>Raw Name</th>
+                    <th>Inline Input</th>
+                    <th>Previous Statement</th>
+                    <th>Next Statement</th>
+                    <th>Color</th>
+                    
+                    
+                    <th class="mcreator-column">MCreator</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>undefined</td>
+                    <td>true</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td style="color: 30;">30</td>
+                    None
+                    None
+                    <td class="mcreator-column">
+        <h5>Toolbox ID: <code>tetra_libs_actions</code></h5>
+        <h5>Toolbox Init:</h5>
+        <pre><value name="item"><block type="mcitem_all"><field name="value"></field></block></value><br><value name="x"><block type="coord_x"></block></value><br><value name="y"><block type="coord_y"></block></value><br><value name="z"><block type="coord_z"></block></value><br><value name="pickup_delay"><block type="math_number"><field name="NUM">1</field></block></value></pre>
+        <h5>Inputs:</h5>
+        <pre>item, x, y, z, pickup_delay</pre>
+        <h5>Fields:</h5>
+        <pre>despawn</pre>
+        <h5>Dépendances:</h5>
+        <ul><li>Nom: world, Type: world</li></ul></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Arguments Table -->
+        <h4>Arguments</h4>
+        <table class="argument-table">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Check</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>input_dummy</td>
+                    <td>Not defined</td>
+                    <td>Not defined</td>
+                </tr>
+                <tr>
+                    <td>input_value</td>
+                    <td>item</td>
+                    <td>MCItem</td>
+                </tr>
+                <tr>
+                    <td>input_dummy</td>
+                    <td>Not defined</td>
+                    <td>Not defined</td>
+                </tr>
+                <tr>
+                    <td>input_value</td>
+                    <td>x</td>
+                    <td>Number</td>
+                </tr>
+                <tr>
+                    <td>input_dummy</td>
+                    <td>Not defined</td>
+                    <td>Not defined</td>
+                </tr>
+                <tr>
+                    <td>input_value</td>
+                    <td>y</td>
+                    <td>Number</td>
+                </tr>
+                <tr>
+                    <td>input_dummy</td>
+                    <td>Not defined</td>
+                    <td>Not defined</td>
+                </tr>
+                <tr>
+                    <td>input_value</td>
+                    <td>z</td>
+                    <td>Number</td>
+                </tr>
+                <tr>
+                    <td>input_dummy</td>
+                    <td>Not defined</td>
+                    <td>Not defined</td>
+                </tr>
+                <tr>
+                    <td>input_value</td>
+                    <td>pickup_delay</td>
+                    <td>Number</td>
+                </tr>
+                <tr>
+                    <td>field_checkbox</td>
+                    <td>despawn</td>
+                    <td>Not defined</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

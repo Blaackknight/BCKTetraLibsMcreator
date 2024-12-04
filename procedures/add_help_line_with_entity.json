@@ -1,0 +1,83 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "text",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "hoverText",
+      "check": "String"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "clickAction",
+      "options": [
+        [
+          "NULL",
+          "null"
+        ],
+        [
+          "RUN_COMMAND",
+          "RUN_COMMAND"
+        ],
+        [
+          "OPEN_URL",
+          "OPEN_URL"
+        ],
+        [
+          "SUGGEST_COMMAND",
+          "SUGGEST_COMMAND"
+        ],
+        [
+          "COPY_TO_CLIPBOARD",
+          "COPY_TO_CLIPBOARD"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "clickValue",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "ent",
+      "check": "Entity"
+    },
+    {
+      "type": "input_dummy",
+      "name": "var"
+    }
+  ],
+  "extensions": [
+    "help_page_variables"
+  ],
+  "mutator": "variable_entity_input",
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#2ade63",
+  "tooltip": "Add help line with entity",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_help_pages",
+    "toolbox_init": [
+      "<value name=\"text\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>",
+      "<value name=\"hoverText\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>",
+      "<value name=\"clickValue\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>",
+      "<value name=\"ent\"><block type=\"entity_from_deps\"></block></value>"
+    ],
+    "inputs": [
+      "text",
+      "hoverText",
+      "clickValue",
+      "ent"
+    ],
+    "fields": [
+      "clickAction",
+      "VAR"
+    ]
+  }
+}

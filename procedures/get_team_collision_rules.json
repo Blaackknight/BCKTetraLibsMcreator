@@ -1,0 +1,33 @@
+{
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_value",
+      "name": "team_name",
+      "check": "String"
+    }
+  ],
+  "inputsInline": true,
+  "output": "String",
+  "colour": 160,
+  "tooltip": "Get team collisionRules",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_utils",
+    "toolbox_init": [
+        "<value name=\"team_name\"><block type=\"text\"><field name=\"TEXT\">team name</field></block></value>"
+      ],
+      "inputs": [
+        "team_name"
+      ],
+      "dependencies": [
+        {
+          "name": "world",
+          "type": "world"
+        }
+      ]
+  }
+  
+}

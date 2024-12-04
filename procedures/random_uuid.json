@@ -1,0 +1,23 @@
+ {
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "number",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "output": "String",
+  "colour": 130,
+  "tooltip": "Return random uuid",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_utils",
+    "toolbox_init": [
+      "<value name=\"number\"><block type=\"math_number\"><field name=\"NUM\">36</field></block></value>"
+    ],
+    "inputs": [
+      "number"
+    ]
+  }
+}

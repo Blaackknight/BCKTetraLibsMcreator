@@ -1,0 +1,1 @@
+MobUtil.setBaseArmorToughness((LivingEntity) ${input$entity}, ${input$number});

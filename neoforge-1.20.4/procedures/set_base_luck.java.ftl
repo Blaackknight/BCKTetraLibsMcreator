@@ -1,0 +1,1 @@
+MobUtil.setBaseLuck((LivingEntity) ${input$entity}, ${input$number});

@@ -1,0 +1,29 @@
+{
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "line",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#c930a0",
+    "tooltip": "Get tooltip line",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_utils",
+      "toolbox_init": [
+        "<value name=\"line\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>"
+      ],
+      "inputs": [
+        "line"
+      ],
+      "dependencies": [
+        {
+          "name": "itemtooltip",
+          "type": "itemtooltip"
+        }
+      ]
+    }
+  }

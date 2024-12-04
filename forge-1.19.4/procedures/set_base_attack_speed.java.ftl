@@ -1,0 +1,1 @@
+MobUtil.setBaseAttackSpeed((LivingEntity) ${input$entity}, ${input$number});

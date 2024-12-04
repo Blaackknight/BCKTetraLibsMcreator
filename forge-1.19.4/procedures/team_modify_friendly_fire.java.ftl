@@ -1,0 +1,1 @@
+TeamUtil.setFriendlyFire(world, ${input$team_name}, ${input$friendlyFire}, ${input$callback});

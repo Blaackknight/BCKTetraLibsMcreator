@@ -1,0 +1,1 @@
+TeamUtil.setSeeFriendlyInvisbles(world, ${input$team_name}, "${field$seeFriendlyInvisbles}", ${input$callback});

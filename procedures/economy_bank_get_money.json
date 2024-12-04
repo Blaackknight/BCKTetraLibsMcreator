@@ -1,0 +1,23 @@
+{
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "player",
+        "check": "Entity"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#9c0235",
+    "tooltip": "Get money from bank of player",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_ecos",
+      "toolbox_init": [
+        "<value name=\"player\"><block type=\"entity_from_deps\"></block></value>"
+      ],
+      "inputs": [
+        "player"
+      ]
+    }
+  }

@@ -1,0 +1,24 @@
+{
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "item_name",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff5cd3",
+    "tooltip": "Add item to list of tooltip",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_actions",
+      "toolbox_init": [
+        "<value name=\"item_name\"><block type=\"text\"><field name=\"TEXT\">minecraft:air</field></block></value>"
+      ],
+      "inputs": [
+        "item_name"
+      ]
+    }
+  }

@@ -1,0 +1,1 @@
+TetraPage.getPlayerPage(${input$entity})

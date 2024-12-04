@@ -1,0 +1,1 @@
+MobUtil.getBaseArmorTougness(${input$entity})

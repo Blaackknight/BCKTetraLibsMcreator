@@ -1,0 +1,1 @@
+MobUtil.setBaseArmor((LivingEntity) ${input$entity}, ${input$number});

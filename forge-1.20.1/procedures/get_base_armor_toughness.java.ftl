@@ -1,0 +1,1 @@
+MobUtil.getBaseArmorKnockback(${input$entity})

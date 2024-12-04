@@ -1,0 +1,30 @@
+ {
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "number",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "numberAfter",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "output": "String",
+  "colour": 160,
+  "tooltip": "Return number to string converted",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_utils",
+    "toolbox_init": [
+      "<value name=\"number\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"numberAfter\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>"
+    ],
+    "inputs": [
+      "number",
+      "numberAfter"
+    ]
+  }
+}

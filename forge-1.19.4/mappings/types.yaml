@@ -1,0 +1,5 @@
+permission: String
+itemtooltip: List<Component>
+help_page: List<Component>
+key: Object
+tetra_config: fr.bck.tetralibs.Config

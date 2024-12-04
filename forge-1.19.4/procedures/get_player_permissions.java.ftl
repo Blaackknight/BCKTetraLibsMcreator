@@ -1,0 +1,1 @@
+new BCKPermissions().getFormattedPlayerPermissions(${input$entity}, ${input$pattern}, ${input$replaceable})

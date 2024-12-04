@@ -1,0 +1,1 @@
+SuperLog.warn(${input$name}, ${input$message});

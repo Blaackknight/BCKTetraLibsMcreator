@@ -1,0 +1,44 @@
+{
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "team_name",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "suffix",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "callback",
+        "check": "Boolean"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 290,
+    "tooltip": "Modifiy team suffix",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_actions",
+      "toolbox_init": [
+        "<value name=\"team_name\"><block type=\"text\"><field name=\"TEXT\">team name</field></block></value>",
+        "<value name=\"suffix\"><block type=\"text\"><field name=\"TEXT\">team suffix</field></block></value>",
+        "<value name=\"callback\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+      ],
+      "inputs": [
+        "team_name",
+        "suffix",
+        "callback"
+      ],
+      "dependencies": [
+        {
+          "name": "world",
+          "type": "world"
+        }
+      ]
+    }
+  }

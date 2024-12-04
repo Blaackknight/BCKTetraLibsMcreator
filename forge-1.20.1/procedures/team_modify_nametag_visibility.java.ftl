@@ -1,0 +1,1 @@
+TeamUtil.setNametagVisibility(world, ${input$team_name}, "${field$nametagVisibility}", ${input$callback});

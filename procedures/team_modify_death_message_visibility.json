@@ -1,0 +1,62 @@
+{
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "team_name",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "deathMessageVisibility",
+        "options": [
+          [
+            "always",
+            "always"
+          ],
+          [
+            "never",
+            "never"
+          ],
+          [
+            "hideForOtherTeams",
+            "hideForOtherTeams"
+          ],
+          [
+            "hideForOwnTeam",
+            "hideForOwnTeam"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "callback",
+        "check": "Boolean"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 290,
+    "tooltip": "Modifiy team deathMessageVisibility",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_actions",
+      "toolbox_init": [
+        "<value name=\"team_name\"><block type=\"text\"><field name=\"TEXT\">team name</field></block></value>",
+        "<value name=\"callback\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+      ],
+      "fields": [
+        "deathMessageVisibility"
+      ],
+      "inputs": [
+        "team_name",
+        "callback"
+      ],
+      "dependencies": [
+        {
+          "name": "world",
+          "type": "world"
+        }
+      ]
+    }
+  }

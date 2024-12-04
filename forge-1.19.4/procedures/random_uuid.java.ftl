@@ -1,0 +1,1 @@
+fr.bck.tetralibs.Util.randomUUID(${input$number})

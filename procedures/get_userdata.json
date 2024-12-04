@@ -1,0 +1,36 @@
+{
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "key",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "player",
+        "check": "Entity"
+      }
+    ],
+    "inputsInline": true,
+    "colour": "#00a892",
+    "output": null,
+    "tooltip": "Get data from player",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_data_manager",
+      "toolbox_init": [
+        "<value name=\"key\"><block type=\"text\"><field name=\"TEXT\">key</field></block></value>",
+        "<value name=\"player\"><block type=\"entity_from_deps\"></block></value>"
+      ],
+      "inputs": [
+        "key",
+        "player"
+      ],
+      "dependencies": [
+        {
+            "name": "world",
+            "type": "world"
+        }
+      ]
+    }
+  }

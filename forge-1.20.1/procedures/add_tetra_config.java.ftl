@@ -1,0 +1,1 @@
+tetra_config.addConfiguration(${input$config}, ${input$value});

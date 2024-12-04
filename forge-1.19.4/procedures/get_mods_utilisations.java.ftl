@@ -1,0 +1,1 @@
+ModList.get().getMods().stream().filter(modInfo -> modInfo.getDependencies().stream().anyMatch(dep -> dep.getModId().equals(${input$modid}))).map(modInfo -> modInfo.getModId()).toList().size()

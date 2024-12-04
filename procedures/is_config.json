@@ -1,0 +1,28 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "config",
+            "check": "String"
+        }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": 210,
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_utils",
+      "toolbox_init": [
+        "<value name=\"config\"><block type=\"text\"><field name=\"TEXT\">userdata</field></block></value>"
+      ],
+      "inputs": [
+        "config"
+      ],
+      "fields": [
+      ],
+      "dependencies": [
+        
+      ]
+    }
+}
+  

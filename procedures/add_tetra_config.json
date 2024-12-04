@@ -1,0 +1,37 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "config",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "value",
+      "check": "Boolean"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#ea30ff",
+  "tooltip": "Add custom tetra config",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_actions",
+    "toolbox_init": [
+      "<value name=\"config\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>",
+      "<value name=\"value\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+    ],
+    "inputs": [
+      "config",
+      "value"
+    ],
+    "dependencies": [
+      {
+        "name": "tetra_config",
+        "type": "tetra_config"
+      }
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "mod_name",
+            "check": "String"
+        }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": 210,
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_utils",
+      "fields": [
+      ],
+      "toolbox_init": [
+        "<value name=\"mod_name\"><block type=\"text\"><field name=\"TEXT\">forge</field></block></value>"
+      ],
+      "inputs": [
+        "mod_name"
+      ]
+    }
+}
+  

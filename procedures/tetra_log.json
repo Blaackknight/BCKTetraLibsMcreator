@@ -1,0 +1,52 @@
+{
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "text",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "level",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "title",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "custom",
+        "check": "Boolean"
+      },
+      {
+        "type": "input_value",
+        "name": "only",
+        "check": "Boolean"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6b03fc",
+    "tooltip": "Send tetralog to all players with level",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_logs",
+      "toolbox_init": [
+        "<value name=\"text\"><block type=\"text\"><field name=\"TEXT\">text</field></block></value>",
+        "<value name=\"level\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+        "<value name=\"title\"><block type=\"text\"><field name=\"TEXT\">defaultTitle</field></block></value>",
+        "<value name=\"only\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
+        "<value name=\"custom\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+      ],
+      "inputs": [
+        "text",
+        "level",
+        "title",
+        "only",
+        "custom"
+      ]
+    }
+  }

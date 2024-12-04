@@ -1,0 +1,39 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "entity",
+            "check": "Entity"
+        },
+        {
+            "type": "input_value",
+            "name": "permission",
+            "check": "String"
+        },
+        {
+            "type": "input_value",
+            "name": "callback",
+            "check": "Boolean"
+        }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#303030",
+    "tooltip": "Remove permission from a player",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_permissions",
+        "toolbox_init": [
+            "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>",
+            "<value name=\"permission\"><block type=\"text\"><field name=\"TEXT\">void</field></block></value>",
+            "<value name=\"callback\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+        ],
+        "inputs": [
+            "entity",
+            "permission",
+            "callback"
+        ],
+        "fields": []
+    }
+}

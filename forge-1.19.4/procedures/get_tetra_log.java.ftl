@@ -1,0 +1,1 @@
+LogLevel.get(${input$entity})

@@ -1,0 +1,1 @@
+new BCKPermissions().hasPermission(${input$entity}, ${input$permission})

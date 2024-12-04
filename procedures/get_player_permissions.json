@@ -1,0 +1,38 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "entity",
+            "check": "Entity"
+        },
+        {
+            "type": "input_value",
+            "name": "pattern",
+            "check": "String"
+        },
+        {
+            "type": "input_value",
+            "name": "replaceable",
+            "check": "String"
+        }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#303030",
+    "tooltip": "Return player permissions as string pattern",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_permissions",
+        "toolbox_init": [
+            "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>",
+            "<value name=\"pattern\"><block type=\"text\"><field name=\"TEXT\">- %perm%%nl%</field></block></value>",
+            "<value name=\"replaceable\"><block type=\"text\"><field name=\"TEXT\">%perm%</field></block></value>"
+        ],
+        "inputs": [
+            "entity",
+            "pattern",
+            "replaceable"
+        ],
+        "fields": []
+    }
+}

@@ -1,0 +1,1 @@
+TeamUtil.getTeamsNumber(world)

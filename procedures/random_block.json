@@ -1,0 +1,9 @@
+{
+  "inputsInline": true,
+  "output": "MCItemBlock",
+  "colour": "255",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_utils"
+  }
+}

@@ -1,0 +1,31 @@
+{
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "loot_table",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "output": "MCItem",
+    "colour": 10,
+    "tooltip": "Return random item from loot table",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_utils",
+      "toolbox_init": [
+        "<value name=\"loot_table\"><block type=\"text\"><field name=\"TEXT\">minecraft:chests/spawn_bonus_chest</field></block></value>"
+      ],
+      "fields": [
+      ],
+      "inputs": [
+        "loot_table"
+      ],
+      "dependencies": [
+        {
+          "name": "world",
+          "type": "world"
+        }
+      ]
+    }
+  }

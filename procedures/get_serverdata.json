@@ -1,0 +1,25 @@
+{
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "key",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "colour": "#00a892",
+    "output": null,
+    "tooltip": "Get data from server",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_data_manager",
+      "toolbox_init": [
+        "<value name=\"key\"><block type=\"text\"><field name=\"TEXT\">key</field></block></value>"
+      ],
+      "inputs": [
+        "key"
+      ],
+      "dependencies": [
+      ]
+    }
+  }

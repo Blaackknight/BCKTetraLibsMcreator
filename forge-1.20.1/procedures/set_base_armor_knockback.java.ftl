@@ -1,0 +1,1 @@
+MobUtil.setBaseArmorKnockback((LivingEntity) ${input$entity}, ${input$number});

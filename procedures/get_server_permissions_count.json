@@ -1,0 +1,20 @@
+{
+    "args0": [
+        {
+            "type": "input_dummy"
+        }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#303030",
+    "tooltip": "Return server permissions count",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_permissions",
+        "toolbox_init": [
+        ],
+        "inputs": [
+        ],
+        "fields": []
+    }
+}

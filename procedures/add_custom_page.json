@@ -1,0 +1,28 @@
+{
+    "args0": [
+      {
+        "type": "input_dummy",
+        "name": "var"
+      }
+    ],
+    "extensions": [
+      "help_page_variables"
+    ],
+    "mutator": "variable_entity_input",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2ade63",
+    "tooltip": "Add custom page",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_help_pages",
+      "toolbox_init": [
+      ],
+      "inputs": [
+      ],
+      "fields": [
+        "VAR"
+      ]
+    }
+  }

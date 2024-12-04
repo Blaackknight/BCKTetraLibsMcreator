@@ -1,0 +1,1 @@
+TeamUtil.getStringDeathMessageVisibility(world, ${input$team_name}, ${input$lowercase})

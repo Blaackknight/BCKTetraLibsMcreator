@@ -1,0 +1,1 @@
+RandomEffect.apply(${input$entity}, ${input$duration}, ${input$blacklist});

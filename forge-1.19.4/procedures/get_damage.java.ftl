@@ -1,0 +1,1 @@
+MobUtil.getDamage(${input$entity})

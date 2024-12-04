@@ -1,0 +1,1 @@
+new BCKPermissions().removePermission(${input$entity}, ${input$permission}, ${input$callback});

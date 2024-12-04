@@ -1,0 +1,1 @@
+MobUtil.setBaseJumpStrength((LivingEntity) ${input$entity}, ${input$number});

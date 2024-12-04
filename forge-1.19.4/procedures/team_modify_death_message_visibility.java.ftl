@@ -1,0 +1,1 @@
+TeamUtil.setDeathMessageVisibility(world, ${input$team_name}, "${field$deathMessageVisibility}", ${input$callback});

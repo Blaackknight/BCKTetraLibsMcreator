@@ -1,0 +1,1 @@
+TeamUtil.teamExists(world, ${input$team_name})

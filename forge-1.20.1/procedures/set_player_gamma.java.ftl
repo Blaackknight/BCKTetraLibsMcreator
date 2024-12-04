@@ -1,0 +1,1 @@
+Util.setPlayerGamma((double) ${input$number});

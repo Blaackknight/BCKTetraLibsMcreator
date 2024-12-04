@@ -1,0 +1,1 @@
+TeamUtil.setColor(world, ${input$team_name}, "${field$color}", ${input$callback});

@@ -1,0 +1,1 @@
+new BCKPermissions().addServerPermission(${input$permission}, ${input$callback});

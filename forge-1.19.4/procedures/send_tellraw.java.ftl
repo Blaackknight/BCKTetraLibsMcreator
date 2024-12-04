@@ -1,0 +1,1 @@
+fr.bck.tetralibs.Util.sendTellraw(${input$message}, ${input$entity}, world, x, y, z);

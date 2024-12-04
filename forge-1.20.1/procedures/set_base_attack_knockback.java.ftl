@@ -1,0 +1,1 @@
+MobUtil.setBaseAttackKnockback((LivingEntity) ${input$entity}, ${input$number});

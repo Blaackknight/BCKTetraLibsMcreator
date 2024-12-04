@@ -1,0 +1,12 @@
+{
+    "dependencies_provided": [
+      {
+        "name": "tetra_config",
+        "type": "tetra_config"
+      }
+    ],
+    "cancelable": "false",
+    "has_result": "false",
+    "side": "false"
+  }
+  

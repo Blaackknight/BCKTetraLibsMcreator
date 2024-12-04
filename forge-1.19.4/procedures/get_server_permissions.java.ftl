@@ -1,0 +1,1 @@
+new BCKPermissions().getFormattedServerPermissions(${input$pattern}, ${input$replaceable})

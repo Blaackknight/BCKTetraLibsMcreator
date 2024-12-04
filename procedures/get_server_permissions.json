@@ -1,0 +1,32 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "pattern",
+            "check": "String"
+        },
+        {
+            "type": "input_value",
+            "name": "replaceable",
+            "check": "String"
+        }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#303030",
+    "tooltip": "Return server permissions as string pattern",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_permissions",
+        "toolbox_init": [
+            "<value name=\"pattern\"><block type=\"text\"><field name=\"TEXT\">- %perm%%nl%</field></block></value>",
+            "<value name=\"replaceable\"><block type=\"text\"><field name=\"TEXT\">%perm%</field></block></value>"
+        ],
+        "inputs": [
+            "pattern",
+            "replaceable"
+        ],
+        "fields": [
+        ]
+    }
+}

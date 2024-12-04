@@ -1,0 +1,1 @@
+TetraPage.addCustomPage(${field$VAR?replace("local:", "")?replace("global:", "${JavaModName}Variables.")});

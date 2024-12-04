@@ -1,0 +1,55 @@
+{
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "entity",
+        "check": "Entity"
+      },
+      {
+        "type": "input_value",
+        "name": "x",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "z",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "callback",
+        "check": "Boolean"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 90,
+    "tooltip": "Teleport entity to x y z",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_actions",
+      "toolbox_init": [
+        "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>",
+        "<value name=\"x\"><block type=\"coord_x\"></block></value>",
+        "<value name=\"y\"><block type=\"coord_y\"></block></value>",
+        "<value name=\"z\"><block type=\"coord_z\"></block></value>",
+        "<value name=\"callback\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+      ],
+      "inputs": [
+        "entity",
+        "x",
+        "y",
+        "z",
+        "callback"
+      ],
+      "dependencies": [
+
+      ]
+    }
+  }

@@ -1,0 +1,1 @@
+MobUtil.setBaseMaxHealth((LivingEntity) ${input$entity}, ${input$number});

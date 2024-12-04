@@ -1,0 +1,50 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "message",
+            "check": "String"
+        },
+        {
+            "type": "input_value",
+            "name": "entity",
+            "check": "Entity"
+        }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#17a38a",
+    "tooltip": "Send message as tellraw command to a player",
+    "helpUrl": "https://www.bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_actions",
+        "toolbox_init": [
+            "<value name=\"message\"><block type=\"text\"><field name=\"TEXT\">Message</field></block></value>",
+            "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>"
+        ],
+        "inputs": [
+            "message",
+            "entity"
+        ],
+        "fields": [],
+        "dependencies": [
+            {
+                "name": "world",
+                "type": "world"
+            },
+            {
+                "name": "x",
+                "type": "number"
+            },
+            {
+                "name": "y",
+                "type": "number"
+            },
+            {
+                "name": "z",
+                "type": "number"
+            }
+        ]
+    }
+}

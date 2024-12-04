@@ -1,0 +1,20 @@
+{
+    "dependencies_provided": [
+  {
+        "name": "itemstack",
+        "type": "itemstack"
+      },
+      {
+        "name": "entity",
+        "type": "entity"
+      },
+      {
+        "name": "itemtooltip",
+        "type": "itemtooltip"
+      }
+    ],
+    "cancelable": "false",
+    "has_result": "false",
+    "side": "client"
+  }
+  

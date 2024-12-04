@@ -1,0 +1,1 @@
+SuperLog.debug(${input$name}, ${input$message});

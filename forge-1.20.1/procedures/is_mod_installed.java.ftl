@@ -1,0 +1,1 @@
+Util.isModInstalled(${input$mod_name})

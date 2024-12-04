@@ -1,0 +1,1 @@
+Util.getRandomItemFromLootTable(world, ${input$loot_table})

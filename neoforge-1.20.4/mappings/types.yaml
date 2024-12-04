@@ -1,0 +1,3 @@
+player: Player
+itemtooltip: List<Component>
+key: Object

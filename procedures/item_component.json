@@ -1,0 +1,28 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "item",
+            "check": "MCItem"
+          }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": 100,
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_utils",
+      "toolbox_init": [
+        "<value name=\"item\"><block type=\"mcitem_all\"><field name=\"value\"></field></block></value>"
+      ],
+      "fields": [
+      ],
+      "inputs": [
+        "item"
+      ],
+      "dependencies": [
+        
+      ]
+    }
+}
+  

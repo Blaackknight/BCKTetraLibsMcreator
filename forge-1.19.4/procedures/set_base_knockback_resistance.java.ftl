@@ -1,0 +1,1 @@
+MobUtil.setBaseKnockbackResistance((LivingEntity) ${input$entity}, ${input$number});

@@ -1,0 +1,1 @@
+SuperLog.write(${input$message}, ${input$inline}, ${input$path}, ${input$file_name});

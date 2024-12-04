@@ -1,0 +1,1 @@
+TeamUtil.setSuffix(world, ${input$team_name}, ${input$suffix}, ${input$callback});

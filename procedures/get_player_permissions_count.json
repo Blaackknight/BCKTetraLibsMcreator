@@ -1,0 +1,24 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "entity",
+            "check": "Entity"
+        }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#303030",
+    "tooltip": "Return player permissions count",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_permissions",
+        "toolbox_init": [
+            "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>"
+        ],
+        "inputs": [
+            "entity"
+        ],
+        "fields": []
+    }
+}

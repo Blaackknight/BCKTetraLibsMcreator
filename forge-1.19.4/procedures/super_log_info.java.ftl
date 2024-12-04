@@ -1,0 +1,1 @@
+SuperLog.info(${input$name}, ${input$message});

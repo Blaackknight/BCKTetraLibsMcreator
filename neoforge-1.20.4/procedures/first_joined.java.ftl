@@ -1,0 +1,1 @@
+(${input$entity}.getCapability(TetraLibsModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new TetraLibsModVariables.PlayerVariables())).first_join

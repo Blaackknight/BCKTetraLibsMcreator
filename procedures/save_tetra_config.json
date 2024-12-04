@@ -1,0 +1,30 @@
+{
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "replace",
+        "check": "Boolean"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ea30ff",
+    "tooltip": "Save tetra config(s)",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_actions",
+      "toolbox_init": [
+        "<value name=\"replace\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+      ],
+      "inputs": [
+        "replace"
+      ],
+      "dependencies": [
+        {
+          "name": "tetra_config",
+          "type": "tetra_config"
+        }
+      ]
+    }
+  }

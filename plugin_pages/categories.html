@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catégories</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .box-border {
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        th,
+        td {
+            padding: 6px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+            color: #333;
+        }
+
+        td {
+            color: #555;
+        }
+
+        .main-category-row {
+            background-color: #e1f1e1; /* Light green */
+            font-weight: bold;
+            color: #2b8a3e;
+        }
+
+        .subcategory-table {
+            background-color: #f9f9f9;
+            margin-top: 30px; /* Added margin to create space between tables */
+        }
+
+        .subcategory-table th {
+            background-color: #e1f1e1;
+        }
+
+        .subcategory-table td {
+            color: #333;
+        }
+
+        .subcategory-name {
+            color: #e39378; /* Slight orange for subcategories */
+        }
+
+        .subcategory-color {
+            background-color: #fc035e; /* A deep red color for visibility */
+            border-radius: 5px;
+            color: #fff;
+            padding: 5px;
+        }
+
+        /* Optional: Hover effect for subcategory rows */
+        .subcategory-table tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="box-border">
+        <div class="category-container">
+            <!-- French Language Section -->
+            <div class="lang-content" data-lang="fr">
+                
+            <div class="category-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom Brut</th>
+                            <th>Nom D'affichage</th>
+                            <th>Couleur</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="main-category-row">
+                            <td>tetra_libs</td>
+                            <td>
+                                Tetra Libs<br />Sous-Catégories <b>➽</b>
+                                <button onclick="toggleDetails(this)">+</button>
+                            </td>
+                            <td><span style="color: #e30053;">#e30053</span></td>
+                        </tr>
+                        <tr style="display: none">
+                            <td colspan="3">
+                                <!-- Sub-Categories Table -->
+                                <table class="subcategory-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Sous-Catégorie</th>
+                                            <th>Couleur</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                        <tr>
+                            <td class="subcategory-name">Actions <i>(tetra_libs_actions)</i></td>
+                            <td class="subcategory-color">#fc035e</td>
+                        </tr>
+                        <tr>
+                            <td class="subcategory-name">Gestionnaire de données <i>(tetra_libs_data_manager)</i></td>
+                            <td class="subcategory-color">#fc035e</td>
+                        </tr>
+                        <tr>
+                            <td class="subcategory-name">Pages d'aide <i>(tetra_libs_help_pages)</i></td>
+                            <td class="subcategory-color">#fc035e</td>
+                        </tr>
+                        <tr>
+                            <td class="subcategory-name">Economies <i>(tetra_libs_ecos)</i></td>
+                            <td class="subcategory-color">#fc035e</td>
+                        </tr>
+                        <tr>
+                            <td class="subcategory-name">Journaux <i>(tetra_libs_logs)</i></td>
+                            <td class="subcategory-color">#fc035e</td>
+                        </tr>
+                        <tr>
+                            <td class="subcategory-name">Utilités <i>(tetra_libs_utils)</i></td>
+                            <td class="subcategory-color">#fc035e</td>
+                        </tr>
+                        <tr>
+                            <td class="subcategory-name">Permissions <i>(tetra_libs_permissions)</i></td>
+                            <td class="subcategory-color">#fc035e</td>
+                        </tr></tbody></table></td></tr></tbody></table></div>
+        </div> <!-- End lang-content for French -->
+        
+        <!-- English Language Section -->
+        <div class="lang-content" data-lang="en">
+            
+            <div class="category-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Raw Name</th>
+                            <th>Display Name</th>
+                            <th>Color</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="main-category-row">
+                            <td>tetra_libs</td>
+                            <td>
+                                Tetra Libs<br />Sub-Categories <b>➽</b>
+                                <button onclick="toggleDetails(this)">+</button>
+                            </td>
+                            <td><span style="color: #e30053;">#e30053</span></td>
+                        </tr>
+                        <tr style="display: none">
+                            <td colspan="3">
+                                <!-- Sub-Categories Table -->
+                                <table class="subcategory-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Sub-Category</th>
+                                            <th>Color</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                        <tr>
+                            <td class="subcategory-name">Actions <i>(tetra_libs_actions)</i></td>
+                            <td class="subcategory-color">#fc035e</td>
+                        </tr>
+                        <tr>
+                            <td class="subcategory-name">Datas Manager <i>(tetra_libs_data_manager)</i></td>
+                            <td class="subcategory-color">#fc035e</td>
+                        </tr>
+                        <tr>
+                            <td class="subcategory-name">Help Pages <i>(tetra_libs_help_pages)</i></td>
+                            <td class="subcategory-color">#fc035e</td>
+                        </tr>
+                        <tr>
+                            <td class="subcategory-name">Economys <i>(tetra_libs_ecos)</i></td>
+                            <td class="subcategory-color">#fc035e</td>
+                        </tr>
+                        <tr>
+                            <td class="subcategory-name">Logs <i>(tetra_libs_logs)</i></td>
+                            <td class="subcategory-color">#fc035e</td>
+                        </tr>
+                        <tr>
+                            <td class="subcategory-name">Utils <i>(tetra_libs_utils)</i></td>
+                            <td class="subcategory-color">#fc035e</td>
+                        </tr>
+                        <tr>
+                            <td class="subcategory-name">Permissions <i>(tetra_libs_permissions)</i></td>
+                            <td class="subcategory-color">#fc035e</td>
+                        </tr></tbody></table></td></tr></tbody></table></div>
+        </div> <!-- End lang-content for English -->
+    </div>
+</body>
+</html>

@@ -1,0 +1,1 @@
+MobUtil.getBaseLuck(${input$entity})

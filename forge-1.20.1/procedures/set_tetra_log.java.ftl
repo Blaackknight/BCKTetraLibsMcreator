@@ -1,0 +1,1 @@
+LogLevel.set(${input$entity}, ${input$level}, ${input$callback});

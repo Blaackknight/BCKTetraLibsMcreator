@@ -1,0 +1,1 @@
+MobUtil.getBaseJumpStrength(${input$entity})

@@ -1,0 +1,12 @@
+{
+    "dependencies_provided": [
+      {
+        "name": "key",
+        "type": "key"
+      }
+    ],
+    "cancelable": "false",
+    "has_result": "false",
+    "side": "client"
+  }
+  

@@ -1,0 +1,24 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "modid",
+      "check": "String"
+    }
+  ],
+  "inputsInline": true,
+  "output": "Number",
+  "colour": 230,
+  "tooltip": "Return number of mods is using you mod",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_utils",
+    "toolbox_init": [
+      "<value name=\"modid\"><block type=\"text\"><field name=\"TEXT\">mod_name</field></block></value>"
+    ],
+    "fields": [],
+    "inputs": [
+      "modid"
+    ]
+  }
+}

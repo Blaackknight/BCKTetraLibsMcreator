@@ -1,0 +1,24 @@
+{
+    "args0": [
+
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": 110,
+    "tooltip": "Get world name",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_utils",
+      "toolbox_init": [
+        ],
+        "inputs": [
+        ],
+        "dependencies": [
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+    }
+    
+  }

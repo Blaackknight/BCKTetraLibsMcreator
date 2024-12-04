@@ -1,0 +1,27 @@
+{
+    "args0": [
+      {
+        "type": "input_dummy",
+        "name": "var"
+      }
+    ],
+    "extensions": [
+      "help_page_variables"
+    ],
+    "mutator": "variable_entity_input",
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2cc76d",
+    "tooltip": "Get line count in page",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+      "mcreator": {
+        "toolbox_id": "tetra_libs_help_pages",
+        "toolbox_init": [
+        ],
+        "inputs": [
+        ],
+        "fields":[
+            "VAR"
+        ]
+      }
+    }
