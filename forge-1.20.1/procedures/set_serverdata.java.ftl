@@ -1,1 +1,1 @@
-Userdata.data(${input$key}, "set", ${input$value});
+Serverdata.data(${input$key}, "set", ${input$value});

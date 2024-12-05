@@ -4,16 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 20px;
-        }
 
         .box-border {
             padding: 20px;
-            background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
@@ -119,56 +112,56 @@
         <!-- French Language Section -->
         <div class="blockly-container">
             <div class="lang-content" data-lang="fr">
-                <p><b>Description:</b> Add help line with entity (caca)</p>
-
+                Plus de details <button onclick="toggleDetails(this)">+</button>
                 <!-- Procedure Details Table -->
-                <table class="procedure-table">
-                    <thead>
-                        <tr>
-                            <th>Clé</th>
-                            <th>Entrée en Ligne</th>
-                            <th>Déclaration précédente</th>
-                            <th>Déclaration suivante</th>
-                            <th>Couleur</th>
-                            <th>Extension</th>
-                            <th>Mutateur</th>
-                            <th class="mcreator-column">MCreator</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>text</td>
-                            <td>true</td>
-                            <td>null</td>
-                            <td>null</td>
-                            <td style="color: #2ade63;">#2ade63</td>
-                            <td>help_page_variables</td>
-                            <td>variable_entity_input</td>
-                            <td class="mcreator-column">
+                <div style="display: none">
+                    <table class="procedure-table">
+                        <thead>
+                            <tr>
+                                <th>Clé</th>
+                                <th>Entrée en Ligne</th>
+                                <th>Déclaration précédente</th>
+                                <th>Déclaration suivante</th>
+                                <th>Couleur</th>
+                                <th>Extension</th>
+                                <th>Mutateur</th>
+                                <th class="mcreator-column">MCreator</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>text</td>
+                                <td>true</td>
+                                <td>null</td>
+                                <td>null</td>
+                                <td style="color: #2ade63;">#2ade63</td>
+                                <td>help_page_variables</td>
+                                <td>variable_entity_input</td>
+                                <td class="mcreator-column">
         <h5>Toolbox ID: <code>tetra_libs_help_pages</code></h5>
         <h5>Toolbox Init:</h5>
-        <pre><value name="text"><block type="text"><field name="TEXT"></field></block></value><br><value name="hoverText"><block type="text"><field name="TEXT"></field></block></value><br><value name="clickValue"><block type="text"><field name="TEXT"></field></block></value><br><value name="ent"><block type="entity_from_deps"></block></value></pre>
+        <pre>&lt;value name="text"&gt;&lt;block type="text"&gt;&lt;field name="TEXT"&gt;&lt;/field&gt;&lt;/block&gt;&lt;/value&gt;<br><br>&lt;value name="hoverText"&gt;&lt;block type="text"&gt;&lt;field name="TEXT"&gt;&lt;/field&gt;&lt;/block&gt;&lt;/value&gt;<br><br>&lt;value name="clickValue"&gt;&lt;block type="text"&gt;&lt;field name="TEXT"&gt;&lt;/field&gt;&lt;/block&gt;&lt;/value&gt;<br><br>&lt;value name="ent"&gt;&lt;block type="entity_from_deps"&gt;&lt;/block&gt;&lt;/value&gt;</pre>
         <h5>Inputs:</h5>
         <pre>text, hoverText, clickValue, ent</pre>
         <h5>Fields:</h5>
         <pre>clickAction, VAR</pre>
         <h5>Dépendances:</h5>
         <ul>Aucune dépendance trouvé</ul></td>
-                        </tr>
-                    </tbody>
-                </table>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                <!-- Arguments Table -->
-                <h4>Arguments</h4>
-                <table class="argument-table">
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Nom</th>
-                            <th>Check</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    <!-- Arguments Table -->
+                    <h4>Arguments</h4>
+                    <table class="argument-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Nom</th>
+                                <th>Check</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                 <tr>
                     <td>input_value</td>
                     <td>text</td>
@@ -202,59 +195,60 @@
             </tbody>
         </table>
     </div>
+</div>
 
     <!-- English Language Section -->
     <div class="lang-content" data-lang="en">
-        <p><b>Description:</b> Add help line with entity</p>
-
+        Plus de details <button onclick="toggleDetails(this)">+</button>
         <!-- Procedure Details Table -->
-        <table class="procedure-table">
-            <thead>
-                <tr>
-                    <th>Raw Name</th>
-                    <th>Inline Input</th>
-                    <th>Previous Statement</th>
-                    <th>Next Statement</th>
-                    <th>Color</th>
-                    <th>Extension</th>
-                    <th>Mutator</th>
-                    <th class="mcreator-column">MCreator</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>text</td>
-                    <td>true</td>
-                    <td>null</td>
-                    <td>null</td>
-                    <td style="color: #2ade63;">#2ade63</td>
-                    <td>help_page_variables</td>
-                    <td>variable_entity_input</td>
-                    <td class="mcreator-column">
+        <div style="display: none">
+            <table class="procedure-table">
+                <thead>
+                    <tr>
+                        <th>Raw Name</th>
+                        <th>Inline Input</th>
+                        <th>Previous Statement</th>
+                        <th>Next Statement</th>
+                        <th>Color</th>
+                        <th>Extension</th>
+                        <th>Mutator</th>
+                        <th class="mcreator-column">MCreator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>text</td>
+                        <td>true</td>
+                        <td>null</td>
+                        <td>null</td>
+                        <td style="color: #2ade63;">#2ade63</td>
+                        <td>help_page_variables</td>
+                        <td>variable_entity_input</td>
+                        <td class="mcreator-column">
         <h5>Toolbox ID: <code>tetra_libs_help_pages</code></h5>
         <h5>Toolbox Init:</h5>
-        <pre><value name="text"><block type="text"><field name="TEXT"></field></block></value><br><value name="hoverText"><block type="text"><field name="TEXT"></field></block></value><br><value name="clickValue"><block type="text"><field name="TEXT"></field></block></value><br><value name="ent"><block type="entity_from_deps"></block></value></pre>
+        <pre><pre>&lt;value name="text"&gt;&lt;block type="text"&gt;&lt;field name="TEXT"&gt;&lt;/field&gt;&lt;/block&gt;&lt;/value&gt;</pre><br><br><pre>&lt;value name="hoverText"&gt;&lt;block type="text"&gt;&lt;field name="TEXT"&gt;&lt;/field&gt;&lt;/block&gt;&lt;/value&gt;</pre><br><br><pre>&lt;value name="clickValue"&gt;&lt;block type="text"&gt;&lt;field name="TEXT"&gt;&lt;/field&gt;&lt;/block&gt;&lt;/value&gt;</pre><br><br><pre>&lt;value name="ent"&gt;&lt;block type="entity_from_deps"&gt;&lt;/block&gt;&lt;/value&gt;</pre></pre>
         <h5>Inputs:</h5>
         <pre>text, hoverText, clickValue, ent</pre>
         <h5>Fields:</h5>
         <pre>clickAction, VAR</pre>
         <h5>Dépendances:</h5>
         <ul>No dependencies found</ul></td>
-                </tr>
-            </tbody>
-        </table>
+                    </tr>
+                </tbody>
+            </table>
 
-        <!-- Arguments Table -->
-        <h4>Arguments</h4>
-        <table class="argument-table">
-            <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Name</th>
-                    <th>Check</th>
-                </tr>
-            </thead>
-            <tbody>
+            <!-- Arguments Table -->
+            <h4>Arguments</h4>
+            <table class="argument-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Check</th>
+                    </tr>
+                </thead>
+                <tbody>
                 <tr>
                     <td>input_value</td>
                     <td>text</td>
@@ -285,8 +279,9 @@
                     <td>var</td>
                     <td>Not defined</td>
                 </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>

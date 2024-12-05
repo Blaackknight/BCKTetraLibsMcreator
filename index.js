@@ -117,16 +117,9 @@ function generateProcedureHtmlContent(jsonData, jsonFileName) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 20px;
-        }
 
         .box-border {
             padding: 20px;
-            background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
@@ -232,47 +225,47 @@ function generateProcedureHtmlContent(jsonData, jsonFileName) {
         <!-- French Language Section -->
         <div class="blockly-container">
             <div class="lang-content" data-lang="fr">
-                <p><b>Description:</b> ${jsonData.tooltip || 'Aucune description disponible'}</p>
-
+                Plus de details <button onclick="toggleDetails(this)">+</button>
                 <!-- Procedure Details Table -->
-                <table class="procedure-table">
-                    <thead>
-                        <tr>
-                            <th>Clé</th>
-                            <th>Entrée en Ligne</th>
-                            <th>Déclaration précédente</th>
-                            <th>Déclaration suivante</th>
-                            <th>Couleur</th>
-                            ${jsonData.extensions ? `<th>Extension</th>` : ''}
-                            ${jsonData.mutator ? `<th>Mutateur</th>` : ''}
-                            <th class="mcreator-column">MCreator</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>${jsonData.args0 ? jsonData.args0[0]?.name : 'Non défini'}</td>
-                            <td>${jsonData.inputsInline !== null ? jsonData.inputsInline : 'Non défini'}</td>
-                            <td>${jsonData.previousStatement !== undefined ? jsonData.previousStatement : 'Non défini'}</td>
-                            <td>${jsonData.nextStatement !== undefined ? jsonData.nextStatement : 'Non défini'}</td>
-                            <td style="color: ${jsonData.colour};">${jsonData.colour || ''}</td>
-                            ${jsonData.extensions ? `<td>${jsonData.extensions.join(', ')}</td>` : 'Aucune'}
-                            ${jsonData.mutator ? `<td>${jsonData.mutator}</td>` : 'Aucun'}
-                            <td class="mcreator-column">${jsonData.mcreator ? renderMCreator(jsonData.mcreator, true) : 'Non défini'}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div style="display: none">
+                    <table class="procedure-table">
+                        <thead>
+                            <tr>
+                                <th>Clé</th>
+                                <th>Entrée en Ligne</th>
+                                <th>Déclaration précédente</th>
+                                <th>Déclaration suivante</th>
+                                <th>Couleur</th>
+                                ${jsonData.extensions ? `<th>Extension</th>` : ''}
+                                ${jsonData.mutator ? `<th>Mutateur</th>` : ''}
+                                <th class="mcreator-column">MCreator</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>${jsonData.args0 ? jsonData.args0[0]?.name : 'Non défini'}</td>
+                                <td>${jsonData.inputsInline !== null ? jsonData.inputsInline : 'Non défini'}</td>
+                                <td>${jsonData.previousStatement !== undefined ? jsonData.previousStatement : 'Non défini'}</td>
+                                <td>${jsonData.nextStatement !== undefined ? jsonData.nextStatement : 'Non défini'}</td>
+                                <td style="color: ${jsonData.colour};">${jsonData.colour || ''}</td>
+                                ${jsonData.extensions ? `<td>${jsonData.extensions.join(', ')}</td>` : 'Aucune'}
+                                ${jsonData.mutator ? `<td>${jsonData.mutator}</td>` : 'Aucun'}
+                                <td class="mcreator-column">${jsonData.mcreator ? renderMCreator(jsonData.mcreator, true) : 'Non défini'}</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                <!-- Arguments Table -->
-                <h4>Arguments</h4>
-                <table class="argument-table">
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Nom</th>
-                            <th>Check</th>
-                        </tr>
-                    </thead>
-                    <tbody>`;
+                    <!-- Arguments Table -->
+                    <h4>Arguments</h4>
+                    <table class="argument-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Nom</th>
+                                <th>Check</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
 
     // Afficher les éléments de jsonData.args0
     if (jsonData.args0 && Array.isArray(jsonData.args0)) {
@@ -290,50 +283,51 @@ function generateProcedureHtmlContent(jsonData, jsonFileName) {
             </tbody>
         </table>
     </div>
+</div>
 
     <!-- English Language Section -->
     <div class="lang-content" data-lang="en">
-        <p><b>Description:</b> ${jsonData.tooltip || 'No description available'}</p>
-
+        Plus de details <button onclick="toggleDetails(this)">+</button>
         <!-- Procedure Details Table -->
-        <table class="procedure-table">
-            <thead>
-                <tr>
-                    <th>Raw Name</th>
-                    <th>Inline Input</th>
-                    <th>Previous Statement</th>
-                    <th>Next Statement</th>
-                    <th>Color</th>
-                    ${jsonData.extensions ? `<th>Extension</th>` : ''}
-                    ${jsonData.mutator ? `<th>Mutator</th>` : ''}
-                    <th class="mcreator-column">MCreator</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>${jsonData.args0 ? jsonData.args0[0]?.name : 'Not defined'}</td>
-                    <td>${jsonData.inputsInline !== null ? jsonData.inputsInline : 'Not defined'}</td>
-                    <td>${jsonData.previousStatement !== undefined ? jsonData.previousStatement : 'Not defined'}</td>
-                    <td>${jsonData.nextStatement !== undefined ? jsonData.nextStatement : 'Not defined'}</td>
-                    <td style="color: ${jsonData.colour};">${jsonData.colour || ''}</td>
-                    ${jsonData.extensions ? `<td>${jsonData.extensions.join(', ')}</td>` : 'None'}
-                    ${jsonData.mutator ? `<td>${jsonData.mutator}</td>` : 'None'}
-                    <td class="mcreator-column">${jsonData.mcreator ? renderMCreator(jsonData.mcreator) : 'Not defined'}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div style="display: none">
+            <table class="procedure-table">
+                <thead>
+                    <tr>
+                        <th>Raw Name</th>
+                        <th>Inline Input</th>
+                        <th>Previous Statement</th>
+                        <th>Next Statement</th>
+                        <th>Color</th>
+                        ${jsonData.extensions ? `<th>Extension</th>` : ''}
+                        ${jsonData.mutator ? `<th>Mutator</th>` : ''}
+                        <th class="mcreator-column">MCreator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${jsonData.args0 ? jsonData.args0[0]?.name : 'Not defined'}</td>
+                        <td>${jsonData.inputsInline !== null ? jsonData.inputsInline : 'Not defined'}</td>
+                        <td>${jsonData.previousStatement !== undefined ? jsonData.previousStatement : 'Not defined'}</td>
+                        <td>${jsonData.nextStatement !== undefined ? jsonData.nextStatement : 'Not defined'}</td>
+                        <td style="color: ${jsonData.colour};">${jsonData.colour || ''}</td>
+                        ${jsonData.extensions ? `<td>${jsonData.extensions.join(', ')}</td>` : 'None'}
+                        ${jsonData.mutator ? `<td>${jsonData.mutator}</td>` : 'None'}
+                        <td class="mcreator-column">${jsonData.mcreator ? renderMCreator(jsonData.mcreator) : 'Not defined'}</td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <!-- Arguments Table -->
-        <h4>Arguments</h4>
-        <table class="argument-table">
-            <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Name</th>
-                    <th>Check</th>
-                </tr>
-            </thead>
-            <tbody>`;
+            <!-- Arguments Table -->
+            <h4>Arguments</h4>
+            <table class="argument-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Check</th>
+                    </tr>
+                </thead>
+                <tbody>`;
 
     // Afficher les éléments de jsonData.args0 pour la langue anglaise
     if (jsonData.args0 && Array.isArray(jsonData.args0)) {
@@ -348,8 +342,9 @@ function generateProcedureHtmlContent(jsonData, jsonFileName) {
     }
 
     htmlContent += `
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>
@@ -627,9 +622,23 @@ function renderMCreator(mcreator, lang = false) {
         init = "Aucun";
         inputs = "Aucun";
         fields = "Aucun";
-        if(mcreator.toolbox_init && mcreator.toolbox_init.length >= 1) init = mcreator.toolbox_init.join('<br>');
-        if(mcreator.inputs && mcreator.inputs.length >= 1) inputs = mcreator.inputs.join(', ');
-        if(mcreator.fields && mcreator.fields.length >= 1) fields = mcreator.fields.join(', ');
+
+        if (mcreator.toolbox_init && mcreator.toolbox_init.length >= 1) {
+            /**
+             * @type {string[]}
+             */
+            let ii = []
+            mcreator.toolbox_init.forEach((e) => {
+                let ee = e
+                ee = e.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+                ii.push(`${ee}`);
+                //console.log(ee)
+            })
+            init = ii.join("<br><br>");
+            //console.log(init)
+        }
+        if (mcreator.inputs && mcreator.inputs.length >= 1) inputs = mcreator.inputs.join(', ');
+        if (mcreator.fields && mcreator.fields.length >= 1) fields = mcreator.fields.join(', ');
         mcreatorHtml = `
         <h5>Toolbox ID: <code>${mcreator.toolbox_id || 'Non défini'}</code></h5>
         <h5>Toolbox Init:</h5>
@@ -652,9 +661,21 @@ function renderMCreator(mcreator, lang = false) {
         init = "None";
         inputs = "None";
         fields = "None";
-        if(mcreator.toolbox_init && mcreator.toolbox_init.length >= 1) init = mcreator.toolbox_init.join('<br>');
-        if(mcreator.inputs && mcreator.inputs.length >= 1) inputs = mcreator.inputs.join(', ');
-        if(mcreator.fields && mcreator.fields.length >= 1) fields = mcreator.fields.join(', ');
+        if (mcreator.toolbox_init && mcreator.toolbox_init.length >= 1) {
+            /**
+             * @type {string[]}
+             */
+            let ii = []
+            mcreator.toolbox_init.forEach((e) => {
+                let ee = e
+                ee = e.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+                ii.push(`<pre>${ee}</pre>`);
+                //console.log(ee)
+            })
+            init = ii.join("<br><br>");;
+        }
+        if (mcreator.inputs && mcreator.inputs.length >= 1) inputs = mcreator.inputs.join(', ');
+        if (mcreator.fields && mcreator.fields.length >= 1) fields = mcreator.fields.join(', ');
         mcreatorHtml = `
         <h5>Toolbox ID: <code>${mcreator.toolbox_id || 'Not defined'}</code></h5>
         <h5>Toolbox Init:</h5>

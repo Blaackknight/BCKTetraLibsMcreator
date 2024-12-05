@@ -1,0 +1,26 @@
+{
+    "args0": [
+        {
+            "type": "input_statement",
+            "name": "state",
+            "align": "CENTER"
+        }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF4500",
+    "tooltip": "Execute code on server side",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_actions",
+        "toolbox_init": [],
+        "inputs": [],
+        "statements": [
+            {
+                "name": "state",
+                "provides": []
+            }
+        ]
+    }
+}

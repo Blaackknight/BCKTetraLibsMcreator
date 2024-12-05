@@ -4,16 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 20px;
-        }
 
         .box-border {
             padding: 20px;
-            background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
@@ -119,56 +112,56 @@
         <!-- French Language Section -->
         <div class="blockly-container">
             <div class="lang-content" data-lang="fr">
-                <p><b>Description:</b> Modifiy team nametagVisibility</p>
-
+                Plus de details <button onclick="toggleDetails(this)">+</button>
                 <!-- Procedure Details Table -->
-                <table class="procedure-table">
-                    <thead>
-                        <tr>
-                            <th>Clé</th>
-                            <th>Entrée en Ligne</th>
-                            <th>Déclaration précédente</th>
-                            <th>Déclaration suivante</th>
-                            <th>Couleur</th>
-                            
-                            
-                            <th class="mcreator-column">MCreator</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>team_name</td>
-                            <td>true</td>
-                            <td>null</td>
-                            <td>null</td>
-                            <td style="color: 290;">290</td>
-                            Aucune
-                            Aucun
-                            <td class="mcreator-column">
+                <div style="display: none">
+                    <table class="procedure-table">
+                        <thead>
+                            <tr>
+                                <th>Clé</th>
+                                <th>Entrée en Ligne</th>
+                                <th>Déclaration précédente</th>
+                                <th>Déclaration suivante</th>
+                                <th>Couleur</th>
+                                
+                                
+                                <th class="mcreator-column">MCreator</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>team_name</td>
+                                <td>true</td>
+                                <td>null</td>
+                                <td>null</td>
+                                <td style="color: 290;">290</td>
+                                Aucune
+                                Aucun
+                                <td class="mcreator-column">
         <h5>Toolbox ID: <code>tetra_libs_actions</code></h5>
         <h5>Toolbox Init:</h5>
-        <pre><value name="team_name"><block type="text"><field name="TEXT">team name</field></block></value><br><value name="callback"><block type="logic_boolean"><field name="BOOL">FALSE</field></block></value></pre>
+        <pre>&lt;value name="team_name"&gt;&lt;block type="text"&gt;&lt;field name="TEXT"&gt;team name&lt;/field&gt;&lt;/block&gt;&lt;/value&gt;<br><br>&lt;value name="callback"&gt;&lt;block type="logic_boolean"&gt;&lt;field name="BOOL"&gt;FALSE&lt;/field&gt;&lt;/block&gt;&lt;/value&gt;</pre>
         <h5>Inputs:</h5>
         <pre>team_name, callback</pre>
         <h5>Fields:</h5>
         <pre>nametagVisibility</pre>
         <h5>Dépendances:</h5>
         <ul><li>Nom: world, Type: world</li></ul></td>
-                        </tr>
-                    </tbody>
-                </table>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                <!-- Arguments Table -->
-                <h4>Arguments</h4>
-                <table class="argument-table">
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Nom</th>
-                            <th>Check</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    <!-- Arguments Table -->
+                    <h4>Arguments</h4>
+                    <table class="argument-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Nom</th>
+                                <th>Check</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                 <tr>
                     <td>input_value</td>
                     <td>team_name</td>
@@ -187,59 +180,60 @@
             </tbody>
         </table>
     </div>
+</div>
 
     <!-- English Language Section -->
     <div class="lang-content" data-lang="en">
-        <p><b>Description:</b> Modifiy team nametagVisibility</p>
-
+        Plus de details <button onclick="toggleDetails(this)">+</button>
         <!-- Procedure Details Table -->
-        <table class="procedure-table">
-            <thead>
-                <tr>
-                    <th>Raw Name</th>
-                    <th>Inline Input</th>
-                    <th>Previous Statement</th>
-                    <th>Next Statement</th>
-                    <th>Color</th>
-                    
-                    
-                    <th class="mcreator-column">MCreator</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>team_name</td>
-                    <td>true</td>
-                    <td>null</td>
-                    <td>null</td>
-                    <td style="color: 290;">290</td>
-                    None
-                    None
-                    <td class="mcreator-column">
+        <div style="display: none">
+            <table class="procedure-table">
+                <thead>
+                    <tr>
+                        <th>Raw Name</th>
+                        <th>Inline Input</th>
+                        <th>Previous Statement</th>
+                        <th>Next Statement</th>
+                        <th>Color</th>
+                        
+                        
+                        <th class="mcreator-column">MCreator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>team_name</td>
+                        <td>true</td>
+                        <td>null</td>
+                        <td>null</td>
+                        <td style="color: 290;">290</td>
+                        None
+                        None
+                        <td class="mcreator-column">
         <h5>Toolbox ID: <code>tetra_libs_actions</code></h5>
         <h5>Toolbox Init:</h5>
-        <pre><value name="team_name"><block type="text"><field name="TEXT">team name</field></block></value><br><value name="callback"><block type="logic_boolean"><field name="BOOL">FALSE</field></block></value></pre>
+        <pre><pre>&lt;value name="team_name"&gt;&lt;block type="text"&gt;&lt;field name="TEXT"&gt;team name&lt;/field&gt;&lt;/block&gt;&lt;/value&gt;</pre><br><br><pre>&lt;value name="callback"&gt;&lt;block type="logic_boolean"&gt;&lt;field name="BOOL"&gt;FALSE&lt;/field&gt;&lt;/block&gt;&lt;/value&gt;</pre></pre>
         <h5>Inputs:</h5>
         <pre>team_name, callback</pre>
         <h5>Fields:</h5>
         <pre>nametagVisibility</pre>
         <h5>Dépendances:</h5>
         <ul><li>Nom: world, Type: world</li></ul></td>
-                </tr>
-            </tbody>
-        </table>
+                    </tr>
+                </tbody>
+            </table>
 
-        <!-- Arguments Table -->
-        <h4>Arguments</h4>
-        <table class="argument-table">
-            <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Name</th>
-                    <th>Check</th>
-                </tr>
-            </thead>
-            <tbody>
+            <!-- Arguments Table -->
+            <h4>Arguments</h4>
+            <table class="argument-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Check</th>
+                    </tr>
+                </thead>
+                <tbody>
                 <tr>
                     <td>input_value</td>
                     <td>team_name</td>
@@ -255,8 +249,9 @@
                     <td>callback</td>
                     <td>Boolean</td>
                 </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>
