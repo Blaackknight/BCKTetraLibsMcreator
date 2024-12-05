@@ -1,1 +1,1 @@
-Userdata.data(${input$key}, "set", ${input$value}, world, ${input$player});
+Userdata.data(${input$key}, "set", ${input$value}, ${input$player}.level(), ${input$player});

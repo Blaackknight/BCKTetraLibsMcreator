@@ -27,10 +27,6 @@
         "player"
       ],
       "dependencies": [
-        {
-            "name": "world",
-            "type": "world"
-        }
       ]
     }
   }

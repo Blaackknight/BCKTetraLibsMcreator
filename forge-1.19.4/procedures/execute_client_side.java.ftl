@@ -1,0 +1,3 @@
+GameModeHandler.executeClientOnlyCode(() -> {
+    ${statement$state}
+});

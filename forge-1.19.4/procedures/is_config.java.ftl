@@ -1,1 +1,1 @@
-ConfigManager.loadConfig().isConfigurationEnabled(${input$config})
+ConfigManager.getLoadedConfig().isConfigurationEnabled(${input$config})

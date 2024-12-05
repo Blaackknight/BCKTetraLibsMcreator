@@ -1,1 +1,1 @@
-fr.bck.tetralibs.Util.isModInstalled(${input$mod_name})
+Util.isModInstalled(${input$mod_name})

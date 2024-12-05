@@ -1,0 +1,1 @@
+Serverdata.data(${input$key}, "set", ${input$value});
