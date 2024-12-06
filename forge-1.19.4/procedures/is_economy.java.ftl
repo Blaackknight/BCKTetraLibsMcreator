@@ -1,1 +1,0 @@
-ConfigManager.loadConfig().isEnableEconomy()

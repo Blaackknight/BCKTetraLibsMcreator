@@ -1,0 +1,27 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "value1"
+        },
+        {
+            "type": "input_value",
+            "name": "value2"
+        }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#3a566e",
+    "tooltip": "Check if 2 universal elements equals",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_utils",
+        "toolbox_init": [],
+        "inputs": [
+            "value1",
+            "value2"
+        ],
+        "statements": [
+        ]
+    }
+}

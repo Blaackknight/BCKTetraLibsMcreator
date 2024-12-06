@@ -4,6 +4,11 @@
         "type": "input_value",
         "name": "key",
         "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "output",
+        "check": "String"
       }
     ],
     "inputsInline": true,
@@ -14,10 +19,12 @@
     "mcreator": {
       "toolbox_id": "tetra_libs_data_manager",
       "toolbox_init": [
-        "<value name=\"key\"><block type=\"text\"><field name=\"TEXT\">key</field></block></value>"
+        "<value name=\"key\"><block type=\"text\"><field name=\"TEXT\">key</field></block></value>",
+        "<value name=\"output\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>"
       ],
       "inputs": [
-        "key"
+        "key",
+        "output"
       ],
       "dependencies": [
       ]

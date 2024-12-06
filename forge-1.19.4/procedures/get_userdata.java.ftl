@@ -1,1 +1,1 @@
-Userdata.data(${input$key}, world, ${input$player})
+Userdata.data(${input$key}, ${input$player}.level(), ${input$player})
