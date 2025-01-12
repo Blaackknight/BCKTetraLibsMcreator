@@ -1,0 +1,1 @@
+${field$STRING_LIST_VAR?replace("local:", "")}.toArray(new String[0])

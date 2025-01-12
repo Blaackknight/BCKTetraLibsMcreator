@@ -4,12 +4,14 @@
   "supportedversions": [
     2024001,
     2024002,
-    2024003
+    2024003,
+    2024004
   ],
   "info": {
     "name": "Tetra Libs",
         "author": "Blackknight",
-        "version": "0.1.12",
-        "credits": "By Blackknight"
+        "version": "0.1.14",
+        "credits": "By Blackknight",
+        "pluginPageID": 105857
   }
 }

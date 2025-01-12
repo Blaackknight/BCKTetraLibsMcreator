@@ -1,0 +1,34 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "index",
+            "check": "Number"
+        },
+        {
+            "type": "input_dummy",
+            "name": "string_list_var"
+        }
+    ],
+    "extensions": [
+        "custom_string_list_variables"
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#542fa3",
+    "tooltip": "Remove element with index from a List<String>",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_others",
+        "toolbox_init": [
+            "<value name=\"index\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+        ],
+        "inputs": [
+            "index"
+        ],
+        "fields": [
+            "STRING_LIST_VAR"
+        ]
+    }
+}

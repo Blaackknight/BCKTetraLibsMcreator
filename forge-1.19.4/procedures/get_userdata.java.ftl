@@ -1,1 +1,1 @@
-Userdata.data(${input$key}, ${input$player}.level(), ${input$player})
+((DataWrapper) Userdata.data(${input$key}, ${input$player}.level(), ${input$player})).${field$output}

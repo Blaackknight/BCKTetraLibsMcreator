@@ -1,0 +1,41 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "value",
+            "check": "String"
+        },
+        {
+            "type": "input_value",
+            "name": "index",
+            "check": "Number"
+        },
+        {
+            "type": "input_dummy",
+            "name": "string_list_var"
+        }
+    ],
+    "extensions": [
+        "custom_string_list_variables"
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#542fa3",
+    "tooltip": "Add element to a List<String> with index",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_others",
+        "toolbox_init": [
+            "<value name=\"value\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>",
+            "<value name=\"index\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+        ],
+        "inputs": [
+            "value",
+            "index"
+        ],
+        "fields": [
+            "STRING_LIST_VAR"
+        ]
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "args0": [
+        {
+            "type": "input_dummy",
+            "name": "string_array_var"
+        }
+    ],
+    "extensions": [
+        "custom_string_array_variables"
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#6c5ca1",
+    "tooltip": "Get length of a String[]",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_others",
+        "toolbox_init": [],
+        "inputs": [],
+        "fields": [
+            "STRING_ARRAY_VAR"
+        ]
+    }
+}

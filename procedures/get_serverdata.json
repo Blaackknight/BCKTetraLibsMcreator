@@ -6,9 +6,42 @@
         "check": "String"
       },
       {
-        "type": "input_value",
+        "type": "field_dropdown",
         "name": "output",
-        "check": "String"
+        "options": [
+          [
+            "default",
+            "toString()"
+          ],
+          [
+            "isNull",
+            "isNull()"
+          ],
+          [
+            "Boolean",
+            "getBoolean()"
+          ],
+          [
+            "Int",
+            "getInt()"
+          ],
+          [
+            "Double",
+            "getDouble()"
+          ],
+          [
+            "String",
+            "getString()"
+          ],
+          [
+            "JsonObject",
+            "getJsonObject()"
+          ],
+          [
+            "String[]",
+            "getStringArray()"
+          ]
+        ]
       }
     ],
     "inputsInline": true,
@@ -19,11 +52,12 @@
     "mcreator": {
       "toolbox_id": "tetra_libs_data_manager",
       "toolbox_init": [
-        "<value name=\"key\"><block type=\"text\"><field name=\"TEXT\">key</field></block></value>",
-        "<value name=\"output\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>"
+        "<value name=\"key\"><block type=\"text\"><field name=\"TEXT\">key</field></block></value>"
       ],
       "inputs": [
-        "key",
+        "key"
+      ],
+      "fields": [
         "output"
       ],
       "dependencies": [

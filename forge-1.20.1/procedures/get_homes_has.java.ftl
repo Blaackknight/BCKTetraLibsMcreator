@@ -1,0 +1,1 @@
+BCKHome.has(${input$entity}, ${input$name})

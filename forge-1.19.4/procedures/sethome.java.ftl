@@ -1,0 +1,2 @@
+if (${input$entity} instanceof Player _player && !_player.level().isClientSide())
+    BCKHome.setHome(_player, ${input$name}, _player.level().dimension().location().toString(), ${input$x}, ${input$y}, ${input$z}, ${input$pitch}, ${input$yaw});

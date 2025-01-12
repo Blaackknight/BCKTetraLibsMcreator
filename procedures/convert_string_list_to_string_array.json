@@ -1,0 +1,26 @@
+{
+    "args0": [
+      {
+        "type": "input_dummy",
+        "name": "string_list_var"
+      }
+    ],
+    "extensions": [
+      "custom_string_list_variables"
+    ],
+    "inputsInline": true,
+    "output": "StringArray",
+    "colour": "#6c5ca1",
+    "tooltip": "Convert a List<String> to String[]",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_others",
+      "toolbox_init": [
+      ],
+      "inputs": [
+      ],
+      "fields": [
+        "STRING_LIST_VAR"
+      ]
+    }
+  }

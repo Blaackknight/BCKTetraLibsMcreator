@@ -13,8 +13,7 @@
     },
     {
       "type": "input_value",
-      "name": "message",
-      "check": "String"
+      "name": "message"
     }
   ],
   "previousStatement": null,
@@ -25,8 +24,7 @@
   "mcreator": {
     "toolbox_id": "tetra_libs_logs",
     "toolbox_init": [
-      "<value name=\"name\"><block type=\"text\"><field name=\"TEXT\">name</field></block></value>",
-      "<value name=\"message\"><block type=\"text\"><field name=\"TEXT\">message</field></block></value>"
+      "<value name=\"name\"><block type=\"text\"><field name=\"TEXT\">name</field></block></value>"
     ],
     "inputs": [
       "name",

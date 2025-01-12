@@ -1,1 +1,1 @@
-Util.getRandomItemFromLootTable(world, ${input$loot_table})
+fr.bck.tetralibs.Util.getRandomItemFromLootTable(world, ${input$loot_table})

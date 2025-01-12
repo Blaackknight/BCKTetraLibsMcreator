@@ -1,0 +1,33 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "value",
+            "check": "String"
+        },
+        {
+            "type": "input_dummy",
+            "name": "string_list_var"
+        }
+    ],
+    "extensions": [
+        "custom_string_list_variables"
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#542fa3",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_others",
+        "toolbox_init": [
+            "<value name=\"value\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>"
+        ],
+        "inputs": [
+            "config"
+        ],
+        "fields": [
+            "STRING_LIST_VAR"
+        ],
+        "dependencies": []
+    }
+}

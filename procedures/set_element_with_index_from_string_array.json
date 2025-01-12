@@ -1,0 +1,47 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "value",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "index",
+      "check": "Number"
+    },
+    {
+      "type": "input_dummy",
+      "name": "string_array_var"
+    }
+  ],
+  "extensions": [
+    "custom_string_array_variables"
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#6c5ca1",
+  "tooltip": "Set element at index to string from String[]",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_others",
+    "toolbox_init": [
+      "<value name=\"value\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>",
+      "<value name=\"index\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+    ],
+    "inputs": [
+      "value",
+      "index"
+    ],
+    "dependencies": [
+      {
+        "name": "world",
+        "type": "world"
+      }
+    ],
+    "fields": [
+      "STRING_ARRAY_VAR"
+    ]
+  }
+}

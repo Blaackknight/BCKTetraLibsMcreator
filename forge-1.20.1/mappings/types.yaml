@@ -3,3 +3,7 @@ itemtooltip: List<Component>
 help_page: List<Component>
 key: Object
 tetra_config: fr.bck.tetralibs.Config
+string_array: String[]
+json_array: com.google.gson.JsonArray
+json_object: com.google.gson.JsonObject
+string_list: List<String>

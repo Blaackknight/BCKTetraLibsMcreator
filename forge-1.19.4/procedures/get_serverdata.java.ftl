@@ -1,1 +1,1 @@
-Serverdata.data(${input$key})
+((DataWrapper) Serverdata.data(${input$key})).${field$output}

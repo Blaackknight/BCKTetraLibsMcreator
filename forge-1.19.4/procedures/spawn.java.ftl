@@ -1,0 +1,1 @@
+BCKSpawn.spawn(${input$entity});

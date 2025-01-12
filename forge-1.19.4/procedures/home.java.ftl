@@ -1,0 +1,1 @@
+BCKHome.home(${input$entity}, ${input$name});

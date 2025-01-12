@@ -1,0 +1,14 @@
+{
+  "inputsInline": true,
+  "output": "Number",
+  "colour": "#B296E5",
+  "tooltip": "Get max homes for players",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+      "toolbox_id": "tetra_libs_homes",
+      "toolbox_init": [
+      ],
+      "inputs": [
+      ]
+    }
+  }

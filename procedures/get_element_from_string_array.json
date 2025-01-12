@@ -1,0 +1,33 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "index",
+            "check": "Number"
+        },
+        {
+            "type": "input_dummy",
+            "name": "string_array_var"
+        }
+    ],
+    "extensions": [
+        "custom_string_array_variables"
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#6c5ca1",
+    "tooltip": "Get element with index from String[]",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_others",
+        "toolbox_init": [
+            "<value name=\"index\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+        ],
+        "inputs": [
+            "index"
+        ],
+        "fields": [
+            "STRING_ARRAY_VAR"
+        ]
+    }
+}

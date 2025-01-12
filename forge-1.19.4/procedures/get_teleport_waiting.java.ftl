@@ -1,0 +1,1 @@
+((DataWrapper) Serverdata.data("homes.teleport_cooldown")).getDouble()

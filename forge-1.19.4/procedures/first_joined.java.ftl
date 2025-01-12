@@ -1,1 +1,1 @@
-(Boolean) Userdata.data("first_join", ${input$entity}.level(), ${input$entity})
+((DataWrapper) Userdata.data("first_join", ${input$entity}.level(), ${input$entity})).getBoolean()

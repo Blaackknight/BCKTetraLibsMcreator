@@ -1,0 +1,1 @@
+BCKVanishCore.isVanished(${input$entity})

@@ -1,0 +1,23 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "entity",
+      "check": "Entity"
+    }
+  ],
+  "inputsInline": true,
+  "output": "Number",
+  "colour": "#B296E5",
+  "tooltip": "Get homes count for a player",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_homes",
+    "toolbox_init": [
+      "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>"
+    ],
+    "inputs": [
+      "entity"
+    ]
+  }
+}

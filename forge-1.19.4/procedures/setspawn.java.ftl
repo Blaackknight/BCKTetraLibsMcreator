@@ -1,0 +1,1 @@
+BCKSpawn.setSpawn(entity.level().dimension().location().toString(), ${input$x}, ${input$y}, ${input$z}, ${input$pitch}, ${input$yaw})

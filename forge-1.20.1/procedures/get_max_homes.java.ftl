@@ -1,0 +1,1 @@
+((DataWrapper) Serverdata.data("homes.max_count")).getInt()
