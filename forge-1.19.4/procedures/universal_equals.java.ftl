@@ -1,1 +1,1 @@
-${input$value1} == ${input$value2}
+${input$value1} ${field$equals} ${input$value2}

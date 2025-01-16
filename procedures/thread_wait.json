@@ -1,0 +1,36 @@
+{
+  "args0": [
+    {
+      "type": "input_statement",
+      "name": "state",
+      "align": "CENTER"
+    },
+    {
+      "type": "input_value",
+      "name": "time",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#805146",
+  "tooltip": "Wait time with ms (thread)",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_actions",
+    "toolbox_init": [
+      "<value name=\"time\"><block type=\"math_number\"><field name=\"NUM\">1000</field></block></value>"
+    ],
+    "inputs": [
+      "time"
+    ],
+    "dependencies": [],
+    "statements": [
+      {
+        "name": "state",
+        "provides": []
+      }
+    ]
+  }
+}

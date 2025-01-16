@@ -5,6 +5,20 @@
             "name": "value1"
         },
         {
+            "type": "field_dropdown",
+            "name": "equals",
+            "options": [
+                [
+                    "==",
+                    "=="
+                ],
+                [
+                    "!=",
+                    "!="
+                ]
+            ]
+        },
+        {
             "type": "input_value",
             "name": "value2"
         }
@@ -21,7 +35,9 @@
             "value1",
             "value2"
         ],
-        "statements": [
+        "statements": [],
+        "fields": [
+            "equals"
         ]
     }
 }
