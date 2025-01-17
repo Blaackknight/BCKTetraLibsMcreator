@@ -1,0 +1,1 @@
+${field$STRING_LIST_VAR?replace("local:", "")}.contains(${input$value})

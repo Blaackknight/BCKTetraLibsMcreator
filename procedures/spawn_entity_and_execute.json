@@ -1,0 +1,83 @@
+{
+  "args0": [
+    {
+      "type": "input_statement",
+      "name": "state",
+      "align": "CENTER"
+    },
+    {
+      "type": "field_data_list_selector",
+      "name": "entity",
+      "datalist": "spawnableEntity"
+    },
+    {
+      "type": "input_value",
+      "name": "x",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "z",
+      "check": "Number"
+    },
+    {
+      "type": "field_data_list_selector",
+      "name": "mob_spawn_type",
+      "datalist": "mob_spawn_type",
+      "customEntryProviders": "tetralibs"
+    },
+    {
+      "type": "input_value",
+      "name": "_placeholder",
+      "check": "Entity"
+    },
+    {
+      "type": "field_image",
+      "src": "https://i.ibb.co/645dcd0/tetra-libs-no-api-64.png",
+      "width": 32,
+      "height": 32,
+      "alt": "no_api",
+      "flipRtl": "TRUE"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#d17732",
+  "tooltip": "Spawn entity and execute somethings",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_actions",
+    "toolbox_init": [
+      "<value name=\"x\"><block type=\"coord_x\"></block></value>",
+      "<value name=\"y\"><block type=\"coord_y\"></block></value>",
+      "<value name=\"z\"><block type=\"coord_z\"></block></value>",
+      "<value name=\"_placeholder\"><block deletable=\"false\" movable=\"false\" enabled=\"false\" type=\"entity_to_spawn\"></block></value>"
+    ],
+    "inputs": [
+      "x",
+      "y",
+      "z"
+    ],
+    "fields": [
+      "entity",
+      "mob_spawn_type"
+    ],
+    "statements": [
+      {
+        "name": "state"
+      }
+    ],
+    "dependencies": [
+      {
+        "name": "world",
+        "type": "world"
+      }
+    ]
+  }
+}

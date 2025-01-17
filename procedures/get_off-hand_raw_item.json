@@ -1,0 +1,33 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "entity",
+      "check": "Entity"
+    },
+    {
+      "type": "field_image",
+      "src": "https://i.ibb.co/645dcd0/tetra-libs-no-api-64.png",
+      "width": 32,
+      "height": 32,
+      "alt": "no_api",
+      "flipRtl": "TRUE"
+    }
+  ],
+  "inputsInline": true,
+  "output": "MCItem",
+  "colour": "#db0b0b",
+  "tooltip": "Get item in off-hand of entity (not copy)",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_utils",
+    "toolbox_init": [
+      "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>"
+    ],
+    "fields": [],
+    "inputs": [
+      "entity"
+    ],
+    "dependencies": []
+  }
+}

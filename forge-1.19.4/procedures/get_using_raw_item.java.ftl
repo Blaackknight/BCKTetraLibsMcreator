@@ -1,0 +1,1 @@
+(${input$entity} instanceof LivingEntity _entUseItem0 ? _entUseItem0.getUseItem() : ItemStack.EMPTY)

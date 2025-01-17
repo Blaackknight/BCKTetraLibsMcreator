@@ -1,20 +1,18 @@
 {
-    "inputsInline": true,
-    "output": "Number",
-    "colour": 240,
-    "tooltip": "Return x fixed",
-    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
-    "mcreator": {
-      "toolbox_id": "tetra_libs_utils",
-      "toolbox_init": [
-      ],
-      "inputs": [
-      ],
-      "dependencies": [
-        {
-          "name": "world",
-          "type": "world"
-        }
-      ]
-    }
+  "inputsInline": true,
+  "output": "Number",
+  "colour": 240,
+  "tooltip": "Return x fixed",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_utils",
+    "toolbox_init": [],
+    "inputs": [],
+    "dependencies": [
+      {
+        "name": "world",
+        "type": "world"
+      }
+    ]
   }
+}

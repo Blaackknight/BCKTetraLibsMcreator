@@ -4,6 +4,14 @@
             "type": "input_value",
             "name": "entity",
             "check": "Entity"
+        },
+        {
+            "type": "field_image",
+            "src": "https://i.ibb.co/1JYrBYW/tetra-libs-api-required-64.png",
+            "width": 32,
+            "height": 32,
+            "alt": "api_required",
+            "flipRtl": "TRUE"
         }
     ],
     "inputsInline": true,
@@ -19,7 +27,6 @@
         "inputs": [
             "entity"
         ],
-        "dependencies": [
-        ]
+        "dependencies": []
     }
 }

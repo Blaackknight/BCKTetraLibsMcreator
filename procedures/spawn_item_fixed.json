@@ -44,6 +44,14 @@
       "type": "field_checkbox",
       "name": "despawn",
       "checked": true
+    },
+    {
+      "type": "field_image",
+      "src": "https://i.ibb.co/645dcd0/tetra-libs-no-api-64.png",
+      "width": 32,
+      "height": 32,
+      "alt": "no_api",
+      "flipRtl": "TRUE"
     }
   ],
   "inputsInline": true,
@@ -61,8 +69,8 @@
       "<value name=\"z\"><block type=\"coord_z\"></block></value>",
       "<value name=\"pickup_delay\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>"
     ],
-    "fields" : [
-        "despawn"
+    "fields": [
+      "despawn"
     ],
     "inputs": [
       "item",

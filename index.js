@@ -731,4 +731,49 @@ function loadCategoryNames(lang = "") {
 // Exemple d'utilisation avec un chemin de dossier local
 const directoryPath = './procedures/'; // Remplacez par le chemin du dossier
 const destinationPath = './plugin_pages/'; // Remplacez par le chemin du dossier
-generateHtmlFromJsonFiles(directoryPath, destinationPath);
+//generateHtmlFromJsonFiles(directoryPath, destinationPath);
+
+// Chemins des fichiers
+const sourceFilePath = './lang/texts.properties'; // Fichier source
+const frenchFilePath = './lang/texts_fr_FR.properties'; // Fichier français
+const outputFilePath = './lang/updated_texts_fr_FR.properties'; // Fichier de sortie
+
+// Charger le contenu des fichiers
+const sourceContent = fs.readFileSync(sourceFilePath, 'utf-8');
+const frenchContent = fs.readFileSync(frenchFilePath, 'utf-8');
+
+// Fonction pour extraire le dernier %<nombre> d'une ligne
+function getLastPercentagePlaceholder(line) {
+  const matches = line.match(/%\d+/g); // Trouver tous les %<nombre>
+  return matches ? matches[matches.length - 1] : null; // Retourner le dernier ou null
+}
+
+// Analyser le fichier source pour associer chaque clé à son dernier %<nombre>
+const sourceLines = sourceContent.trim().split("\n");
+const sourcePlaceholders = sourceLines.reduce((acc, line) => {
+  if (line.includes("=")) {
+    const [key, value] = line.split("=", 2); // Extraire clé et valeur
+    const lastPlaceholder = getLastPercentagePlaceholder(value);
+    if (lastPlaceholder) {
+      acc[key.trim()] = lastPlaceholder; // Associer la clé à son dernier %
+    }
+  }
+  return acc;
+}, {});
+
+// Modifier le fichier français en ajoutant le %<nombre> si disponible
+const frenchLines = frenchContent.trim().split("\n");
+const updatedLines = frenchLines.map(line => {
+  if (line.includes("=")) {
+    const [key, value] = line.split("=", 2); // Extraire clé et valeur
+    const lastPlaceholder = sourcePlaceholders[key.trim()]; // Récupérer le %<nombre> associé
+    if (lastPlaceholder) {
+      return `${key}=${value.trim()} ${lastPlaceholder}`; // Ajouter le %<nombre>
+    }
+  }
+  return line; // Garder la ligne inchangée si pas de %<nombre>
+});
+
+// Écrire dans un nouveau fichier
+fs.writeFileSync(outputFilePath, updatedLines.join("\n"), 'utf-8');
+console.log(`Fichier mis à jour écrit dans : ${outputFilePath}`);

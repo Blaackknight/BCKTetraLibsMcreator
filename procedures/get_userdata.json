@@ -1,73 +1,88 @@
 {
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "key",
-        "check": "String"
-      },
-      {
-        "type": "input_value",
-        "name": "player",
-        "check": "Entity"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "output",
-        "options": [
-          [
-            "default",
-            "toString()"
-          ],
-          [
-            "isNull",
-            "isNull()"
-          ],
-          [
-            "Boolean",
-            "getBoolean()"
-          ],
-          [
-            "Int",
-            "getInt()"
-          ],
-          [
-            "Double",
-            "getDouble()"
-          ],
-          [
-            "String",
-            "getString()"
-          ],
-          [
-            "JsonObject",
-            "getJsonObject()"
-          ],
-          [
-            "String[]",
-            "getStringArray()"
-          ]
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "key",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "player",
+      "check": "Entity"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "output",
+      "options": [
+        [
+          "default",
+          "toString()"
+        ],
+        [
+          "isNull",
+          "isNull()"
+        ],
+        [
+          "Boolean",
+          "getBoolean()"
+        ],
+        [
+          "Int",
+          "getInt()"
+        ],
+        [
+          "Double",
+          "getDouble()"
+        ],
+        [
+          "String",
+          "getString()"
+        ],
+        [
+          "JsonObject",
+          "getJsonObject()"
+        ],
+        [
+          "String[]",
+          "getStringArray()"
+        ],
+        [
+          "ItemStack",
+          "getItem()"
+        ],
+        [
+          "BlockState",
+          "getBlock()"
         ]
-      }
-    ],
-    "inputsInline": true,
-    "colour": "#00a892",
-    "output": null,
-    "tooltip": "Get data from player",
-    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
-    "mcreator": {
-      "toolbox_id": "tetra_libs_data_manager",
-      "toolbox_init": [
-        "<value name=\"key\"><block type=\"text\"><field name=\"TEXT\">key</field></block></value>",
-        "<value name=\"player\"><block type=\"entity_from_deps\"></block></value>"
-      ],
-      "inputs": [
-        "key",
-        "player"
-      ],
-      "fields": [
-        "output"
-      ],
-      "dependencies": [
       ]
+    },
+    {
+      "type": "field_image",
+      "src": "https://i.ibb.co/1JYrBYW/tetra-libs-api-required-64.png",
+      "width": 32,
+      "height": 32,
+      "alt": "api_required",
+      "flipRtl": "TRUE"
     }
+  ],
+  "inputsInline": true,
+  "colour": "#00a892",
+  "output": null,
+  "tooltip": "Get data from player",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_data_manager",
+    "toolbox_init": [
+      "<value name=\"key\"><block type=\"text\"><field name=\"TEXT\">key</field></block></value>",
+      "<value name=\"player\"><block type=\"entity_from_deps\"></block></value>"
+    ],
+    "inputs": [
+      "key",
+      "player"
+    ],
+    "fields": [
+      "output"
+    ],
+    "dependencies": []
   }
+}
