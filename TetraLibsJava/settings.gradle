@@ -1,0 +1,7 @@
+rootProject.name = 'TetraLibsJava'
+
+
+ext.mcreator_path = 'C:\\Users\\DragC\\Desktop\\MCreator'
+
+include ":MCreator"
+project(":MCreator").projectDir = file(mcreator_path)

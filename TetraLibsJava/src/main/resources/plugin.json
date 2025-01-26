@@ -1,0 +1,18 @@
+{
+  "id": "tetra_libs",
+  "supportedversions": [
+    2024001,
+    2024002,
+    2024003,
+    2024004,
+    2024005
+  ],
+  "weight": 0,
+  "javaplugin": "fr.bck.tetralibs.TetraLibsJava",
+  "info": {
+    "name": "TetraLibs plugin in java",
+    "version": "1.0",
+    "description": "Add somes things",
+    "author": "Blaackknight"
+  }
+}

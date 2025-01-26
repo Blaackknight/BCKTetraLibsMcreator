@@ -1,0 +1,1 @@
+(world instanceof ServerLevel _level ? _level.getEntity(UUID.fromString(${input$uuid})) : null)
