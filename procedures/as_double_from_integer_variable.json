@@ -1,0 +1,33 @@
+{
+  "args0": [
+    {
+      "type": "input_dummy",
+      "name": "integer_var"
+    },
+    {
+      "type": "field_image",
+      "src": "https://i.ibb.co/645dcd0/tetra-libs-no-api-64.png",
+      "width": 32,
+      "height": 32,
+      "alt": "no_api",
+      "flipRtl": "TRUE"
+    }
+  ],
+  "extensions": [
+    "custom_integer_variables"
+  ],
+  "inputsInline": true,
+  "colour": "#147df5",
+  "output": "Number",
+  "tooltip": "Convert integer as double from int variable",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_utils",
+    "toolbox_init": [],
+    "inputs": [],
+    "dependencies": [],
+    "fields": [
+      "INTEGER_VAR"
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+/*ItemStack*/${field$BCK_RECIPE_VAR?replace("local:", "")?replace("global:", "${JavaModName}Variables.")}.getOutput()

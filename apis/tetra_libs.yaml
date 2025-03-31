@@ -7,7 +7,7 @@ forge-1.20.1:
     }
       
       dependencies {
-        implementation fg.deobf("curse.maven:tetra-libs-994089:6097116")
+        implementation fg.deobf("curse.maven:tetra-libs-994089:6369101")
       }
   update_files:
     - ~

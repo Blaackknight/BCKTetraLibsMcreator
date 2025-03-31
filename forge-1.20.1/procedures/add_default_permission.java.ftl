@@ -1,0 +1,1 @@
+new BCKPermissions().addDefaultPermission(${input$permission}, ${input$id}, ${input$callback});

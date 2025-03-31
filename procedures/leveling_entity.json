@@ -1,0 +1,14 @@
+{
+    "output": "Entity",
+    "colour": "#1E90FF",
+    "mcreator": {
+      "group": "entity",
+      "toolbox_id": "tetra_libs_levels_entity",
+      "dependencies": [
+        {
+          "name": "entity",
+          "type": "entity"
+        }
+      ]
+    }
+  }

@@ -1,0 +1,1 @@
+${field$FINAL_BOOLEAN_VAR?replace("local:", "")?replace("global:", "${JavaModName}Variables.")}.size()

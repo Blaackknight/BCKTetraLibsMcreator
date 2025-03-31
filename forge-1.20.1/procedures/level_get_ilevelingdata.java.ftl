@@ -1,0 +1,1 @@
+${input$entity}.getCapability(LevelingDataCapability.LEVELING_DATA_CAPABILITY).orElse(null);

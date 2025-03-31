@@ -1,0 +1,1 @@
+${field$FINAL_FLOAT_VAR?replace("local:", "")?replace("global:", "${JavaModName}Variables.")}.size()

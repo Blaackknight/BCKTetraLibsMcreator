@@ -1,0 +1,1 @@
+/*@int*/(${input$entity} instanceof LevelingEntity _levelingEntity && !${input$entity}.level().isClientSide() ? _levelingEntity.getLevel(${input$type}) : 1)

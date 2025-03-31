@@ -1,0 +1,1 @@
+event.addCapability(new ResourceLocation("tetra_libs", "leveling_data"), new LevelingDataProvider());

@@ -1,1 +1,1 @@
-RandomBlock.block()
+/*@BlockState*/RandomBlock.blockstate()

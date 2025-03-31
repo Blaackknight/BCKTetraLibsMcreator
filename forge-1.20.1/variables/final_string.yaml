@@ -1,0 +1,9 @@
+defaultvalue: new BCKMutable.StringArray()
+scopes:
+  local:
+    init: final ${var.getType().getJavaType(generator.getWorkspace())} ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    get: ${name}.toArray()
+
+  global_session:
+    init: public static final ${var.getType().getJavaType(generator.getWorkspace())} ${var.getName()} = ${var.getValue()};
+    get: ${JavaModName}Variables.${name}.toArray()

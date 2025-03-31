@@ -1,0 +1,37 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "name",
+      "check": "String"
+    },
+    {
+      "type": "field_image",
+      "src": "https://i.ibb.co/645dcd0/tetra-libs-no-api-64.png",
+      "width": 32,
+      "height": 32,
+      "alt": "no_api",
+      "flipRtl": "TRUE"
+    }
+  ],
+  "inputsInline": true,
+  "output": "Entity",
+  "colour": "#3DB6FF",
+  "tooltip": "Get player with name",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_utils",
+    "toolbox_init": [
+      "<value name=\"name\"><block type=\"text\"><field name=\"TEXT\">name</field></block></value>"
+    ],
+    "inputs": [
+      "name"
+    ],
+    "dependencies": [
+      {
+        "name": "world",
+        "type": "world"
+      }
+    ]
+  }
+}

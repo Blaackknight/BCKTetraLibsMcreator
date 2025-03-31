@@ -4,6 +4,14 @@ help_page: List<Component>
 key: Object
 tetra_config: fr.bck.tetralibs.Config
 string_array: String[]
-json_array: com.google.gson.JsonArray
-json_object: com.google.gson.JsonObject
+bck_json_array: com.google.gson.JsonArray
+bck_json_object: com.google.gson.JsonObject
 string_list: List<String>
+integer: int
+final_integer: BCKMutable.IntArray
+final_double: BCKMutable.DoubleArray
+final_float: BCKMutable.FloatArray
+final_string: BCKMutable.StringArray
+final_boolean: BCKMutable.BooleanArray
+leveling_data: ILevelingData
+bck_recipe: BCKRecipe

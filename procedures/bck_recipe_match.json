@@ -1,0 +1,37 @@
+{
+    "args0": [
+        {
+            "type": "input_dummy",
+            "name": "before"
+        },
+        {
+            "type": "input_dummy",
+            "name": "SLOTS"
+        },
+        {
+            "type": "field_image",
+            "src": "https://i.ibb.co/1JYrBYW/tetra-libs-api-required-64.png",
+            "width": 32,
+            "height": 32,
+            "alt": "api_required",
+            "flipRtl": "TRUE"
+        }
+    ],
+    "mutator": "bck_recipe_item_list_mutator",
+    "inputsInline": false,
+    "output": "BCKRecipe",
+    "colour": "#cf9611",
+    "tooltip": "Check if slots match with recipe and return the recipe(bck)",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_recipes",
+        "toolbox_init": [
+        ],
+        "repeating_inputs": [
+            "entry"
+        ],
+        "inputs": [],
+        "fields": [],
+        "required_apis": []
+    }
+}

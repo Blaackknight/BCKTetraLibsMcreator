@@ -1,0 +1,1 @@
+${field$INTEGER_VAR?replace("local:", "")?replace("global:", "${JavaModName}Variables.")}

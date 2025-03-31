@@ -1,0 +1,54 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "id",
+            "check": "String"
+        },
+        {
+            "type": "input_value",
+            "name": "output",
+            "check": "MCItem"
+        },
+        {
+            "type": "input_value",
+            "name": "output_count",
+            "check": "Number"
+        },
+        {
+            "type": "field_image",
+            "src": "https://i.ibb.co/1JYrBYW/tetra-libs-api-required-64.png",
+            "width": 32,
+            "height": 32,
+            "alt": "api_required",
+            "flipRtl": "TRUE"
+        }
+    ],
+    "mutator": "bck_item_list_mutator",
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8FBCBB",
+    "tooltip": "Add new recipe (bck)",
+    "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_recipes",
+        "toolbox_init": [
+            "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">recipe_name</field></block></value>",
+            "<value name=\"output\"><block type=\"mcitem_all\"><field name=\"value\"></field></block></value>",
+            "<value name=\"output_count\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>"
+        ],
+        "repeating_inputs": [
+            "entry"
+        ],
+        "inputs": [
+            "id",
+            "output",
+            "output_count"
+        ],
+        "fields": [],
+        "required_apis": [
+            
+        ]
+    }
+}

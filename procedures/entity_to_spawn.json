@@ -2,7 +2,7 @@
     "output": "Entity",
     "colour": "#4a90e2",
     "mcreator": {
-      "group": "enity",
+      "group": "entity",
       "toolbox_id": "tetra_libs_utils"
     }
   }

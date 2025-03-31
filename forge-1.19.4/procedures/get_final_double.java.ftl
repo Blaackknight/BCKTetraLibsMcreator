@@ -1,0 +1,1 @@
+${field$FINAL_DOUBLE_VAR?replace("local:", "")?replace("global:", "${JavaModName}Variables.")}.get((int)${input$index})

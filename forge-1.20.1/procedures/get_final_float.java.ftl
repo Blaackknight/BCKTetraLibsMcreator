@@ -1,0 +1,1 @@
+/*@float*/(float)${field$FINAL_FLOAT_VAR?replace("local:", "")?replace("global:", "${JavaModName}Variables.")}.get((int)${input$index})

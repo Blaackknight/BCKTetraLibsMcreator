@@ -1,1 +1,1 @@
-BCKHome.count(${input$entity})
+/*@int*/BCKHome.count(${input$entity})

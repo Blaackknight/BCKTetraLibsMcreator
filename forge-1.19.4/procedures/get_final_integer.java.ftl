@@ -1,0 +1,1 @@
+/*@int*/(int)${field$FINAL_INTEGER_VAR?replace("local:", "")?replace("global:", "${JavaModName}Variables.")}.get((int)${input$index})

@@ -1,2 +1,2 @@
 <#include "mcitems.ftl">
-${mappedMCItemToItem(input$item)}.getItem() instanceof TieredItem tieredItem && tieredItem.getTier().getLevel()
+/*@int*/${mappedMCItemToItem(input$item)}.getItem() instanceof TieredItem tieredItem && tieredItem.getTier().getLevel()

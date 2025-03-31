@@ -1,0 +1,66 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "type",
+      "options": [
+        [
+          "debug",
+          "debug"
+        ],
+        [
+          "error",
+          "error"
+        ],
+        [
+          "fatal",
+          "fatal"
+        ],
+        [
+          "info",
+          "info"
+        ],
+        [
+          "warn",
+          "warn"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "title",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "text"
+    },
+    {
+        "type": "field_image",
+        "src": "https://i.ibb.co/1JYrBYW/tetra-libs-api-required-64.png",
+        "width": 32,
+        "height": 32,
+        "alt": "api_required",
+        "flipRtl": "TRUE"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 330,
+  "tooltip": "Send info universal",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_logs",
+    "toolbox_init": [
+      "<value name=\"title\"><block type=\"text\"><field name=\"TEXT\">title</field></block></value>"
+    ],
+    "inputs": [
+      "title",
+      "text"
+    ],
+    "fields": [
+      "type"
+    ]
+  }
+}

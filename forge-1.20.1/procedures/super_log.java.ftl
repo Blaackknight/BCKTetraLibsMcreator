@@ -1,0 +1,1 @@
+SuperLog.${field$type}(${input$title}, ${input$text});

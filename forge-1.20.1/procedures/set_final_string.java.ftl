@@ -1,0 +1,1 @@
+${field$FINAL_STRING_VAR?replace("local:", "")?replace("global:", "${JavaModName}Variables.")}.set((int)${input$index}, ${input$value});

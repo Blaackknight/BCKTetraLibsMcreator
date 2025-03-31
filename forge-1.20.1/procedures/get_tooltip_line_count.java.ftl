@@ -1,1 +1,1 @@
-itemtooltip.size()
+/*@int*/itemtooltip.size()

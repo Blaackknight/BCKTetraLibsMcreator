@@ -1,0 +1,1 @@
+(${input$entity} instanceof LevelingEntity _levelingEntity && !${input$entity}.level().isClientSide() ? _levelingEntity.getExperienceToNextLevel(${input$type}) : 0)

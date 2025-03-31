@@ -1,1 +1,1 @@
-TetraPage.getPages.size()
+/*@int*/TetraPage.getPages.size()

@@ -1,0 +1,42 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "index",
+      "check": "Number"
+    },
+    {
+      "type": "input_dummy",
+      "name": "final_integer_var"
+    },
+    {
+      "type": "field_image",
+      "src": "https://i.ibb.co/1JYrBYW/tetra-libs-api-required-64.png",
+      "width": 32,
+      "height": 32,
+      "alt": "api_required",
+      "flipRtl": "TRUE"
+    }
+  ],
+  "extensions": [
+    "custom_final_integer_variables"
+  ],
+  "inputsInline": true,
+  "colour": "#3A4CA6",
+  "output": "Number",
+  "tooltip": "Get integer from final integer",
+  "helpUrl": "https://bck-inc.fr/minecraft/tetralibs/mcreator",
+  "mcreator": {
+    "toolbox_id": "tetra_libs_finals",
+    "toolbox_init": [
+      "<value name=\"index\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+    ],
+    "inputs": [
+      "index"
+    ],
+    "fields": [
+      "FINAL_INTEGER_VAR"
+    ],
+    "dependencies": []
+  }
+}

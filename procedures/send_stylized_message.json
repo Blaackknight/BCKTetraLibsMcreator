@@ -1,0 +1,48 @@
+{
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "message",
+            "check": "String"
+        },
+        {
+            "type": "input_value",
+            "name": "entity",
+            "check": "Entity"
+        },
+        {
+            "type": "input_value",
+            "name": "action_bar",
+            "check": "Boolean"
+        },
+        {
+            "type": "field_image",
+            "src": "https://i.ibb.co/1JYrBYW/tetra-libs-api-required-64.png",
+            "width": 32,
+            "height": 32,
+            "alt": "api_required",
+            "flipRtl": "TRUE"
+        }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "Send stylized message to player",
+    "helpUrl": "https://www.bck-inc.fr/minecraft/tetralibs/mcreator",
+    "mcreator": {
+        "toolbox_id": "tetra_libs_actions",
+        "toolbox_init": [
+            "<value name=\"message\"><block type=\"text\"><field name=\"TEXT\">Message</field></block></value>",
+            "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>",
+            "<value name=\"action_bar\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+        ],
+        "inputs": [
+            "message",
+            "entity",
+            "action_bar"
+        ],
+        "fields": [],
+        "dependencies": []
+    }
+}

@@ -1,0 +1,1 @@
+(entity instanceof LevelingEntity _levelingEntity && !entity.level().isClientSide() ? _levelingEntity.self() : entity)

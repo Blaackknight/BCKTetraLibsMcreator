@@ -6,32 +6,44 @@ import fr.bck.tetralibs.registry.PluginElementTypes;
 import net.mcreator.blockly.BlocklyCompileNote;
 import net.mcreator.blockly.IBlockGenerator;
 import net.mcreator.blockly.data.BlocklyLoader;
+import net.mcreator.blockly.data.Dependency;
 import net.mcreator.blockly.data.ToolboxBlock;
 import net.mcreator.blockly.data.ToolboxType;
 import net.mcreator.blockly.java.BlocklyToJava;
+import net.mcreator.element.GeneratableElement;
+import net.mcreator.element.ModElementType;
+import net.mcreator.element.parts.TabEntry;
+import net.mcreator.element.types.GUI;
+import net.mcreator.element.types.LivingEntity;
 import net.mcreator.generator.blockly.BlocklyBlockCodeGenerator;
 import net.mcreator.generator.blockly.ProceduralBlockCodeGenerator;
 import net.mcreator.generator.template.TemplateGenerator;
 import net.mcreator.generator.template.TemplateGeneratorException;
 import net.mcreator.minecraft.ElementUtil;
 import net.mcreator.ui.MCreator;
-import net.mcreator.ui.blockly.BlocklyEditorToolbar;
-import net.mcreator.ui.blockly.BlocklyEditorType;
-import net.mcreator.ui.blockly.BlocklyPanel;
-import net.mcreator.ui.blockly.CompileNotesPanel;
+import net.mcreator.ui.MCreatorApplication;
+import net.mcreator.ui.blockly.*;
 import net.mcreator.ui.component.JColor;
 import net.mcreator.ui.component.JEmptyBox;
+import net.mcreator.ui.component.JMinMaxSpinner;
 import net.mcreator.ui.component.SearchableComboBox;
+import net.mcreator.ui.component.util.ComboBoxUtil;
 import net.mcreator.ui.component.util.ComponentUtils;
 import net.mcreator.ui.component.util.PanelUtils;
 import net.mcreator.ui.dialogs.TextureImportDialogs;
 import net.mcreator.ui.help.HelpUtils;
 import net.mcreator.ui.init.L10N;
 import net.mcreator.ui.init.UIRES;
+import net.mcreator.ui.laf.renderer.ModelComboBoxRenderer;
+import net.mcreator.ui.laf.themes.Theme;
 import net.mcreator.ui.minecraft.*;
+import net.mcreator.ui.minecraft.entityanimations.JEntityAnimationList;
+import net.mcreator.ui.minecraft.modellayers.JModelLayerList;
 import net.mcreator.ui.minecraft.states.entity.JEntityDataList;
 import net.mcreator.ui.modgui.IBlocklyPanelHolder;
 import net.mcreator.ui.modgui.ModElementGUI;
+import net.mcreator.ui.procedure.AbstractProcedureSelector;
+import net.mcreator.ui.procedure.LogicProcedureSelector;
 import net.mcreator.ui.procedure.NumberProcedureSelector;
 import net.mcreator.ui.procedure.ProcedureSelector;
 import net.mcreator.ui.validation.AggregatedValidationResult;
@@ -40,19 +52,28 @@ import net.mcreator.ui.validation.ValidationGroup;
 import net.mcreator.ui.validation.Validator;
 import net.mcreator.ui.validation.component.VComboBox;
 import net.mcreator.ui.validation.component.VTextField;
+import net.mcreator.ui.validation.validators.ItemListFieldSingleTagValidator;
 import net.mcreator.ui.validation.validators.TextFieldValidator;
 import net.mcreator.ui.workspace.resources.TextureType;
+import net.mcreator.util.ListUtils;
 import net.mcreator.util.StringUtils;
 import net.mcreator.workspace.elements.ModElement;
+import net.mcreator.workspace.elements.VariableTypeLoader;
+import net.mcreator.workspace.resources.Model;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.util.ArrayList;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class LevelingEntityGUI extends ModElementGUI<LevelingEntity> implements TetraLibsElement {
+public class LevelingEntityGUI extends ModElementGUI<LevelingEntity> implements IBlocklyPanelHolder {
+
     private ProcedureSelector onStruckByLightning;
     private ProcedureSelector whenMobFalls;
     private ProcedureSelector whenMobDies;
@@ -62,58 +83,75 @@ public class LevelingEntityGUI extends ModElementGUI<LevelingEntity> implements 
     private ProcedureSelector onMobTickUpdate;
     private ProcedureSelector onPlayerCollidesWith;
     private ProcedureSelector onInitialSpawn;
+
     private ProcedureSelector spawningCondition;
-    private ProcedureSelector onLevelUp;
-    public NumberProcedureSelector visualScale;
-    public NumberProcedureSelector boundingBoxScale;
-    private ProcedureSelector solidBoundingBox;
-    private final SoundSelector livingSound;
-    private final SoundSelector hurtSound;
-    private final SoundSelector deathSound;
-    private final SoundSelector stepSound;
-    private final SoundSelector raidCelebrationSound;
-    private final VTextField mobName;
-    private final JSpinner attackStrength;
-    private final JSpinner movementSpeed;
-    private final JSpinner armorBaseValue;
-    private final JSpinner health;
-    private final JSpinner knockbackResistance;
-    private final JSpinner attackKnockback;
-    private final JSpinner stepHeight;
-    private final JSpinner attackRate;
-    private final JSpinner trackingRange;
-    private final JSpinner followRange;
-    private final JSpinner rangedAttackInterval;
-    private final JSpinner rangedAttackRadius;
-    private final JSpinner spawningProbability;
-    private final JSpinner minNumberOfMobsPerGroup;
-    private final JSpinner maxNumberOfMobsPerGroup;
-    private final JSpinner modelWidth;
-    private final JSpinner modelHeight;
-    private final JSpinner mountedYOffset;
-    private final JSpinner modelShadowSize;
-    private final JCheckBox disableCollisions;
-    private final JSpinner xpAmount;
-    private final JCheckBox hasAI;
-    private final JCheckBox isBoss;
-    private final JCheckBox immuneToFire;
-    private final JCheckBox immuneToArrows;
-    private final JCheckBox immuneToFallDamage;
-    private final JCheckBox immuneToCactus;
-    private final JCheckBox immuneToDrowning;
-    private final JCheckBox immuneToLightning;
-    private final JCheckBox immuneToPotions;
-    private final JCheckBox immuneToPlayer;
-    private final JCheckBox immuneToExplosion;
-    private final JCheckBox immuneToTrident;
-    private final JCheckBox immuneToAnvil;
-    private final JCheckBox immuneToWither;
-    private final JCheckBox immuneToDragonBreath;
-    private final JCheckBox waterMob;
-    private final JCheckBox flyingMob;
-    private final JCheckBox hasSpawnEgg;
-    private final TabListField creativeTabs;
-    private final JComboBox<String> mobSpawningType;
+    private LogicProcedureSelector transparentModelCondition;
+    private LogicProcedureSelector isShakingCondition;
+    private LogicProcedureSelector solidBoundingBox;
+    private LogicProcedureSelector breatheUnderwater;
+    private LogicProcedureSelector pushedByFluids;
+    private NumberProcedureSelector visualScale;
+    private NumberProcedureSelector boundingBoxScale;
+
+    private final SoundSelector livingSound = new SoundSelector(mcreator);
+    private final SoundSelector hurtSound = new SoundSelector(mcreator);
+    private final SoundSelector deathSound = new SoundSelector(mcreator);
+    private final SoundSelector stepSound = new SoundSelector(mcreator);
+    private final SoundSelector raidCelebrationSound = new SoundSelector(mcreator);
+
+    private final VTextField mobName = new VTextField();
+
+    private final JSpinner attackStrength = new JSpinner(new SpinnerNumberModel(3, 0, 10000, 1));
+    private final JSpinner movementSpeed = new JSpinner(new SpinnerNumberModel(0.3, 0, 50, 0.1));
+    private final JSpinner stepHeight = new JSpinner(new SpinnerNumberModel(0.6, 0, 255, 0.1));
+    private final JSpinner armorBaseValue = new JSpinner(new SpinnerNumberModel(0.0, 0, 100, 0.1));
+    private final JSpinner health = new JSpinner(new SpinnerNumberModel(10, 0, 1024, 1));
+    private final JSpinner knockbackResistance = new JSpinner(new SpinnerNumberModel(0, 0, 1000, 0.1));
+    private final JSpinner attackKnockback = new JSpinner(new SpinnerNumberModel(0, 0, 1000, 0.1));
+
+    private final JSpinner trackingRange = new JSpinner(new SpinnerNumberModel(64, 0, 10000, 1));
+    private final JSpinner followRange = new JSpinner(new SpinnerNumberModel(16, 0, 2048, 1));
+
+    private final JSpinner rangedAttackInterval = new JSpinner(new SpinnerNumberModel(20, 0, 1024, 1));
+    private final JSpinner rangedAttackRadius = new JSpinner(new SpinnerNumberModel(10, 0, 1024, 0.1));
+
+    private final JSpinner spawningProbability = new JSpinner(new SpinnerNumberModel(20, 1, 1000, 1));
+    private final JMinMaxSpinner numberOfMobsPerGroup = new JMinMaxSpinner(4, 4, 1, 1000, 1).allowEqualValues();
+
+    private final JSpinner modelWidth = new JSpinner(new SpinnerNumberModel(0.6, 0, 1024, 0.1));
+    private final JSpinner modelHeight = new JSpinner(new SpinnerNumberModel(1.8, 0, 1024, 0.1));
+    private final JSpinner mountedYOffset = new JSpinner(new SpinnerNumberModel(0, -1024, 1024, 0.1));
+    private final JSpinner modelShadowSize = new JSpinner(new SpinnerNumberModel(0.5, 0, 20, 0.1));
+    private final JCheckBox disableCollisions = L10N.checkbox("elementgui.living_entity.disable_collisions");
+
+    private final JSpinner xpAmount = new JSpinner(new SpinnerNumberModel(0, 0, 100000, 1));
+
+    private final JCheckBox hasAI = L10N.checkbox("elementgui.living_entity.has_ai");
+    private final JCheckBox isBoss = new JCheckBox();
+
+    private final JCheckBox immuneToFire = L10N.checkbox("elementgui.living_entity.immune_fire");
+    private final JCheckBox immuneToArrows = L10N.checkbox("elementgui.living_entity.immune_arrows");
+    private final JCheckBox immuneToFallDamage = L10N.checkbox("elementgui.living_entity.immune_fall_damage");
+    private final JCheckBox immuneToCactus = L10N.checkbox("elementgui.living_entity.immune_cactus");
+    private final JCheckBox immuneToDrowning = L10N.checkbox("elementgui.living_entity.immune_drowning");
+    private final JCheckBox immuneToLightning = L10N.checkbox("elementgui.living_entity.immune_lightning");
+    private final JCheckBox immuneToPotions = L10N.checkbox("elementgui.living_entity.immune_potions");
+    private final JCheckBox immuneToPlayer = L10N.checkbox("elementgui.living_entity.immune_player");
+    private final JCheckBox immuneToExplosion = L10N.checkbox("elementgui.living_entity.immune_explosions");
+    private final JCheckBox immuneToTrident = L10N.checkbox("elementgui.living_entity.immune_trident");
+    private final JCheckBox immuneToAnvil = L10N.checkbox("elementgui.living_entity.immune_anvil");
+    private final JCheckBox immuneToWither = L10N.checkbox("elementgui.living_entity.immune_wither");
+    private final JCheckBox immuneToDragonBreath = L10N.checkbox("elementgui.living_entity.immune_dragon_breath");
+
+    private final JCheckBox waterMob = L10N.checkbox("elementgui.living_entity.is_water_mob");
+    private final JCheckBox flyingMob = L10N.checkbox("elementgui.living_entity.is_flying_mob");
+
+    private final JCheckBox hasSpawnEgg = new JCheckBox();
+    private final TabListField creativeTabs = new TabListField(mcreator);
+
+    private final JComboBox<String> mobSpawningType = new JComboBox<>(
+            ElementUtil.getDataListAsStringArray("mobspawntypes"));
+
     private MCItemHolder mobDrop;
     private MCItemHolder equipmentMainHand;
     private MCItemHolder equipmentHelmet;
@@ -121,671 +159,1139 @@ public class LevelingEntityGUI extends ModElementGUI<LevelingEntity> implements 
     private MCItemHolder equipmentLeggings;
     private MCItemHolder equipmentBoots;
     private MCItemHolder equipmentOffHand;
-    private final JComboBox<String> guiBoundTo;
-    private final JSpinner inventorySize;
-    private final JSpinner inventoryStackSize;
+
+    private SingleModElementSelector guiBoundTo;
+    private final JSpinner inventorySize = new JSpinner(new SpinnerNumberModel(9, 0, 256, 1));
+    private final JSpinner inventoryStackSize = new JSpinner(new SpinnerNumberModel(64, 1, 1024, 1));
+
     private MCItemHolder rangedAttackItem;
-    private final JComboBox<String> rangedItemType;
-    private final JTextField mobLabel;
-    private final JCheckBox spawnInDungeons;
-    private final JColor spawnEggBaseColor;
-    private final JColor spawnEggDotColor;
-    private final VComboBox<String> mobModelTexture;
-    private final VComboBox<String> mobModelGlowTexture;
+
+    private final SearchableComboBox<String> rangedItemType = new SearchableComboBox<>();
+
+    private final JTextField mobLabel = new JTextField();
+
+    private final JCheckBox spawnInDungeons = L10N.checkbox("elementgui.living_entity.spawn_dungeons");
+    private final JColor spawnEggBaseColor = new JColor(mcreator, false, false);
+    private final JColor spawnEggDotColor = new JColor(mcreator, false, false);
+
+    private static final Model biped = new Model.BuiltInModel("Biped");
+    private static final Model chicken = new Model.BuiltInModel("Chicken");
+    private static final Model cod = new Model.BuiltInModel("Cod");
+    private static final Model cow = new Model.BuiltInModel("Cow");
+    private static final Model creeper = new Model.BuiltInModel("Creeper");
+    private static final Model ghast = new Model.BuiltInModel("Ghast");
+    private static final Model ocelot = new Model.BuiltInModel("Ocelot");
+    private static final Model pig = new Model.BuiltInModel("Pig");
+    private static final Model piglin = new Model.BuiltInModel("Piglin");
+    private static final Model salmon = new Model.BuiltInModel("Salmon");
+    private static final Model silverfish = new Model.BuiltInModel("Silverfish");
+    private static final Model slime = new Model.BuiltInModel("Slime");
+    private static final Model spider = new Model.BuiltInModel("Spider");
+    private static final Model villager = new Model.BuiltInModel("Villager");
+    private static final Model witch = new Model.BuiltInModel("Witch");
+    public static final Model[] builtinmobmodels = new Model[] { biped, chicken, cod, cow, creeper, ghast, ocelot, pig,
+            piglin, salmon, silverfish, slime, spider, villager, witch };
+    private final SearchableComboBox<Model> mobModel = new SearchableComboBox<>(builtinmobmodels);
+
+    private TextureComboBox mobModelTexture;
+
     private JEntityDataList entityDataList;
-    private static final BlocklyCompileNote aiUnmodifiableCompileNote;
-    private final JComboBox<String> aiBase;
-    private final JSpinner[] raidSpawnsCount;
-    private final JComboBox<String> mobBehaviourType;
-    private final JComboBox<String> mobCreatureType;
-    private final JComboBox<String> bossBarColor;
-    private final JComboBox<String> bossBarType;
-    private final JCheckBox ridable;
-    private final JCheckBox canControlForward;
-    private final JCheckBox canControlStrafe;
-    private final JCheckBox breedable;
-    private final JCheckBox tameable;
-    private final JCheckBox ranged;
+
+    private static final BlocklyCompileNote aiUnmodifiableCompileNote = new BlocklyCompileNote(
+            BlocklyCompileNote.Type.INFO, L10N.t("blockly.warnings.unmodifiable_ai_bases"));
+
+    private final SearchableComboBox<String> aiBase = new SearchableComboBox<>(
+            Stream.of("(none)", "Creeper", "Skeleton", "Enderman", "Blaze", "Slime", "Witch", "Zombie", "MagmaCube",
+                    "Pig", "Villager", "Wolf", "Cow", "Bat", "Chicken", "Ocelot", "Squid", "Horse", "Spider",
+                    "IronGolem").sorted().toArray(String[]::new));
+
+    private final JComboBox<String> mobBehaviourType = new JComboBox<>(new String[] { "Mob", "Creature", "Raider" });
+    private final JComboBox<String> mobCreatureType = new JComboBox<>(
+            new String[] { "UNDEFINED", "UNDEAD", "ARTHROPOD", "ILLAGER", "WATER" });
+    private final JComboBox<String> bossBarColor = new JComboBox<>(
+            new String[] { "PINK", "BLUE", "RED", "GREEN", "YELLOW", "PURPLE", "WHITE" });
+    private final JComboBox<String> bossBarType = new JComboBox<>(
+            new String[] { "PROGRESS", "NOTCHED_6", "NOTCHED_10", "NOTCHED_12", "NOTCHED_20" });
+
+    private final JCheckBox ridable = L10N.checkbox("elementgui.living_entity.is_rideable");
+
+    private final JCheckBox canControlForward = L10N.checkbox("elementgui.living_entity.control_forward");
+    private final JCheckBox canControlStrafe = L10N.checkbox("elementgui.living_entity.control_strafe");
+
+    private final JCheckBox breedable = L10N.checkbox("elementgui.living_entity.is_breedable");
+
+    private final JCheckBox tameable = L10N.checkbox("elementgui.living_entity.is_tameable");
+
+    private final JCheckBox ranged = L10N.checkbox("elementgui.living_entity.is_ranged");
+
     private MCItemListField breedTriggerItems;
-    private final JCheckBox spawnThisMob;
-    private final JCheckBox doesDespawnWhenIdle;
+
+    private final JCheckBox spawnThisMob = new JCheckBox();
+    private final JCheckBox doesDespawnWhenIdle = new JCheckBox();
+
+    private final JSpinner[] raidSpawnsCount = new JSpinner[] { new JSpinner(new SpinnerNumberModel(4, 0, 1000, 1)),
+            new JSpinner(new SpinnerNumberModel(3, 0, 1000, 1)), new JSpinner(new SpinnerNumberModel(3, 0, 1000, 1)),
+            new JSpinner(new SpinnerNumberModel(4, 0, 1000, 1)), new JSpinner(new SpinnerNumberModel(4, 0, 1000, 1)),
+            new JSpinner(new SpinnerNumberModel(4, 0, 1000, 1)), new JSpinner(new SpinnerNumberModel(2, 0, 1000, 1)) };
+
     private BiomeListField restrictionBiomes;
+
     private BlocklyPanel blocklyPanel;
-    private final CompileNotesPanel compileNotesPanel;
-    private boolean hasErrors;
+    private final CompileNotesPanel compileNotesPanel = new CompileNotesPanel();
     private Map<String, ToolboxBlock> externalBlocks;
-    private final List<IBlocklyPanelHolder.BlocklyChangedListener> blocklyChangedListeners;
-    private boolean disableMobModelCheckBoxListener;
-    private final JCheckBox disableDeathRotation;
-    private final JSpinner deathTime;
-    private final JSpinner lerp;
-    private final JSpinner height;
-    private final VTextField bck_;
-    private final JTextField animation2;
-    private final JTextField animation3;
-    private final JTextField animation4;
-    private final JTextField animation5;
-    private final JTextField animation6;
-    private final JTextField animation7;
-    private final JTextField animation8;
-    private final JTextField animation9;
-    private final JTextField animation10;
-    private final JCheckBox enable2;
-    private final JCheckBox enable3;
-    private final JCheckBox enable4;
-    private final JCheckBox enable5;
-    private final JCheckBox enable6;
-    private final JCheckBox enable7;
-    private final JCheckBox enable8;
-    private final JCheckBox enable9;
-    private final JCheckBox enable10;
-    private ProcedureSelector finishedDying;
-    private final JCheckBox headMovement;
-    private final JCheckBox eyeHeight;
-    private final JTextField groupName;
-    private final VComboBox<String> geoModel;
-    private final List<?> unmodifiableAIBases;
+    private final List<BlocklyChangedListener> blocklyChangedListeners = new ArrayList<>();
+
+    private boolean editorReady = false;
+
+    private boolean disableMobModelCheckBoxListener = false;
+
+    private JModelLayerList modelLayers;
+
+    private final List<?> unmodifiableAIBases = Objects.requireNonNullElse(
+            (List<?>) mcreator.getWorkspace().getGenerator().getGeneratorConfiguration().getDefinitionsProvider()
+                    .getModElementDefinition(ModElementType.LIVINGENTITY).get("unmodifiable_ai_bases"),
+            Collections.emptyList());
+
+    private JEntityAnimationList animations;
+
+    private DefaultListModel<String> levelingTypesModel;
+    private JList<String> levelingTypesList;
+    private JTextField newLevelingTypeField;
+    private JButton addLevelingTypeButton;
 
     public LevelingEntityGUI(MCreator mcreator, ModElement modElement, boolean editingMode) {
         super(mcreator, modElement, editingMode);
-        this.livingSound = new SoundSelector(this.mcreator);
-        this.hurtSound = new SoundSelector(this.mcreator);
-        this.deathSound = new SoundSelector(this.mcreator);
-        this.stepSound = new SoundSelector(this.mcreator);
-        this.raidCelebrationSound = new SoundSelector(this.mcreator);
-        this.mobName = new VTextField();
-        this.attackStrength = new JSpinner(new SpinnerNumberModel(3, 0, 10000, 1));
-        this.movementSpeed = new JSpinner(new SpinnerNumberModel(0.3, (double) 0.0F, (double) 50.0F, 0.1));
-        this.armorBaseValue = new JSpinner(new SpinnerNumberModel((double) 0.0F, (double) 0.0F, (double) 100.0F, 0.1));
-        this.health = new JSpinner(new SpinnerNumberModel(10, 0, 1024, 1));
-        this.knockbackResistance = new JSpinner(new SpinnerNumberModel((double) 0.0F, (double) 0.0F, (double) 1000.0F, 0.1));
-        this.attackKnockback = new JSpinner(new SpinnerNumberModel((double) 0.0F, (double) 0.0F, (double) 1000.0F, 0.1));
-        this.stepHeight = new JSpinner(new SpinnerNumberModel(0.6, (double) 0.0F, (double) 255.0F, 0.1));
-        this.attackRate = new JSpinner(new SpinnerNumberModel(7, 0, 255, 1));
-        this.trackingRange = new JSpinner(new SpinnerNumberModel(64, 0, 10000, 1));
-        this.followRange = new JSpinner(new SpinnerNumberModel(16, 0, 2048, 1));
-        this.rangedAttackInterval = new JSpinner(new SpinnerNumberModel(20, 0, 1024, 1));
-        this.rangedAttackRadius = new JSpinner(new SpinnerNumberModel((double) 10.0F, (double) 0.0F, (double) 1024.0F, 0.1));
-        this.spawningProbability = new JSpinner(new SpinnerNumberModel(20, 1, 1000, 1));
-        this.minNumberOfMobsPerGroup = new JSpinner(new SpinnerNumberModel(4, 1, 1000, 1));
-        this.maxNumberOfMobsPerGroup = new JSpinner(new SpinnerNumberModel(4, 1, 1000, 1));
-        this.modelWidth = new JSpinner(new SpinnerNumberModel(0.6, (double) 0.0F, (double) 1024.0F, 0.1));
-        this.modelHeight = new JSpinner(new SpinnerNumberModel(1.8, (double) 0.0F, (double) 1024.0F, 0.1));
-        this.mountedYOffset = new JSpinner(new SpinnerNumberModel((double) 0.0F, (double) -1024.0F, (double) 1024.0F, 0.1));
-        this.modelShadowSize = new JSpinner(new SpinnerNumberModel((double) 0.5F, (double) 0.0F, (double) 20.0F, 0.1));
-        this.disableCollisions = L10N.checkbox("elementgui.living_entity.disable_collisions", new Object[0]);
-        this.xpAmount = new JSpinner(new SpinnerNumberModel(0, 0, 100000, 1));
-        this.hasAI = L10N.checkbox("elementgui.living_entity.has_ai", new Object[0]);
-        this.isBoss = new JCheckBox();
-        this.immuneToFire = L10N.checkbox("elementgui.living_entity.immune_fire", new Object[0]);
-        this.immuneToArrows = L10N.checkbox("elementgui.living_entity.immune_arrows", new Object[0]);
-        this.immuneToFallDamage = L10N.checkbox("elementgui.living_entity.immune_fall_damage", new Object[0]);
-        this.immuneToCactus = L10N.checkbox("elementgui.living_entity.immune_cactus", new Object[0]);
-        this.immuneToDrowning = L10N.checkbox("elementgui.living_entity.immune_drowning", new Object[0]);
-        this.immuneToLightning = L10N.checkbox("elementgui.living_entity.immune_lightning", new Object[0]);
-        this.immuneToPotions = L10N.checkbox("elementgui.living_entity.immune_potions", new Object[0]);
-        this.immuneToPlayer = L10N.checkbox("elementgui.living_entity.immune_player", new Object[0]);
-        this.immuneToExplosion = L10N.checkbox("elementgui.living_entity.immune_explosions", new Object[0]);
-        this.immuneToTrident = L10N.checkbox("elementgui.living_entity.immune_trident", new Object[0]);
-        this.immuneToAnvil = L10N.checkbox("elementgui.living_entity.immune_anvil", new Object[0]);
-        this.immuneToWither = L10N.checkbox("elementgui.living_entity.immune_wither", new Object[0]);
-        this.immuneToDragonBreath = L10N.checkbox("elementgui.living_entity.immune_dragon_breath", new Object[0]);
-        this.waterMob = L10N.checkbox("elementgui.living_entity.is_water_mob", new Object[0]);
-        this.flyingMob = L10N.checkbox("elementgui.living_entity.is_flying_mob", new Object[0]);
-        this.hasSpawnEgg = new JCheckBox();
-        this.creativeTabs = new TabListField(this.mcreator);
-        this.mobSpawningType = new JComboBox(ElementUtil.getDataListAsStringArray("mobspawntypes"));
-        this.guiBoundTo = new JComboBox();
-        this.inventorySize = new JSpinner(new SpinnerNumberModel(9, 0, 256, 1));
-        this.inventoryStackSize = new JSpinner(new SpinnerNumberModel(64, 1, 1024, 1));
-        this.rangedItemType = new JComboBox();
-        this.mobLabel = new JTextField();
-        this.spawnInDungeons = L10N.checkbox("elementgui.living_entity.spawn_dungeons", new Object[0]);
-        this.spawnEggBaseColor = new JColor(this.mcreator, false, false);
-        this.spawnEggDotColor = new JColor(this.mcreator, false, false);
-        this.mobModelTexture = new SearchableComboBox();
-        this.mobModelGlowTexture = new SearchableComboBox();
-        this.aiBase = new JComboBox((String[]) Stream.of("(none)", "Creeper", "Skeleton", "Enderman", "Blaze", "Slime", "Witch", "Zombie", "MagmaCube", "Pig", "Villager", "Wolf", "Cow", "Bat", "Chicken", "Ocelot", "Squid", "Horse", "Spider", "IronGolem").sorted().toArray((x$0) -> new String[x$0]));
-        this.raidSpawnsCount = new JSpinner[]{new JSpinner(new SpinnerNumberModel(4, 0, 1000, 1)), new JSpinner(new SpinnerNumberModel(3, 0, 1000, 1)), new JSpinner(new SpinnerNumberModel(3, 0, 1000, 1)), new JSpinner(new SpinnerNumberModel(4, 0, 1000, 1)), new JSpinner(new SpinnerNumberModel(4, 0, 1000, 1)), new JSpinner(new SpinnerNumberModel(4, 0, 1000, 1)), new JSpinner(new SpinnerNumberModel(2, 0, 1000, 1))};
-        this.mobBehaviourType = new JComboBox(new String[]{"Mob", "Creature", "Raider"});
-        this.mobCreatureType = new JComboBox(new String[]{"UNDEFINED", "UNDEAD", "ARTHROPOD", "ILLAGER", "WATER"});
-        this.bossBarColor = new JComboBox(new String[]{"PINK", "BLUE", "RED", "GREEN", "YELLOW", "PURPLE", "WHITE"});
-        this.bossBarType = new JComboBox(new String[]{"PROGRESS", "NOTCHED_6", "NOTCHED_10", "NOTCHED_12", "NOTCHED_20"});
-        this.ridable = L10N.checkbox("elementgui.living_entity.is_rideable", new Object[0]);
-        this.canControlForward = L10N.checkbox("elementgui.living_entity.control_forward", new Object[0]);
-        this.canControlStrafe = L10N.checkbox("elementgui.living_entity.control_strafe", new Object[0]);
-        this.breedable = L10N.checkbox("elementgui.living_entity.is_breedable", new Object[0]);
-        this.tameable = L10N.checkbox("elementgui.living_entity.is_tameable", new Object[0]);
-        this.ranged = L10N.checkbox("elementgui.living_entity.is_ranged", new Object[0]);
-        this.spawnThisMob = new JCheckBox();
-        this.doesDespawnWhenIdle = new JCheckBox();
-        this.compileNotesPanel = new CompileNotesPanel();
-        this.hasErrors = false;
-        this.blocklyChangedListeners = new ArrayList();
-        this.disableMobModelCheckBoxListener = false;
-        this.disableDeathRotation = L10N.checkbox("elementgui.common.enable", new Object[0]);
-        this.deathTime = new JSpinner(new SpinnerNumberModel(20, 0, 10000, 1));
-        this.lerp = new JSpinner(new SpinnerNumberModel(4, 0, 1000, 1));
-        this.height = new JSpinner(new SpinnerNumberModel((double) 1.0F, 0.1, (double) 100.0F, 0.1));
-        this. = new VTextField();
-        this.animation2 = new JTextField();
-        this.animation3 = new JTextField();
-        this.animation4 = new JTextField();
-        this.animation5 = new JTextField();
-        this.animation6 = new JTextField();
-        this.animation7 = new JTextField();
-        this.animation8 = new JTextField();
-        this.animation9 = new JTextField();
-        this.animation10 = new JTextField();
-        this.enable2 = new JCheckBox();
-        this.enable3 = new JCheckBox();
-        this.enable4 = new JCheckBox();
-        this.enable5 = new JCheckBox();
-        this.enable6 = new JCheckBox();
-        this.enable7 = new JCheckBox();
-        this.enable8 = new JCheckBox();
-        this.enable9 = new JCheckBox();
-        this.enable10 = new JCheckBox();
-        this.headMovement = L10N.checkbox("elementgui.common.enable", new Object[0]);
-        this.eyeHeight = L10N.checkbox("elementgui.animatedentity.eye_height", new Object[0]);
-        this.groupName = new JTextField();
-        this.unmodifiableAIBases = (List) this.mcreator.getWorkspace().getGenerator().getGeneratorConfiguration().getDefinitionsProvider().getModElementDefinition(PluginElementTypes.LEVELINGENTITY).get("unmodifiable_ai_bases");
-        this.geoModel = new SearchableComboBox();
         this.initGUI();
         super.finalizeGUI();
     }
 
-    public void addBlocklyChangedListener(IBlocklyPanelHolder.BlocklyChangedListener listener) {
-        this.blocklyChangedListeners.add(listener);
+    @Override public void addBlocklyChangedListener(BlocklyChangedListener listener) {
+        blocklyChangedListeners.add(listener);
     }
 
     private void setDefaultAISet() {
-        this.blocklyPanel.setXML("<xml xmlns=\"https://developers.google.com/blockly/xml\"><block type=\"aitasks_container\" deletable=\"false\" x=\"40\" y=\"40\"><next><block type=\"attack_on_collide\"><field name=\"speed\">1.2</field><field name=\"longmemory\">FALSE</field><next><block type=\"wander\"><field name=\"speed\">1</field><next><block type=\"attack_action\"><field name=\"callhelp\">FALSE</field><next><block type=\"look_around\"><next><block type=\"swim_in_water\"/></next></block></next></block></next></block></next></block></next></block></xml>");
+        blocklyPanel.setXML("""
+				<xml xmlns="https://developers.google.com/blockly/xml">
+				<block type="aitasks_container" deletable="false" x="40" y="40"><next>
+				<block type="attack_on_collide"><field name="speed">1.2</field><field name="longmemory">FALSE</field><field name="condition">null,null</field><next>
+				<block type="wander"><field name="speed">1</field><field name="condition">null,null</field><next>
+				<block type="attack_action"><field name="callhelp">FALSE</field><field name="condition">null,null</field><next>
+				<block type="look_around"><field name="condition">null,null</field><next>
+				<block type="swim_in_water"/><field name="condition">null,null</field></next>
+				</block></next></block></next></block></next></block></next></block></xml>""");
     }
 
     private synchronized void regenerateAITasks() {
-        BlocklyBlockCodeGenerator blocklyBlockCodeGenerator = new BlocklyBlockCodeGenerator(this.externalBlocks, this.mcreator.getGeneratorStats().getBlocklyBlocks(BlocklyEditorType.AI_TASK));
+        BlocklyBlockCodeGenerator blocklyBlockCodeGenerator = new BlocklyBlockCodeGenerator(externalBlocks,
+                mcreator.getGeneratorStats().getBlocklyBlocks(BlocklyEditorType.AI_TASK));
 
         BlocklyToJava blocklyToJava;
         try {
-            blocklyToJava = new BlocklyToJava(this.mcreator.getWorkspace(), this.modElement, BlocklyEditorType.AI_TASK, this.blocklyPanel.getXML(), (TemplateGenerator)null, new IBlockGenerator[]{new ProceduralBlockCodeGenerator(blocklyBlockCodeGenerator)});
-        } catch (TemplateGeneratorException var5) {
+            blocklyToJava = new BlocklyToJava(mcreator.getWorkspace(), this.modElement, BlocklyEditorType.AI_TASK,
+                    blocklyPanel.getXML(), null, new ProceduralBlockCodeGenerator(blocklyBlockCodeGenerator));
+        } catch (TemplateGeneratorException e) {
             return;
         }
 
         List<BlocklyCompileNote> compileNotesArrayList = blocklyToJava.getCompileNotes();
-        if (this.unmodifiableAIBases != null && this.unmodifiableAIBases.contains(this.aiBase.getSelectedItem())) {
-            compileNotesArrayList = List.of(aiUnmodifiableCompileNote);
-        }
 
+        if (unmodifiableAIBases != null && unmodifiableAIBases.contains(aiBase.getSelectedItem()))
+            compileNotesArrayList = List.of(aiUnmodifiableCompileNote);
+
+        List<BlocklyCompileNote> finalCompileNotesArrayList = compileNotesArrayList;
         SwingUtilities.invokeLater(() -> {
-            this.compileNotesPanel.updateCompileNotes(compileNotesArrayList);
-            this.blocklyChangedListeners.forEach((l) -> l.blocklyChanged(this.blocklyPanel));
+            compileNotesPanel.updateCompileNotes(finalCompileNotesArrayList);
+            blocklyChangedListeners.forEach(l -> l.blocklyChanged(blocklyPanel));
         });
     }
 
-    protected void initGUI() {
-        this.onStruckByLightning = new ProcedureSelector(this.withEntry("entity/when_struck_by_lightning"), this.mcreator, L10N.t("elementgui.living_entity.event_struck_by_lightning", new Object[0]), Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
-        this.whenMobFalls = new ProcedureSelector(this.withEntry("entity/when_falls"), this.mcreator, L10N.t("elementgui.living_entity.event_mob_falls", new Object[0]), Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity/damagesource:damagesource"));
-        this.whenMobDies = new ProcedureSelector(this.withEntry("entity/when_dies"), this.mcreator, L10N.t("elementgui.living_entity.event_mob_dies", new Object[0]), Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity/sourceentity:entity/immediatesourceentity:entity/damagesource:damagesource"));
-        this.whenMobIsHurt = new ProcedureSelector(this.withEntry("entity/when_hurt"), this.mcreator, L10N.t("elementgui.living_entity.event_mob_is_hurt", new Object[0]), Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity/sourceentity:entity/immediatesourceentity:entity/damagesource:damagesource"));
-        this.onRightClickedOn = (new ProcedureSelector(this.withEntry("entity/when_right_clicked"), this.mcreator, L10N.t("elementgui.living_entity.event_mob_right_clicked", new Object[0]), BuiltInTypes.ACTIONRESULTTYPE, Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity/sourceentity:entity/itemstack:itemstack"))).makeReturnValueOptional();
-        this.whenThisMobKillsAnother = new ProcedureSelector(this.withEntry("entity/when_kills_another"), this.mcreator, L10N.t("elementgui.living_entity.event_mob_kills_another", new Object[0]), Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity/sourceentity:entity/immediatesourceentity:entity/damagesource:damagesource"));
-        this.onMobTickUpdate = new ProcedureSelector(this.withEntry("entity/on_tick_update"), this.mcreator, L10N.t("elementgui.living_entity.event_mob_tick_update", new Object[0]), Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
-        this.onPlayerCollidesWith = new ProcedureSelector(this.withEntry("entity/when_player_collides"), this.mcreator, L10N.t("elementgui.living_entity.event_player_collides_with", new Object[0]), Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity/sourceentity:entity"));
-        this.onInitialSpawn = new ProcedureSelector(this.withEntry("entity/on_initial_spawn"), this.mcreator, L10N.t("elementgui.living_entity.event_initial_spawn", new Object[0]), Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
-        this.finishedDying = new ProcedureSelector(this.withEntry("geckolib/finished_dying"), this.mcreator, L10N.t("elementgui.animatedentity.finished_dying", new Object[0]), Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
-        this.spawningCondition = (new ProcedureSelector(this.withEntry("entity/condition_natural_spawning"), this.mcreator, L10N.t("elementgui.living_entity.condition_natural_spawn", new Object[0]), BuiltInTypes.LOGIC, Dependency.fromString("x:number/y:number/z:number/world:world"))).setDefaultName(L10N.t("condition.common.use_vanilla", new Object[0])).makeInline();
-        this.visualScale = new NumberProcedureSelector(this.withEntry("geckolib/visual_scale"), this.mcreator, L10N.t("elementgui.animatedentity.visual_scale", new Object[0]), Side.BOTH, new JSpinner(new SpinnerNumberModel((double)1.0F, 0.1, (double)1024.0F, 0.1)), 300, Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
-        this.boundingBoxScale = new NumberProcedureSelector(this.withEntry("geckolib/bounding_box_scale.md"), this.mcreator, L10N.t("elementgui.animatedentity.bounding_box_scale", new Object[0]), Side.BOTH, new JSpinner(new SpinnerNumberModel((double)1.0F, 0.1, (double)1024.0F, 0.1)), 300, Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
-        this.solidBoundingBox = (new ProcedureSelector(this.withEntry("geckolib/condition_solid_bounding_box"), this.mcreator, L10N.t("elementgui.living_entity.condition_solid_bounding_box", new Object[0]), BuiltInTypes.LOGIC, Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"))).setDefaultName(L10N.t("condition.common.false", new Object[0])).makeInline();
-        this.restrictionBiomes = new BiomeListField(this.mcreator);
-        this.breedTriggerItems = new MCItemListField(this.mcreator, ElementUtil::loadBlocksAndItems);
-        this.entityDataList = new JEntityDataList(this.mcreator, this);
-        this.mobModelTexture.setRenderer(new WTextureComboBoxRenderer.TypeTextures(this.mcreator.getWorkspace(), TextureType.ENTITY));
-        this.mobModelGlowTexture.setRenderer(new WTextureComboBoxRenderer.TypeTextures(this.mcreator.getWorkspace(), TextureType.ENTITY));
-        this.guiBoundTo.addActionListener((e) -> {
-            if (!this.isEditingMode()) {
-                String selected = (String)this.guiBoundTo.getSelectedItem();
+    @Override protected void initGUI() {
+        onStruckByLightning = new ProcedureSelector(this.withEntry("entity/when_struck_by_lightning"), mcreator,
+                L10N.t("elementgui.living_entity.event_struck_by_lightning"),
+                Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
+        whenMobFalls = new ProcedureSelector(this.withEntry("entity/when_falls"), mcreator,
+                L10N.t("elementgui.living_entity.event_mob_falls"), Dependency.fromString(
+                "x:number/y:number/z:number/world:world/entity:entity/damagesource:damagesource"));
+        whenMobDies = new ProcedureSelector(this.withEntry("entity/when_dies"), mcreator,
+                L10N.t("elementgui.living_entity.event_mob_dies"), Dependency.fromString(
+                "x:number/y:number/z:number/world:world/entity:entity/sourceentity:entity/immediatesourceentity:entity/damagesource:damagesource"));
+        whenMobIsHurt = new ProcedureSelector(this.withEntry("entity/when_hurt"), mcreator,
+                L10N.t("elementgui.living_entity.event_mob_is_hurt"), VariableTypeLoader.BuiltInTypes.LOGIC,
+                Dependency.fromString(
+                        "x:number/y:number/z:number/world:world/entity:entity/sourceentity:entity/immediatesourceentity:entity/damagesource:damagesource")).makeReturnValueOptional();
+        onRightClickedOn = new ProcedureSelector(this.withEntry("entity/when_right_clicked"), mcreator,
+                L10N.t("elementgui.living_entity.event_mob_right_clicked"),
+                VariableTypeLoader.BuiltInTypes.ACTIONRESULTTYPE, Dependency.fromString(
+                "x:number/y:number/z:number/world:world/entity:entity/sourceentity:entity/itemstack:itemstack")).makeReturnValueOptional();
+        whenThisMobKillsAnother = new ProcedureSelector(this.withEntry("entity/when_kills_another"), mcreator,
+                L10N.t("elementgui.living_entity.event_mob_kills_another"), Dependency.fromString(
+                "x:number/y:number/z:number/world:world/entity:entity/sourceentity:entity/immediatesourceentity:entity/damagesource:damagesource"));
+        onMobTickUpdate = new ProcedureSelector(this.withEntry("entity/on_tick_update"), mcreator,
+                L10N.t("elementgui.living_entity.event_mob_tick_update"),
+                Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
+        onPlayerCollidesWith = new ProcedureSelector(this.withEntry("entity/when_player_collides"), mcreator,
+                L10N.t("elementgui.living_entity.event_player_collides_with"),
+                Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity/sourceentity:entity"));
+        onInitialSpawn = new ProcedureSelector(this.withEntry("entity/on_initial_spawn"), mcreator,
+                L10N.t("elementgui.living_entity.event_initial_spawn"),
+                Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
+
+        spawningCondition = new ProcedureSelector(this.withEntry("entity/condition_natural_spawning"), mcreator,
+                L10N.t("elementgui.living_entity.condition_natural_spawn"), VariableTypeLoader.BuiltInTypes.LOGIC,
+                Dependency.fromString("x:number/y:number/z:number/world:world")).setDefaultName(
+                L10N.t("condition.common.use_vanilla")).makeInline();
+        transparentModelCondition = new LogicProcedureSelector(this.withEntry("entity/condition_is_model_transparent"),
+                mcreator, L10N.t("elementgui.living_entity.condition_is_model_transparent"),
+                ProcedureSelector.Side.CLIENT, L10N.checkbox("elementgui.common.enable"), 0,
+                Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
+        isShakingCondition = new LogicProcedureSelector(this.withEntry("entity/condition_is_shaking"), mcreator,
+                L10N.t("elementgui.living_entity.condition_is_shaking"), ProcedureSelector.Side.CLIENT,
+                L10N.checkbox("elementgui.common.enable"), 0,
+                Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
+        solidBoundingBox = new LogicProcedureSelector(this.withEntry("entity/condition_solid_bounding_box"), mcreator,
+                L10N.t("elementgui.living_entity.condition_solid_bounding_box"), AbstractProcedureSelector.Side.BOTH,
+                L10N.checkbox("elementgui.common.enable"), 0,
+                Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
+        breatheUnderwater = new LogicProcedureSelector(this.withEntry("entity/condition_can_breathe_underwater"),
+                mcreator, L10N.t("elementgui.living_entity.condition_can_breathe_underwater"),
+                AbstractProcedureSelector.Side.BOTH, L10N.checkbox("elementgui.common.enable"), 0,
+                Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
+        pushedByFluids = new LogicProcedureSelector(this.withEntry("entity/condition_fluids_can_push"), mcreator,
+                L10N.t("elementgui.living_entity.condition_fluids_can_push"), AbstractProcedureSelector.Side.BOTH,
+                L10N.checkbox("elementgui.common.enable"), 0,
+                Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
+        visualScale = new NumberProcedureSelector(this.withEntry("entity/visual_scale"), mcreator,
+                L10N.t("elementgui.living_entity.visual_scale"), AbstractProcedureSelector.Side.CLIENT,
+                new JSpinner(new SpinnerNumberModel(1, 0.01, 1024, 0.01)), 0,
+                Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
+        boundingBoxScale = new NumberProcedureSelector(this.withEntry("entity/bounding_box_scale"), mcreator,
+                L10N.t("elementgui.living_entity.bounding_box_scale"), AbstractProcedureSelector.Side.BOTH,
+                new JSpinner(new SpinnerNumberModel(1, 0.01, 1024, 0.01)), 210,
+                Dependency.fromString("x:number/y:number/z:number/world:world/entity:entity"));
+
+        restrictionBiomes = new BiomeListField(mcreator, true);
+        restrictionBiomes.setValidator(new ItemListFieldSingleTagValidator(restrictionBiomes));
+
+        breedTriggerItems = new MCItemListField(mcreator, ElementUtil::loadBlocksAndItemsAndTags, false, true);
+        entityDataList = new JEntityDataList(mcreator, this);
+        guiBoundTo = new SingleModElementSelector(mcreator, ModElementType.GUI);
+        guiBoundTo.setDefaultText(L10N.t("elementgui.common.no_gui"));
+
+        // **** Création du panneau pour les types de leveling ****
+        JPanel levelingPanel = new JPanel(new BorderLayout());
+        levelingPanel.setOpaque(false);
+        levelingPanel.setBorder(BorderFactory.createTitledBorder(L10N.t("elementgui.living_entity.leveling_types")));
+
+        levelingTypesModel = new DefaultListModel<>();
+        levelingTypesList = new JList<>(levelingTypesModel);
+        JScrollPane scrollPane = new JScrollPane(levelingTypesList);
+
+        newLevelingTypeField = new JTextField();
+        addLevelingTypeButton = new JButton(L10N.t("elementgui.living_entity.add_leveling_type"));
+        addLevelingTypeButton.addActionListener(e -> {
+            String type = newLevelingTypeField.getText().trim();
+            if (!type.isEmpty()) {
+                // Ajoute le type via l'interface LevelingEntity
+                ((LevelingEntity) getElementFromGUI()).addLevelingType(type);
+                // Met à jour la liste si ce type n'est pas déjà présent
+                if (!levelingTypesModel.contains(type)) {
+                    levelingTypesModel.addElement(type);
+                }
+                newLevelingTypeField.setText("");
+            }
+        });
+
+        JPanel inputPanel = new JPanel(new BorderLayout(5, 0));
+        inputPanel.add(newLevelingTypeField, BorderLayout.CENTER);
+        inputPanel.add(addLevelingTypeButton, BorderLayout.EAST);
+
+        levelingPanel.add(inputPanel, BorderLayout.NORTH);
+        levelingPanel.add(scrollPane, BorderLayout.CENTER);
+
+        // Ajouter le panneau des types de leveling en tant que nouvelle page
+        addPage(L10N.t("elementgui.living_entity.page_leveling_types"), levelingPanel, false);
+
+        mobModelTexture = new TextureComboBox(mcreator, TextureType.ENTITY).requireValue(
+                "elementgui.living_entity.error_entity_model_needs_texture");
+
+        guiBoundTo.addEntrySelectedListener(e -> {
+            if (!isEditingMode() && !guiBoundTo.isEmpty()) {
+                String selected = guiBoundTo.getEntry();
                 if (selected != null) {
-                    ModElement element = this.mcreator.getWorkspace().getModElementByName(selected);
+                    ModElement element = mcreator.getWorkspace().getModElementByName(selected);
                     if (element != null) {
                         GeneratableElement generatableElement = element.getGeneratableElement();
                         if (generatableElement instanceof GUI) {
-                            this.inventorySize.setValue(((GUI)generatableElement).getMaxSlotID() + 1);
+                            inventorySize.setValue(((GUI) generatableElement).getMaxSlotID() + 1);
                         }
                     }
                 }
             }
-
         });
-        this.spawnInDungeons.setOpaque(false);
-        this.mobModelTexture.setPrototypeDisplayValue("XXXXXXXXXXXXXXXXXXXXXXXXXX");
-        this.mobModelGlowTexture.setPrototypeDisplayValue("XXXXXXXXXXXXXXXXXXXXXXXXXX");
-        this.mobDrop = new MCItemHolder(this.mcreator, ElementUtil::loadBlocksAndItems);
-        this.equipmentMainHand = new MCItemHolder(this.mcreator, ElementUtil::loadBlocksAndItems);
-        this.equipmentHelmet = new MCItemHolder(this.mcreator, ElementUtil::loadBlocksAndItems);
-        this.equipmentBody = new MCItemHolder(this.mcreator, ElementUtil::loadBlocksAndItems);
-        this.equipmentLeggings = new MCItemHolder(this.mcreator, ElementUtil::loadBlocksAndItems);
-        this.equipmentBoots = new MCItemHolder(this.mcreator, ElementUtil::loadBlocksAndItems);
-        this.equipmentOffHand = new MCItemHolder(this.mcreator, ElementUtil::loadBlocksAndItems);
-        this.rangedAttackItem = new MCItemHolder(this.mcreator, ElementUtil::loadBlocksAndItems);
+
+        spawnInDungeons.setOpaque(false);
+
+        mobDrop = new MCItemHolder(mcreator, ElementUtil::loadBlocksAndItems);
+        equipmentMainHand = new MCItemHolder(mcreator, ElementUtil::loadBlocksAndItems);
+        equipmentHelmet = new MCItemHolder(mcreator, ElementUtil::loadBlocksAndItems);
+        equipmentBody = new MCItemHolder(mcreator, ElementUtil::loadBlocksAndItems);
+        equipmentLeggings = new MCItemHolder(mcreator, ElementUtil::loadBlocksAndItems);
+        equipmentBoots = new MCItemHolder(mcreator, ElementUtil::loadBlocksAndItems);
+        equipmentOffHand = new MCItemHolder(mcreator, ElementUtil::loadBlocksAndItems);
+        rangedAttackItem = new MCItemHolder(mcreator, ElementUtil::loadBlocksAndItems);
+
+        modelLayers = new JModelLayerList(mcreator, this);
+
+        animations = new JEntityAnimationList(mcreator, this);
+
         JPanel pane1 = new JPanel(new BorderLayout(0, 0));
         JPanel pane2 = new JPanel(new BorderLayout(0, 0));
         JPanel pane3 = new JPanel(new BorderLayout(0, 0));
         JPanel pane4 = new JPanel(new BorderLayout(0, 0));
         JPanel pane5 = new JPanel(new BorderLayout(0, 0));
+        JPanel pane6 = new JPanel(new BorderLayout(0, 0));
         JPanel pane7 = new JPanel(new BorderLayout(0, 0));
         JPanel pane8 = new JPanel(new BorderLayout(0, 0));
-        JPanel subpane1 = new JPanel(new GridLayout(10, 2, 0, 2));
-        this.immuneToFire.setOpaque(false);
-        this.immuneToArrows.setOpaque(false);
-        this.immuneToFallDamage.setOpaque(false);
-        this.immuneToCactus.setOpaque(false);
-        this.immuneToDrowning.setOpaque(false);
-        this.immuneToLightning.setOpaque(false);
-        this.immuneToPotions.setOpaque(false);
-        this.immuneToPlayer.setOpaque(false);
-        this.immuneToExplosion.setOpaque(false);
-        this.immuneToTrident.setOpaque(false);
-        this.immuneToAnvil.setOpaque(false);
-        this.immuneToDragonBreath.setOpaque(false);
-        this.immuneToWither.setOpaque(false);
+        JPanel animationsPane = new JPanel(new BorderLayout(0, 0));
+
+        JPanel subpane1 = new JPanel(new GridLayout(12, 2, 0, 2));
+
+        immuneToFire.setOpaque(false);
+        immuneToArrows.setOpaque(false);
+        immuneToFallDamage.setOpaque(false);
+        immuneToCactus.setOpaque(false);
+        immuneToDrowning.setOpaque(false);
+        immuneToLightning.setOpaque(false);
+        immuneToPotions.setOpaque(false);
+        immuneToPlayer.setOpaque(false);
+        immuneToExplosion.setOpaque(false);
+        immuneToTrident.setOpaque(false);
+        immuneToAnvil.setOpaque(false);
+        immuneToDragonBreath.setOpaque(false);
+        immuneToWither.setOpaque(false);
+
         subpane1.setOpaque(false);
-        subpane1.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/behaviour"), L10N.label("elementgui.living_entity.behaviour", new Object[0])));
-        subpane1.add(this.mobBehaviourType);
-        subpane1.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/creature_type"), L10N.label("elementgui.living_entity.creature_type", new Object[0])));
-        subpane1.add(this.mobCreatureType);
-        subpane1.add(PanelUtils.join(0, new Component[]{L10N.label("elementgui.living_entity.drop_health_xp_amount", new Object[0]), HelpUtils.helpButton(this.withEntry("entity/drop")), HelpUtils.helpButton(this.withEntry("entity/health")), HelpUtils.helpButton(this.withEntry("entity/xp_amount"))}));
-        subpane1.add(PanelUtils.westAndCenterElement(PanelUtils.totalCenterInPanel(this.mobDrop), PanelUtils.gridElements(1, 2, 2, 0, new Component[]{this.health, this.xpAmount}), 8, 8));
-        subpane1.add(PanelUtils.join(0, new Component[]{L10N.label("elementgui.living_entity.movement_speed_step_height", new Object[0]), HelpUtils.helpButton(this.withEntry("entity/movement_speed")), HelpUtils.helpButton(this.withEntry("entity/step_height"))}));
-        subpane1.add(PanelUtils.gridElements(1, 2, 2, 0, new Component[]{this.movementSpeed, this.stepHeight}));
-        subpane1.add(PanelUtils.join(0, new Component[]{L10N.label("elementgui.living_entity.follow_range_tracking_range", new Object[0]), HelpUtils.helpButton(this.withEntry("entity/follow_range")), HelpUtils.helpButton(this.withEntry("entity/tracking_range"))}));
-        subpane1.add(PanelUtils.gridElements(1, 2, 2, 0, new Component[]{this.followRange, this.trackingRange}));
-        subpane1.add(PanelUtils.join(0, new Component[]{L10N.label("elementgui.living_entity.attack_strenght_armor_value_knockback", new Object[0]), HelpUtils.helpButton(this.withEntry("entity/attack_strength")), HelpUtils.helpButton(this.withEntry("entity/armor_base_value")), HelpUtils.helpButton(this.withEntry("entity/attack_knockback")), HelpUtils.helpButton(this.withEntry("entity/knockback_resistance"))}));
-        subpane1.add(PanelUtils.gridElements(1, 4, 2, 0, new Component[]{this.attackStrength, this.armorBaseValue, this.attackKnockback, this.knockbackResistance}));
-        subpane1.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/equipment"), L10N.label("elementgui.living_entity.equipment", new Object[0])));
-        subpane1.add(PanelUtils.join(0, 0, 2, new Component[]{PanelUtils.totalCenterInPanel(PanelUtils.join(0, 2, 0, new Component[]{this.equipmentMainHand, this.equipmentOffHand, this.equipmentHelmet, this.equipmentBody, this.equipmentLeggings, this.equipmentBoots}))}));
-        subpane1.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/ridable"), L10N.label("elementgui.living_entity.ridable", new Object[0])));
-        subpane1.add(PanelUtils.join(0, 0, 0, new Component[]{this.ridable, this.canControlForward, this.canControlStrafe}));
-        subpane1.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/water_entity"), L10N.label("elementgui.living_entity.water_mob", new Object[0])));
-        subpane1.add(this.waterMob);
-        subpane1.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/flying_entity"), L10N.label("elementgui.living_entity.flying_mob", new Object[0])));
-        subpane1.add(this.flyingMob);
-        this.hasAI.setOpaque(false);
-        this.isBoss.setOpaque(false);
-        this.waterMob.setOpaque(false);
-        this.flyingMob.setOpaque(false);
-        this.hasSpawnEgg.setOpaque(false);
-        this.disableCollisions.setOpaque(false);
-        this.livingSound.setText("");
-        this.hurtSound.setText("entity.generic.hurt");
-        this.deathSound.setText("entity.generic.death");
+
+        subpane1.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/behaviour"),
+                L10N.label("elementgui.living_entity.behaviour")));
+        subpane1.add(mobBehaviourType);
+
+        subpane1.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/creature_type"),
+                L10N.label("elementgui.living_entity.creature_type")));
+        subpane1.add(mobCreatureType);
+
+        subpane1.add(PanelUtils.join(FlowLayout.LEFT, L10N.label("elementgui.living_entity.drop_health_xp_amount"),
+                HelpUtils.helpButton(this.withEntry("entity/drop")),
+                HelpUtils.helpButton(this.withEntry("entity/health")),
+                HelpUtils.helpButton(this.withEntry("entity/xp_amount"))));
+        subpane1.add(PanelUtils.westAndCenterElement(PanelUtils.totalCenterInPanel(mobDrop),
+                PanelUtils.gridElements(1, 2, 2, 0, health, xpAmount), 8, 8));
+
+        subpane1.add(PanelUtils.join(FlowLayout.LEFT, L10N.label("elementgui.living_entity.movement_speed_step_height"),
+                HelpUtils.helpButton(this.withEntry("entity/movement_speed")),
+                HelpUtils.helpButton(this.withEntry("entity/step_height"))));
+        subpane1.add(PanelUtils.gridElements(1, 2, 2, 0, movementSpeed, stepHeight));
+
+        subpane1.add(
+                PanelUtils.join(FlowLayout.LEFT, L10N.label("elementgui.living_entity.follow_range_tracking_range"),
+                        HelpUtils.helpButton(this.withEntry("entity/follow_range")),
+                        HelpUtils.helpButton(this.withEntry("entity/tracking_range"))));
+        subpane1.add(PanelUtils.gridElements(1, 2, 2, 0, followRange, trackingRange));
+
+        subpane1.add(PanelUtils.join(FlowLayout.LEFT,
+                L10N.label("elementgui.living_entity.attack_strenght_armor_value_knockback"),
+                HelpUtils.helpButton(this.withEntry("entity/attack_strength")),
+                HelpUtils.helpButton(this.withEntry("entity/armor_base_value")),
+                HelpUtils.helpButton(this.withEntry("entity/attack_knockback")),
+                HelpUtils.helpButton(this.withEntry("entity/knockback_resistance"))));
+        subpane1.add(PanelUtils.gridElements(1, 4, 2, 0, attackStrength, armorBaseValue, attackKnockback,
+                knockbackResistance));
+
+        subpane1.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/ridable"),
+                L10N.label("elementgui.living_entity.ridable")));
+        subpane1.add(PanelUtils.join(FlowLayout.LEFT, 0, 8, ridable, canControlForward, canControlStrafe));
+
+        subpane1.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/water_entity"),
+                L10N.label("elementgui.living_entity.water_mob")));
+        subpane1.add(waterMob);
+
+        waterMob.addChangeListener(e -> {
+            if (!isEditingMode()) {
+                breatheUnderwater.setFixedValue(waterMob.isSelected());
+                pushedByFluids.setFixedValue(!waterMob.isSelected());
+            }
+        });
+
+        subpane1.add(new JEmptyBox());
+        subpane1.add(breatheUnderwater);
+
+        subpane1.add(new JEmptyBox());
+        subpane1.add(pushedByFluids);
+
+        pushedByFluids.setFixedValue(true);
+
+        subpane1.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/flying_entity"),
+                L10N.label("elementgui.living_entity.flying_mob")));
+        subpane1.add(flyingMob);
+
+        subpane1.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/equipment"),
+                L10N.label("elementgui.living_entity.equipment")));
+        subpane1.add(PanelUtils.join(FlowLayout.LEFT, 0, 2, PanelUtils.totalCenterInPanel(
+                PanelUtils.join(FlowLayout.LEFT, 2, 0, equipmentMainHand, equipmentOffHand, equipmentHelmet,
+                        equipmentBody, equipmentLeggings, equipmentBoots))));
+
+        hasAI.setOpaque(false);
+        isBoss.setOpaque(false);
+        waterMob.setOpaque(false);
+        flyingMob.setOpaque(false);
+        hasSpawnEgg.setOpaque(false);
+        disableCollisions.setOpaque(false);
+
+        livingSound.setText("");
+        hurtSound.setText("entity.generic.hurt");
+        deathSound.setText("entity.generic.death");
+
         JPanel subpanel2 = new JPanel(new GridLayout(1, 2, 0, 2));
         subpanel2.setOpaque(false);
-        subpanel2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/immunity"), L10N.label("elementgui.living_entity.is_immune_to", new Object[0])));
-        subpanel2.add(PanelUtils.gridElements(4, 4, 0, 0, new Component[]{this.immuneToFire, this.immuneToArrows, this.immuneToFallDamage, this.immuneToCactus, this.immuneToDrowning, this.immuneToLightning, this.immuneToPotions, this.immuneToPlayer, this.immuneToExplosion, this.immuneToAnvil, this.immuneToTrident, this.immuneToDragonBreath, this.immuneToWither}));
+
+        subpanel2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/immunity"),
+                L10N.label("elementgui.living_entity.is_immune_to")));
+        subpanel2.add(
+                PanelUtils.gridElements(3, 5, 0, 0, immuneToFire, immuneToArrows, immuneToFallDamage, immuneToCactus,
+                        immuneToDrowning, immuneToLightning, immuneToPotions, immuneToPlayer, immuneToExplosion,
+                        immuneToAnvil, immuneToTrident, immuneToDragonBreath, immuneToWither));
+
         pane1.add("Center", PanelUtils.totalCenterInPanel(PanelUtils.northAndCenterElement(subpane1, subpanel2)));
+
+        JComponent animationsList = PanelUtils.northAndCenterElement(
+                HelpUtils.wrapWithHelpButton(this.withEntry("entity/model_animations"),
+                        L10N.label("elementgui.living_entity.model_animations")), animations);
+        animationsList.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        animationsPane.setOpaque(false);
+        animationsPane.add("Center", animationsList);
+
         JPanel entityDataListPanel = new JPanel(new GridLayout());
-        JComponent entityDataListComp = PanelUtils.northAndCenterElement(HelpUtils.wrapWithHelpButton(this.withEntry("entity/entity_data"), L10N.label("elementgui.living_entity.entity_data", new Object[0])), this.entityDataList);
+
+        JComponent entityDataListComp = PanelUtils.northAndCenterElement(
+                HelpUtils.wrapWithHelpButton(this.withEntry("entity/entity_data"),
+                        L10N.label("elementgui.living_entity.entity_data")), entityDataList);
         entityDataListPanel.setOpaque(false);
         entityDataListComp.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         entityDataListPanel.add(entityDataListComp);
-        JPanel spo2 = new JPanel(new GridLayout(15, 2, 2, 2));
+
+        JPanel spo2 = new JPanel(new GridLayout(12, 2, 2, 2));
+
         spo2.setOpaque(false);
-        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/name"), L10N.label("elementgui.living_entity.name", new Object[0])));
-        spo2.add(this.mobName);
-        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/model"), L10N.label("elementgui.animatedentity.entity_model", new Object[0])));
-        this.geoModel.setPrototypeDisplayValue("XXXXXXXXXXXXXXXXXXXXXXXXXX");
-        this.geoModel.setRenderer(new GeomodelRenderer());
-        ComponentUtils.deriveFont(this.geoModel, 16.0F);
-        spo2.add(this.geoModel);
+
+        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/name"),
+                L10N.label("elementgui.living_entity.name")));
+        spo2.add(mobName);
+
+        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/model"),
+                L10N.label("elementgui.living_entity.entity_model")));
+        spo2.add(mobModel);
+
+        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/texture"),
+                L10N.label("elementgui.living_entity.texture")));
+        spo2.add(mobModelTexture);
+
+        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/bounding_box"),
+                L10N.label("elementgui.living_entity.bounding_box")));
+        spo2.add(PanelUtils.join(FlowLayout.LEFT, 0, 0, modelWidth, new JEmptyBox(2, 2), modelHeight,
+                new JEmptyBox(2, 2), modelShadowSize, new JEmptyBox(2, 2), mountedYOffset, new JEmptyBox(2, 2),
+                disableCollisions));
+
         spo2.add(new JEmptyBox());
-        spo2.add(this.visualScale);
+        spo2.add(visualScale);
+
         spo2.add(new JEmptyBox());
-        spo2.add(this.boundingBoxScale);
+        spo2.add(boundingBoxScale);
+
         spo2.add(new JEmptyBox());
-        spo2.add(this.solidBoundingBox);
-        JButton importmobtexture = new JButton(UIRES.get("18px.add"));
-        importmobtexture.setToolTipText(L10N.t("elementgui.living_entity.entity_model_import", new Object[0]));
-        importmobtexture.setOpaque(false);
-        importmobtexture.addActionListener((e) -> {
-            TextureImportDialogs.importMultipleTextures(this.mcreator, TextureType.ENTITY);
-            this.mobModelTexture.removeAllItems();
-            this.mobModelTexture.addItem("");
-            this.mcreator.getFolderManager().getTexturesList(TextureType.ENTITY).forEach((el) -> this.mobModelTexture.addItem(el.getName()));
-            this.mobModelGlowTexture.removeAllItems();
-            this.mobModelGlowTexture.addItem("");
-            this.mcreator.getFolderManager().getTexturesList(TextureType.ENTITY).forEach((el) -> this.mobModelGlowTexture.addItem(el.getName()));
+        spo2.add(solidBoundingBox);
+
+        spo2.add(new JEmptyBox());
+        spo2.add(transparentModelCondition);
+
+        spo2.add(new JEmptyBox());
+        spo2.add(isShakingCondition);
+
+        ComponentUtils.deriveFont(aiBase, 16);
+        ComponentUtils.deriveFont(mobModel, 16);
+        ComponentUtils.deriveFont(rangedItemType, 16);
+
+        rangedItemType.setPrototypeDisplayValue("XXXXXXXXXXXXX");
+
+        mobModel.setRenderer(new ModelComboBoxRenderer());
+
+        spawnEggBaseColor.setOpaque(false);
+        spawnEggDotColor.setOpaque(false);
+
+        modelWidth.setPreferredSize(new Dimension(85, 41));
+        mountedYOffset.setPreferredSize(new Dimension(85, 41));
+        modelHeight.setPreferredSize(new Dimension(85, 41));
+        modelShadowSize.setPreferredSize(new Dimension(85, 41));
+
+        armorBaseValue.setPreferredSize(new Dimension(0, 32));
+        movementSpeed.setPreferredSize(new Dimension(0, 32));
+        stepHeight.setPreferredSize(new Dimension(0, 32));
+        trackingRange.setPreferredSize(new Dimension(0, 32));
+        attackStrength.setPreferredSize(new Dimension(0, 32));
+        attackKnockback.setPreferredSize(new Dimension(0, 32));
+        knockbackResistance.setPreferredSize(new Dimension(0, 32));
+        followRange.setPreferredSize(new Dimension(0, 32));
+        health.setPreferredSize(new Dimension(0, 32));
+        xpAmount.setPreferredSize(new Dimension(0, 32));
+
+        rangedAttackInterval.setPreferredSize(new Dimension(85, 32));
+        rangedAttackRadius.setPreferredSize(new Dimension(85, 32));
+
+        mobModel.addActionListener(e -> {
+            if (disableMobModelCheckBoxListener)
+                return;
+
+            if (biped.equals(mobModel.getSelectedItem())) {
+                modelWidth.setValue(0.6);
+                modelHeight.setValue(1.8);
+            } else if (chicken.equals(mobModel.getSelectedItem())) {
+                modelWidth.setValue(0.4);
+                modelHeight.setValue(0.7);
+            } else if (cod.equals(mobModel.getSelectedItem())) {
+                modelWidth.setValue(0.5);
+                modelHeight.setValue(0.3);
+            } else if (cow.equals(mobModel.getSelectedItem())) {
+                modelWidth.setValue(0.9);
+                modelHeight.setValue(1.4);
+            } else if (creeper.equals(mobModel.getSelectedItem())) {
+                modelWidth.setValue(0.6);
+                modelHeight.setValue(1.7);
+            } else if (ghast.equals(mobModel.getSelectedItem())) {
+                modelWidth.setValue(1.0);
+                modelHeight.setValue(1.0);
+            } else if (ocelot.equals(mobModel.getSelectedItem())) {
+                modelWidth.setValue(0.6);
+                modelHeight.setValue(0.7);
+            } else if (pig.equals(mobModel.getSelectedItem())) {
+                modelWidth.setValue(0.9);
+                modelHeight.setValue(0.9);
+            } else if (piglin.equals(mobModel.getSelectedItem())) {
+                modelWidth.setValue(0.6);
+                modelHeight.setValue(1.95);
+            } else if (salmon.equals(mobModel.getSelectedItem())) {
+                modelWidth.setValue(0.7);
+                modelHeight.setValue(0.4);
+            } else if (slime.equals(mobModel.getSelectedItem())) {
+                modelWidth.setValue(1.0);
+                modelHeight.setValue(1.0);
+            } else if (spider.equals(mobModel.getSelectedItem())) {
+                modelWidth.setValue(1.4);
+                modelHeight.setValue(0.9);
+            } else if (villager.equals(mobModel.getSelectedItem())) {
+                modelWidth.setValue(0.6);
+                modelHeight.setValue(1.95);
+            } else if (silverfish.equals(mobModel.getSelectedItem())) {
+                modelWidth.setValue(0.4);
+                modelHeight.setValue(0.3);
+            } else if (witch.equals(mobModel.getSelectedItem())) {
+                modelWidth.setValue(0.6);
+                modelHeight.setValue(1.95);
+            }
         });
-        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/texture"), L10N.label("elementgui.living_entity.texture", new Object[0])));
-        spo2.add(PanelUtils.centerAndEastElement(this.mobModelTexture, importmobtexture, 0, 0));
-        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/glow_texture"), L10N.label("elementgui.living_entity.glow_texture", new Object[0])));
-        spo2.add(this.mobModelGlowTexture);
-        ComponentUtils.deriveFont(this.mobModelTexture, 16.0F);
-        ComponentUtils.deriveFont(this.mobModelGlowTexture, 16.0F);
-        ComponentUtils.deriveFont(this.aiBase, 16.0F);
-        ComponentUtils.deriveFont(this.rangedItemType, 16.0F);
-        this.spawnEggBaseColor.setOpaque(false);
-        this.spawnEggDotColor.setOpaque(false);
-        this.modelWidth.setPreferredSize(new Dimension(85, 32));
-        this.mountedYOffset.setPreferredSize(new Dimension(85, 32));
-        this.modelHeight.setPreferredSize(new Dimension(85, 32));
-        this.modelShadowSize.setPreferredSize(new Dimension(85, 32));
-        this.armorBaseValue.setPreferredSize(new Dimension(0, 32));
-        this.movementSpeed.setPreferredSize(new Dimension(250, 32));
-        this.trackingRange.setPreferredSize(new Dimension(250, 32));
-        this.attackStrength.setPreferredSize(new Dimension(0, 32));
-        this.stepHeight.setPreferredSize(new Dimension(250, 32));
-        this.attackKnockback.setPreferredSize(new Dimension(0, 32));
-        this.knockbackResistance.setPreferredSize(new Dimension(0, 32));
-        this.followRange.setPreferredSize(new Dimension(250, 32));
-        this.health.setPreferredSize(new Dimension(250, 32));
-        this.xpAmount.setPreferredSize(new Dimension(250, 32));
-        this.rangedAttackInterval.setPreferredSize(new Dimension(85, 32));
-        this.rangedAttackRadius.setPreferredSize(new Dimension(85, 32));
-        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/bounding_box"), L10N.label("elementgui.living_entity.bounding_box", new Object[0])));
-        spo2.add(PanelUtils.join(0, 0, 0, new Component[]{this.modelWidth, new JEmptyBox(7, 7), this.modelHeight, new JEmptyBox(7, 7), this.modelShadowSize, new JEmptyBox(7, 7), this.mountedYOffset, new JEmptyBox(7, 7), this.disableCollisions}));
-        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/spawn_egg_options"), L10N.label("elementgui.living_entity.spawn_egg_options", new Object[0])));
-        this.creativeTabs.setPreferredSize(new Dimension(200, 30));
-        spo2.add(PanelUtils.join(0, 5, 0, new Component[]{this.hasSpawnEgg, this.spawnEggBaseColor, this.spawnEggDotColor, this.creativeTabs}));
-        this.bossBarColor.setEnabled(false);
-        this.bossBarType.setEnabled(false);
-        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/boss_entity"), L10N.label("elementgui.living_entity.mob_boss", new Object[0])));
-        spo2.add(PanelUtils.join(0, 5, 0, new Component[]{this.isBoss, this.bossBarColor, this.bossBarType}));
-        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/label"), L10N.label("elementgui.living_entity.label", new Object[0])));
-        spo2.add(this.mobLabel);
-        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/sound"), L10N.label("elementgui.living_entity.sound", new Object[0])));
-        spo2.add(this.livingSound);
-        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/step_sound"), L10N.label("elementgui.living_entity.step_sound", new Object[0])));
-        spo2.add(this.stepSound);
-        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/hurt_sound"), L10N.label("elementgui.living_entity.hurt_sound", new Object[0])));
-        spo2.add(this.hurtSound);
-        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/death_sound"), L10N.label("elementgui.living_entity.death_sound", new Object[0])));
-        spo2.add(this.deathSound);
-        ComponentUtils.deriveFont(this.mobLabel, 16.0F);
+
+        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/spawn_egg_options"),
+                L10N.label("elementgui.living_entity.spawn_egg_options")));
+        spo2.add(PanelUtils.westAndCenterElement(
+                PanelUtils.join(FlowLayout.LEFT, 0, 0, hasSpawnEgg, new JEmptyBox(2, 2), spawnEggBaseColor,
+                        new JEmptyBox(2, 2), spawnEggDotColor), creativeTabs, 5, 0));
+
+        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/boss_entity"),
+                L10N.label("elementgui.living_entity.mob_boss")));
+        spo2.add(PanelUtils.join(FlowLayout.LEFT, 0, 0, isBoss, new JEmptyBox(5, 5), bossBarColor, new JEmptyBox(5, 5),
+                bossBarType));
+
+        spo2.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/label"),
+                L10N.label("elementgui.living_entity.label")));
+        spo2.add(mobLabel);
+
+        ComponentUtils.deriveFont(mobLabel, 16);
+
         pane2.setOpaque(false);
         pane2.add("Center", PanelUtils.totalCenterInPanel(spo2));
+
+        JComponent layerList = PanelUtils.northAndCenterElement(
+                HelpUtils.wrapWithHelpButton(this.withEntry("entity/model_layers"),
+                        L10N.label("elementgui.living_entity.model_layers")), modelLayers);
+
+        layerList.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        pane8.setOpaque(false);
+        pane8.add(layerList);
+
+        JPanel spo6 = new JPanel(new GridLayout(5, 2, 2, 2));
+        spo6.setOpaque(false);
+
+        spo6.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/sound"),
+                L10N.label("elementgui.living_entity.sound")));
+        spo6.add(livingSound);
+
+        spo6.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/step_sound"),
+                L10N.label("elementgui.living_entity.step_sound")));
+        spo6.add(stepSound);
+
+        spo6.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/hurt_sound"),
+                L10N.label("elementgui.living_entity.hurt_sound")));
+        spo6.add(hurtSound);
+
+        spo6.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/death_sound"),
+                L10N.label("elementgui.living_entity.death_sound")));
+        spo6.add(deathSound);
+
+        spo6.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/raid_celebration_sound"),
+                L10N.label("elementgui.living_entity.raid_celebration_sound")));
+        spo6.add(raidCelebrationSound);
+
+        pane6.setOpaque(false);
+        pane6.add("Center", PanelUtils.totalCenterInPanel(spo6));
+
         JPanel aitop = new JPanel(new GridLayout(3, 1, 0, 2));
         aitop.setOpaque(false);
-        aitop.add(PanelUtils.join(0, new Component[]{HelpUtils.wrapWithHelpButton(this.withEntry("entity/enable_ai"), this.hasAI)}));
-        aitop.add(PanelUtils.join(0, new Component[]{HelpUtils.wrapWithHelpButton(this.withEntry("entity/breedable"), this.breedable), this.breedTriggerItems, this.tameable}));
-        this.breedTriggerItems.setPreferredSize(new Dimension(230, 32));
-        aitop.add(PanelUtils.join(0, new Component[]{new JEmptyBox(5, 5), HelpUtils.wrapWithHelpButton(this.withEntry("entity/base"), L10N.label("elementgui.living_entity.mob_base", new Object[0])), this.aiBase}));
-        this.aiBase.setPreferredSize(new Dimension(250, 32));
-        this.aiBase.addActionListener((e) -> this.regenerateAITasks());
+        aitop.add(PanelUtils.join(FlowLayout.LEFT,
+                HelpUtils.wrapWithHelpButton(this.withEntry("entity/enable_ai"), hasAI)));
+
+        aitop.add(PanelUtils.join(FlowLayout.LEFT,
+                HelpUtils.wrapWithHelpButton(this.withEntry("entity/breedable"), breedable), breedTriggerItems,
+                tameable));
+
+        breedTriggerItems.setPreferredSize(new Dimension(230, 32));
+
+        aitop.add(PanelUtils.join(FlowLayout.LEFT, new JEmptyBox(5, 5),
+                HelpUtils.wrapWithHelpButton(this.withEntry("entity/base"),
+                        L10N.label("elementgui.living_entity.mob_base")), aiBase));
+
+        aiBase.setPreferredSize(new Dimension(250, 32));
+        aiBase.addActionListener(e -> {
+            if (editorReady)
+                regenerateAITasks();
+        });
+
         JPanel aitopoveral = new JPanel(new BorderLayout(5, 0));
         aitopoveral.setOpaque(false);
+
         aitopoveral.add("West", aitop);
-        JPanel aitop2 = new JPanel(new GridLayout(2, 1, 0, 0));
-        aitop2.setOpaque(false);
-        aitop2.add(PanelUtils.join(0, new Component[]{HelpUtils.wrapWithHelpButton(this.withEntry("entity/do_ranged_attacks"), this.ranged), this.rangedItemType, this.rangedAttackItem, this.rangedAttackInterval, this.rangedAttackRadius}));
-        JPanel aitop3 = new JPanel(new GridLayout(1, 1, 0, 0));
-        aitop3.setOpaque(false);
-        aitop3.add(PanelUtils.join(0, new Component[]{HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/eye_height"), this.eyeHeight), this.height}));
-        aitop2.add(aitop3);
-        aitopoveral.add("Center", aitop2);
-        this.rangedAttackItem.setEnabled(false);
-        this.rangedItemType.addActionListener((e) -> this.rangedAttackItem.setEnabled("Default item".equals(this.rangedItemType.getSelectedItem())));
-        this.ridable.setOpaque(false);
-        this.canControlStrafe.setOpaque(false);
-        this.canControlForward.setOpaque(false);
-        aitopoveral.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder((Color)UIManager.get("MCreatorLAF.BRIGHT_COLOR"), 1), L10N.t("elementgui.living_entity.ai_parameters", new Object[0]), 0, 0, this.getFont().deriveFont(12.0F), (Color)UIManager.get("MCreatorLAF.BRIGHT_COLOR")));
+
+        aitopoveral.add("Center", PanelUtils.join(FlowLayout.LEFT,
+                HelpUtils.wrapWithHelpButton(this.withEntry("entity/do_ranged_attacks"), ranged), rangedItemType,
+                rangedAttackItem, rangedAttackInterval, rangedAttackRadius));
+
+        rangedItemType.addActionListener(e -> enableOrDisableFields());
+
+        ridable.setOpaque(false);
+        canControlStrafe.setOpaque(false);
+        canControlForward.setOpaque(false);
+
+        aitopoveral.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Theme.current().getForegroundColor(), 1),
+                L10N.t("elementgui.living_entity.ai_parameters"), 0, 0, getFont().deriveFont(12.0f),
+                Theme.current().getForegroundColor()));
+
         JPanel aipan = new JPanel(new BorderLayout(0, 5));
         aipan.setOpaque(false);
-        this.externalBlocks = BlocklyLoader.INSTANCE.getBlockLoader(BlocklyEditorType.AI_TASK).getDefinedBlocks();
-        this.blocklyPanel = new BlocklyPanel(this.mcreator, BlocklyEditorType.AI_TASK);
-        this.blocklyPanel.addTaskToRunAfterLoaded(() -> {
-            BlocklyLoader.INSTANCE.getBlockLoader(BlocklyEditorType.AI_TASK).loadBlocksAndCategoriesInPanel(this.blocklyPanel, ToolboxType.AI_BUILDER);
-            this.blocklyPanel.addChangeListener((changeEvent) -> (new Thread(this::regenerateAITasks, "AITasksRegenerate")).start());
-            if (!this.isEditingMode()) {
-                this.setDefaultAISet();
-            }
 
+        externalBlocks = BlocklyLoader.INSTANCE.getBlockLoader(BlocklyEditorType.AI_TASK).getDefinedBlocks();
+
+        blocklyPanel = new BlocklyPanel(mcreator, BlocklyEditorType.AI_TASK);
+        blocklyPanel.addTaskToRunAfterLoaded(() -> {
+            BlocklyLoader.INSTANCE.getBlockLoader(BlocklyEditorType.AI_TASK)
+                    .loadBlocksAndCategoriesInPanel(blocklyPanel, ToolboxType.AI_BUILDER);
+            blocklyPanel.addChangeListener(
+                    changeEvent -> new Thread(fr.bck.tetralibs.ui.modgui.LevelingEntityGUI.this::regenerateAITasks, "AITasksRegenerate").start());
+            if (!isEditingMode()) {
+                setDefaultAISet();
+            }
         });
+
         aipan.add("North", aitopoveral);
+
         JPanel bpb = new JPanel(new GridLayout());
         bpb.setOpaque(false);
-        bpb.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder((Color)UIManager.get("MCreatorLAF.BRIGHT_COLOR"), 1), L10N.t("elementgui.living_entity.ai_tasks", new Object[0]), 4, 0, this.getFont(), Color.white));
-        BlocklyEditorToolbar blocklyEditorToolbar = new BlocklyEditorToolbar(this.mcreator, BlocklyEditorType.AI_TASK, this.blocklyPanel);
-        blocklyEditorToolbar.setTemplateLibButtonWidth(156);
-        bpb.add(PanelUtils.northAndCenterElement(blocklyEditorToolbar, this.blocklyPanel));
+        bpb.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Theme.current().getForegroundColor(), 1),
+                L10N.t("elementgui.living_entity.ai_tasks"), TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
+                getFont(), Theme.current().getForegroundColor()));
+        BlocklyEditorToolbar blocklyEditorToolbar = new BlocklyEditorToolbar(mcreator, BlocklyEditorType.AI_TASK,
+                blocklyPanel);
+        blocklyEditorToolbar.setTemplateLibButtonWidth(157);
+        bpb.add(PanelUtils.northAndCenterElement(blocklyEditorToolbar, blocklyPanel));
         aipan.add("Center", bpb);
-        aipan.add("South", this.compileNotesPanel);
-        this.blocklyPanel.setPreferredSize(new Dimension(150, 150));
-        pane3.add("Center", ComponentUtils.applyPadding(aipan, 10, true, true, true, true));
-        this.breedable.setOpaque(false);
-        this.tameable.setOpaque(false);
-        this.ranged.setOpaque(false);
-        this.hasAI.setSelected(true);
-        this.breedable.addActionListener((actionEvent) -> {
-            if (this.breedable.isSelected()) {
-                this.hasAI.setSelected(true);
-                this.hasAI.setEnabled(false);
-                this.breedTriggerItems.setEnabled(true);
-                this.tameable.setEnabled(true);
-            } else {
-                this.hasAI.setEnabled(true);
-                this.breedTriggerItems.setEnabled(false);
-                this.tameable.setEnabled(false);
-            }
+        aipan.add("South", compileNotesPanel);
 
-        });
-        this.isBoss.addActionListener((e) -> {
-            this.bossBarColor.setEnabled(this.isBoss.isSelected());
-            this.bossBarType.setEnabled(this.isBoss.isSelected());
-        });
+        blocklyPanel.setPreferredSize(new Dimension(150, 150));
+
+        pane3.add("Center", ComponentUtils.applyPadding(aipan, 10, true, true, true, true));
+
+        breedable.setOpaque(false);
+        tameable.setOpaque(false);
+        ranged.setOpaque(false);
+
+        hasAI.setSelected(true);
+
+        mobBehaviourType.addActionListener(actionEvent -> enableOrDisableFields());
+        breedable.addActionListener(actionEvent -> enableOrDisableFields());
+        isBoss.addActionListener(e -> enableOrDisableFields());
+
         pane3.setOpaque(false);
-        JPanel events = new JPanel(new GridLayout(3, 4, 8, 8));
-        events.add(this.onStruckByLightning);
-        events.add(this.whenMobFalls);
-        events.add(this.whenMobDies);
-        events.add(this.whenMobIsHurt);
-        events.add(this.onRightClickedOn);
-        events.add(this.whenThisMobKillsAnother);
-        events.add(this.onMobTickUpdate);
-        events.add(this.onPlayerCollidesWith);
-        events.add(this.onInitialSpawn);
+
+        JPanel events = new JPanel(new GridLayout(3, 4, 5, 5));
+        events.add(onStruckByLightning);
+        events.add(whenMobFalls);
+        events.add(whenMobDies);
+        events.add(whenMobIsHurt);
+        events.add(onRightClickedOn);
+        events.add(whenThisMobKillsAnother);
+        events.add(onMobTickUpdate);
+        events.add(onPlayerCollidesWith);
+        events.add(onInitialSpawn);
         events.setOpaque(false);
         pane4.add("Center", PanelUtils.totalCenterInPanel(events));
-        this.isBoss.setOpaque(false);
+
+        isBoss.setOpaque(false);
+
         pane4.setOpaque(false);
-        JPanel selp = new JPanel(new GridLayout(10, 2, 30, 2));
-        ComponentUtils.deriveFont(this.mobName, 16.0F);
-        this.spawnThisMob.setSelected(true);
-        this.doesDespawnWhenIdle.setSelected(true);
-        this.spawnThisMob.setOpaque(false);
-        this.doesDespawnWhenIdle.setOpaque(false);
-        this.hasSpawnEgg.setSelected(true);
-        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/enable_spawning"), L10N.label("elementgui.living_entity.enable_mob_spawning", new Object[0])));
-        selp.add(this.spawnThisMob);
-        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/despawn_idle"), L10N.label("elementgui.living_entity.despawn_idle", new Object[0])));
-        selp.add(this.doesDespawnWhenIdle);
-        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/spawn_weight"), L10N.label("elementgui.living_entity.spawn_weight", new Object[0])));
-        selp.add(this.spawningProbability);
-        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/spawn_type"), L10N.label("elementgui.living_entity.spawn_type", new Object[0])));
-        selp.add(this.mobSpawningType);
-        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/spawn_group_size"), L10N.label("elementgui.living_entity.min_spawn_group_size", new Object[0])));
-        selp.add(this.minNumberOfMobsPerGroup);
-        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/spawn_group_size"), L10N.label("elementgui.living_entity.max_spawn_group_size", new Object[0])));
-        selp.add(this.maxNumberOfMobsPerGroup);
-        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("common/restrict_to_biomes"), L10N.label("elementgui.living_entity.restrict_to_biomes", new Object[0])));
-        selp.add(this.restrictionBiomes);
-        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/spawn_in_dungeons"), L10N.label("elementgui.living_entity.does_spawn_in_dungeons", new Object[0])));
-        selp.add(this.spawnInDungeons);
-        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/raid_spawns_counts"), L10N.label("elementgui.living_entity.raid_spawns_counts", new Object[0])));
-        selp.add(PanelUtils.gridElements(1, -1, 2, 2, new Component[]{this.raidSpawnsCount[0], this.raidSpawnsCount[1], this.raidSpawnsCount[2], this.raidSpawnsCount[3], this.raidSpawnsCount[4], this.raidSpawnsCount[5], this.raidSpawnsCount[6]}));
 
-        for(JSpinner spinner : this.raidSpawnsCount) {
-            spinner.setPreferredSize(new Dimension(40, 0));
-        }
-
-        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/raid_celebration_sound"), L10N.label("elementgui.living_entity.raid_celebration_sound", new Object[0])));
-        selp.add(this.raidCelebrationSound);
+        JPanel selp = new JPanel(new GridLayout(8, 2, 30, 2));
         selp.setOpaque(false);
-        JComponent selpcont = PanelUtils.northAndCenterElement(selp, PanelUtils.gridElements(1, 2, 5, 5, new Component[]{L10N.label("elementgui.living_entity.spawn_general_condition", new Object[0]), PanelUtils.westAndCenterElement(new JEmptyBox(12, 5), this.spawningCondition)}), 5, 5);
+
+        ComponentUtils.deriveFont(mobName, 16);
+
+        spawnThisMob.setSelected(true);
+        doesDespawnWhenIdle.setSelected(true);
+
+        spawnThisMob.setOpaque(false);
+        doesDespawnWhenIdle.setOpaque(false);
+
+        hasSpawnEgg.setSelected(true);
+
+        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/enable_spawning"),
+                L10N.label("elementgui.living_entity.enable_mob_spawning")));
+        selp.add(spawnThisMob);
+
+        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/despawn_idle"),
+                L10N.label("elementgui.living_entity.despawn_idle")));
+        selp.add(doesDespawnWhenIdle);
+
+        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/spawn_weight"),
+                L10N.label("elementgui.living_entity.spawn_weight")));
+        selp.add(spawningProbability);
+
+        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/spawn_type"),
+                L10N.label("elementgui.living_entity.spawn_type")));
+        selp.add(mobSpawningType);
+
+        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/spawn_group_size"),
+                L10N.label("elementgui.living_entity.spawn_group_size")));
+        selp.add(numberOfMobsPerGroup);
+
+        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("common/restrict_to_biomes"),
+                L10N.label("elementgui.living_entity.restrict_to_biomes")));
+        selp.add(restrictionBiomes);
+
+        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/spawn_in_dungeons"),
+                L10N.label("elementgui.living_entity.does_spawn_in_dungeons")));
+        selp.add(spawnInDungeons);
+
+        selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/raid_spawns_counts"),
+                L10N.label("elementgui.living_entity.raid_spawns_counts")));
+        selp.add(PanelUtils.gridElements(1, -1, 2, 2, raidSpawnsCount[0], raidSpawnsCount[1], raidSpawnsCount[2],
+                raidSpawnsCount[3], raidSpawnsCount[4], raidSpawnsCount[5], raidSpawnsCount[6]));
+
+        for (JSpinner spinner : raidSpawnsCount)
+            spinner.setPreferredSize(new Dimension(40, 0));
+
+        JComponent selpcont = PanelUtils.northAndCenterElement(selp, PanelUtils.gridElements(1, 2, 30, 2,
+                PanelUtils.join(FlowLayout.LEFT, 5, 0, L10N.label("elementgui.living_entity.spawn_general_condition")),
+                spawningCondition), 5, 5);
+
         pane5.add("Center", PanelUtils.totalCenterInPanel(selpcont));
+
         pane5.setOpaque(false);
+
         JPanel props = new JPanel(new GridLayout(3, 2, 35, 2));
         props.setOpaque(false);
-        props.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/bind_gui"), L10N.label("elementgui.living_entity.bind_to_gui", new Object[0])));
-        props.add(this.guiBoundTo);
-        props.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/inventory_size"), L10N.label("elementgui.living_entity.inventory_size", new Object[0])));
-        props.add(this.inventorySize);
-        props.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/inventory_stack_size"), L10N.label("elementgui.common.max_stack_size", new Object[0])));
-        props.add(this.inventoryStackSize);
+
+        props.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/bind_gui"),
+                L10N.label("elementgui.living_entity.bind_to_gui")));
+        props.add(guiBoundTo);
+
+        props.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/inventory_size"),
+                L10N.label("elementgui.living_entity.inventory_size")));
+        props.add(inventorySize);
+
+        props.add(HelpUtils.wrapWithHelpButton(this.withEntry("entity/inventory_stack_size"),
+                L10N.label("elementgui.common.max_stack_size")));
+        props.add(inventoryStackSize);
+
         pane7.add(PanelUtils.totalCenterInPanel(props));
         pane7.setOpaque(false);
         pane7.setOpaque(false);
-        this.mobModelTexture.setValidator(() -> this.mobModelTexture.getSelectedItem() != null && !((String)this.mobModelTexture.getSelectedItem()).equals("") ? Validator.ValidationResult.PASSED : new Validator.ValidationResult(Validator.ValidationResultType.ERROR, L10N.t("elementgui.living_entity.error_entity_model_needs_texture", new Object[0])));
-        this.mobName.setValidator(new TextFieldValidator(this.mobName, L10N.t("elementgui.living_entity.error_entity_needs_name", new Object[0])));
-        this.mobName.enableRealtimeValidation();
-        this.geoModel.setValidator(() -> this.geoModel.getSelectedItem() != null && !((String)this.geoModel.getSelectedItem()).equals("") ? Validator.ValidationResult.PASSED : new Validator.ValidationResult(Validator.ValidationResultType.ERROR, L10N.t("elementgui.animatedentity.modelname", new Object[0])));
+
+        mobName.setValidator(
+                new TextFieldValidator(mobName, L10N.t("elementgui.living_entity.error_entity_needs_name")));
+        mobName.enableRealtimeValidation();
+
         pane1.setOpaque(false);
-        JPanel animations = new JPanel(new GridLayout(11, 2, 20, 2));
-        animations.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder((Color)UIManager.get("MCreatorLAF.BRIGHT_COLOR"), 1), L10N.t("elementgui.animatedentity.animations_boarder", new Object[0]), 0, 0, this.getFont().deriveFont(12.0F), (Color)UIManager.get("MCreatorLAF.BRIGHT_COLOR")));
-        this.animation1.setPreferredSize(new Dimension(110, 10));
-        this.animation2.setPreferredSize(new Dimension(180, 30));
-        this.animation3.setPreferredSize(new Dimension(180, 30));
-        this.animation4.setPreferredSize(new Dimension(180, 30));
-        this.animation5.setPreferredSize(new Dimension(180, 30));
-        this.animation6.setPreferredSize(new Dimension(180, 30));
-        this.animation7.setPreferredSize(new Dimension(180, 30));
-        this.animation8.setPreferredSize(new Dimension(180, 30));
-        this.animation9.setPreferredSize(new Dimension(180, 30));
-        this.animation10.setPreferredSize(new Dimension(180, 30));
-        animations.add(HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/idle_animation"), L10N.label("elementgui.animatedentity.idle_animation", new Object[0])));
-        animations.add(this.animation1);
-        this.animation1.setValidator(new TextFieldValidator(this.animation1, L10N.t("elementgui.animatedentity.idle_required", new Object[0])));
-        this.animation1.enableRealtimeValidation();
-        animations.add(HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/walk_animation"), L10N.label("elementgui.animatedentity.walk_animation", new Object[0])));
-        animations.add(PanelUtils.join(new Component[]{this.enable2, this.animation2}));
-        animations.add(HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/death_animation"), L10N.label("elementgui.animatedentity.death_animation", new Object[0])));
-        animations.add(PanelUtils.join(new Component[]{this.enable3, this.animation3}));
-        animations.add(HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/attack_animation"), L10N.label("elementgui.animatedentity.attack_animation", new Object[0])));
-        animations.add(PanelUtils.join(new Component[]{this.enable4, this.animation4}));
-        animations.add(HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/swim_animation"), L10N.label("elementgui.animatedentity.swim_animation", new Object[0])));
-        animations.add(PanelUtils.join(new Component[]{this.enable5, this.animation5}));
-        animations.add(HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/sneak_animation"), L10N.label("elementgui.animatedentity.sneak_animation", new Object[0])));
-        animations.add(PanelUtils.join(new Component[]{this.enable6, this.animation6}));
-        animations.add(HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/sprint_animation"), L10N.label("elementgui.animatedentity.sprint_animation", new Object[0])));
-        animations.add(PanelUtils.join(new Component[]{this.enable7, this.animation7}));
-        animations.add(HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/flight_animation"), L10N.label("elementgui.animatedentity.flight_animation", new Object[0])));
-        animations.add(PanelUtils.join(new Component[]{this.enable8, this.animation8}));
-        animations.add(HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/riding_animation"), L10N.label("elementgui.animatedentity.riding_animation", new Object[0])));
-        animations.add(PanelUtils.join(new Component[]{this.enable9, this.animation9}));
-        animations.add(HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/aggression_animation"), L10N.label("elementgui.animatedentity.aggression_animation", new Object[0])));
-        animations.add(PanelUtils.join(new Component[]{this.enable10, this.animation10}));
-        animations.add(HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/lerp"), L10N.label("elementgui.animatedentity.lerp", new Object[0])));
-        animations.add(this.lerp);
-        JPanel animations_extras = new JPanel(new GridLayout(2, 2, 20, 2));
-        animations_extras.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder((Color)UIManager.get("MCreatorLAF.BRIGHT_COLOR"), 1), L10N.t("elementgui.animatedentity.death_animations_boarder", new Object[0]), 0, 0, this.getFont().deriveFont(12.0F), (Color)UIManager.get("MCreatorLAF.BRIGHT_COLOR")));
-        JPanel dpanel = new JPanel(new GridLayout(2, 2, 10, 2));
-        dpanel.add(HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/disable_death_rotation"), L10N.label("elementgui.animatedentity.disable_death_rotation", new Object[0])));
-        dpanel.add(this.disableDeathRotation);
-        dpanel.add(HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/death_time"), L10N.label("elementgui.animatedentity.death_time", new Object[0])));
-        dpanel.add(this.deathTime);
-        JPanel dpanel_procedure = new JPanel(new GridLayout(1, 1, 10, 2));
-        dpanel_procedure.add(this.finishedDying);
-        animations_extras.add(PanelUtils.centerInPanel(dpanel));
-        animations_extras.add(PanelUtils.centerInPanel(dpanel_procedure));
-        JPanel extras = new JPanel(new GridLayout(2, 2, 20, 2));
-        extras.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder((Color)UIManager.get("MCreatorLAF.BRIGHT_COLOR"), 1), L10N.t("elementgui.animatedentity.extras_boarder", new Object[0]), 0, 0, this.getFont().deriveFont(12.0F), (Color)UIManager.get("MCreatorLAF.BRIGHT_COLOR")));
-        JPanel extras_head = new JPanel(new GridLayout(4, 2, 10, 2));
-        extras_head.add(HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/head_movement"), L10N.label("elementgui.animatedentity.head_movement", new Object[0])));
-        extras_head.add(this.headMovement);
-        extras_head.add(L10N.label("elementgui.animatedentity.group_name", new Object[0]));
-        extras_head.add(this.groupName);
-        extras_head.add(new JEmptyBox());
-        extras_head.add(new JEmptyBox());
-        extras_head.add(HelpUtils.wrapWithHelpButton(this.withEntry("geckolib/attack_interval"), L10N.label("elementgui.animatedentity.attack_interval", new Object[0])));
-        extras_head.add(this.attackRate);
-        extras.add(PanelUtils.centerInPanel(extras_head));
-        JPanel merged_extras = new JPanel(new GridLayout(2, 1, 20, 2));
-        merged_extras.add(animations_extras);
-        merged_extras.add(extras);
-        JPanel animations_master = new JPanel(new GridLayout(1, 2, 20, 2));
-        animations_master.add(animations);
-        animations_master.add(merged_extras);
-        pane8.add(PanelUtils.totalCenterInPanel(animations_master));
-        animations_master.setOpaque(false);
-        animations_extras.setOpaque(false);
-        animations.setOpaque(false);
-        extras.setOpaque(false);
-        merged_extras.setOpaque(false);
-        dpanel_procedure.setOpaque(false);
-        dpanel.setOpaque(false);
-        extras_head.setOpaque(false);
-        pane8.setOpaque(false);
-        this.enable2.setOpaque(false);
-        this.enable3.setOpaque(false);
-        this.enable4.setOpaque(false);
-        this.enable5.setOpaque(false);
-        this.enable6.setOpaque(false);
-        this.enable7.setOpaque(false);
-        this.enable8.setOpaque(false);
-        this.enable9.setOpaque(false);
-        this.enable10.setOpaque(false);
-        this.disableDeathRotation.setOpaque(false);
-        this.headMovement.setOpaque(false);
-        this.eyeHeight.setOpaque(false);
-        this.addPage(L10N.t("elementgui.living_entity.page_visual_and_sound", new Object[0]), pane2);
-        this.addPage(L10N.t("elementgui.living_entity.page_behaviour", new Object[0]), pane1);
-        this.addPage(L10N.t("elementgui.living_entity.page_entity_data", new Object[0]), entityDataListPanel);
-        this.addPage(L10N.t("elementgui.common.page_inventory", new Object[0]), pane7);
-        this.addPage(L10N.t("elementgui.common.page_triggers", new Object[0]), pane4);
-        this.addPage(L10N.t("elementgui.living_entity.page_ai_and_goals", new Object[0]), pane3);
-        this.addPage(L10N.t("elementgui.living_entity.page_spawning", new Object[0]), pane5);
-        this.addPage(L10N.t("elementgui.animatedentity.animations_page", new Object[0]), pane8);
-        this.animation2.setEnabled(this.enable2.isSelected());
-        this.animation3.setEnabled(this.enable3.isSelected());
-        this.animation4.setEnabled(this.enable4.isSelected());
-        this.animation5.setEnabled(this.enable5.isSelected());
-        this.animation6.setEnabled(this.enable6.isSelected());
-        this.animation7.setEnabled(this.enable7.isSelected());
-        this.animation8.setEnabled(this.enable8.isSelected());
-        this.animation9.setEnabled(this.enable9.isSelected());
-        this.animation10.setEnabled(this.enable10.isSelected());
-        this.groupName.setEnabled(this.headMovement.isSelected());
-        this.height.setEnabled(this.eyeHeight.isSelected());
-        this.enable2.addActionListener((actionEvent) -> this.animation2.setEnabled(this.enable2.isSelected()));
-        this.enable3.addActionListener((actionEvent) -> this.animation3.setEnabled(this.enable3.isSelected()));
-        this.enable4.addActionListener((actionEvent) -> this.animation4.setEnabled(this.enable4.isSelected()));
-        this.enable5.addActionListener((actionEvent) -> this.animation5.setEnabled(this.enable5.isSelected()));
-        this.enable6.addActionListener((actionEvent) -> this.animation6.setEnabled(this.enable6.isSelected()));
-        this.enable7.addActionListener((actionEvent) -> this.animation7.setEnabled(this.enable7.isSelected()));
-        this.enable8.addActionListener((actionEvent) -> this.animation8.setEnabled(this.enable8.isSelected()));
-        this.enable9.addActionListener((actionEvent) -> this.animation9.setEnabled(this.enable9.isSelected()));
-        this.enable10.addActionListener((actionEvent) -> this.animation10.setEnabled(this.enable10.isSelected()));
-        this.headMovement.addActionListener((actionEvent) -> this.groupName.setEnabled(this.headMovement.isSelected()));
-        this.eyeHeight.addActionListener((actionEvent) -> this.height.setEnabled(this.eyeHeight.isSelected()));
-        if (!this.isEditingMode()) {
-            String readableNameFromModElement = StringUtils.machineToReadableName(this.modElement.getName());
-            this.mobName.setText(readableNameFromModElement);
+
+        addPage(L10N.t("elementgui.living_entity.page_visual"), pane2);
+        addPage(L10N.t("elementgui.living_entity.page_model_layers"), pane8, false);
+        addPage(L10N.t("elementgui.living_entity.page_animations"), animationsPane, false);
+        addPage(L10N.t("elementgui.living_entity.page_behaviour"), pane1);
+        addPage(L10N.t("elementgui.living_entity.page_sound"), pane6);
+        addPage(L10N.t("elementgui.living_entity.page_entity_data"), entityDataListPanel, false);
+        addPage(L10N.t("elementgui.common.page_inventory"), pane7);
+        addPage(L10N.t("elementgui.common.page_triggers"), pane4);
+        addPage(L10N.t("elementgui.living_entity.page_ai_and_goals"), pane3);
+        addPage(L10N.t("elementgui.living_entity.page_spawning"), pane5);
+
+        if (!isEditingMode()) {
+            creativeTabs.setListElements(List.of(new TabEntry(mcreator.getWorkspace(), "MISC")));
+
+            String readableNameFromModElement = StringUtils.machineToReadableName(modElement.getName());
+            mobName.setText(readableNameFromModElement);
         }
 
+        enableOrDisableFields();
+
+        editorReady = true;
     }
 
-    protected AggregatedValidationResult validatePage(int page) {
+    @Override public void reloadDataLists() {
+        disableMobModelCheckBoxListener = true;
+
+        super.reloadDataLists();
+        onStruckByLightning.refreshListKeepSelected();
+        whenMobFalls.refreshListKeepSelected();
+        whenMobDies.refreshListKeepSelected();
+        whenMobIsHurt.refreshListKeepSelected();
+        onRightClickedOn.refreshListKeepSelected();
+        whenThisMobKillsAnother.refreshListKeepSelected();
+        onMobTickUpdate.refreshListKeepSelected();
+        onPlayerCollidesWith.refreshListKeepSelected();
+        onInitialSpawn.refreshListKeepSelected();
+
+        spawningCondition.refreshListKeepSelected();
+        transparentModelCondition.refreshListKeepSelected();
+        isShakingCondition.refreshListKeepSelected();
+        solidBoundingBox.refreshListKeepSelected();
+        breatheUnderwater.refreshListKeepSelected();
+        pushedByFluids.refreshListKeepSelected();
+        visualScale.refreshListKeepSelected();
+        boundingBoxScale.refreshListKeepSelected();
+
+        modelLayers.reloadDataLists();
+
+        animations.reloadDataLists();
+
+        mobModelTexture.reload();
+
+        ComboBoxUtil.updateComboBoxContents(mobModel, ListUtils.merge(Arrays.asList(builtinmobmodels),
+                Model.getModels(mcreator.getWorkspace()).stream()
+                        .filter(el -> el.getType() == Model.Type.JAVA || el.getType() == Model.Type.MCREATOR)
+                        .collect(Collectors.toList())));
+
+        ComboBoxUtil.updateComboBoxContents(rangedItemType, ListUtils.merge(Collections.singleton("Default item"),
+                mcreator.getWorkspace().getModElements().stream()
+                        .filter(var -> var.getType() == ModElementType.PROJECTILE).map(ModElement::getName)
+                        .collect(Collectors.toList())), "Default item");
+
+        // **** Mise à jour de la liste des types de leveling ****
+        levelingTypesModel.clear();
+        // On récupère les types enregistrés via l'instance de LevelingEntity
+        LevelingEntity le = (LevelingEntity) getElementFromGUI();
+        for (String type : le.getTrackedExperienceTypes()) {
+            levelingTypesModel.addElement(type);
+        }
+
+        disableMobModelCheckBoxListener = false;
+    }
+
+    @Override protected AggregatedValidationResult validatePage(int page) {
         if (page == 0) {
-            return new AggregatedValidationResult(new ValidationGroup[]{this.page1group});
-        } else if (page == 2) {
-            return new AggregatedValidationResult(new ValidationGroup[]{this.page3group});
-        } else if (page == 3) {
-            return this.blockstateList.getValidationResult();
-        } else if (page == 5) {
-            return new AggregatedValidationResult(new IValidable[]{this.outSlotIDs, this.inSlotIDs});
-        } else {
-            return (AggregatedValidationResult) (page == 7 && (Integer) this.minGenerateHeight.getValue() >= (Integer) this.maxGenerateHeight.getValue() ? new AggregatedValidationResult.FAIL(L10N.t("elementgui.block.error_minimal_generation_height", new Object[0])) : new AggregatedValidationResult.PASS());
+            return new AggregatedValidationResult(mobModelTexture, mobName);
+        } else if (page == 1) {
+            return modelLayers.getValidationResult();
+        } else if (page == 8) {
+            return new BlocklyAggregatedValidationResult(compileNotesPanel.getCompileNotes(),
+                    compileNote -> "Living entity AI builder: " + compileNote);
+        } else if (page == 9) {
+            return new AggregatedValidationResult(restrictionBiomes);
         }
+        return new AggregatedValidationResult.PASS();
     }
 
-    public void openInEditingMode(LevelingEntity block) {
+    private void enableOrDisableFields() {
+        boolean isRaider = "Raider".equals(mobBehaviourType.getSelectedItem());
+        if (isRaider) {
+            breedable.setSelected(false);
+            aiBase.setSelectedItem("(none)");
+        }
 
+        raidCelebrationSound.setEnabled(isRaider);
+        for (JSpinner spinner : raidSpawnsCount)
+            spinner.setEnabled(isRaider);
+        breedable.setEnabled(!isRaider);
+        aiBase.setEnabled(!isRaider);
+        tameable.setEnabled(!isRaider);
+
+        if (breedable.isSelected()) {
+            hasAI.setSelected(true);
+            hasAI.setEnabled(false);
+            breedTriggerItems.setEnabled(true);
+            tameable.setEnabled(true);
+        } else {
+            hasAI.setEnabled(true);
+            breedTriggerItems.setEnabled(false);
+            tameable.setEnabled(false);
+        }
+
+        bossBarColor.setEnabled(isBoss.isSelected());
+        bossBarType.setEnabled(isBoss.isSelected());
+
+        rangedAttackItem.setEnabled("Default item".equals(rangedItemType.getSelectedItem()));
     }
 
-    public LevelingEntity getElementFromGUI() {
-        LevelingEntity entity = new LevelingEntity(this.modElement);
-        return entity;
+    @Override public void openInEditingMode(LivingEntity livingEntity) {
+        disableMobModelCheckBoxListener = true;
+        editorReady = false;
+
+        mobName.setText(livingEntity.mobName);
+        mobModelTexture.setTextureFromTextureName(livingEntity.mobModelTexture);
+        transparentModelCondition.setSelectedProcedure(livingEntity.transparentModelCondition);
+        isShakingCondition.setSelectedProcedure(livingEntity.isShakingCondition);
+        solidBoundingBox.setSelectedProcedure(livingEntity.solidBoundingBox);
+        visualScale.setSelectedProcedure(livingEntity.visualScale);
+        boundingBoxScale.setSelectedProcedure(livingEntity.boundingBoxScale);
+        mobSpawningType.setSelectedItem(livingEntity.mobSpawningType);
+        rangedItemType.setSelectedItem(livingEntity.rangedItemType);
+        spawnEggBaseColor.setColor(livingEntity.spawnEggBaseColor);
+        spawnEggDotColor.setColor(livingEntity.spawnEggDotColor);
+        mobLabel.setText(livingEntity.mobLabel);
+        onStruckByLightning.setSelectedProcedure(livingEntity.onStruckByLightning);
+        whenMobFalls.setSelectedProcedure(livingEntity.whenMobFalls);
+        whenMobDies.setSelectedProcedure(livingEntity.whenMobDies);
+        whenMobIsHurt.setSelectedProcedure(livingEntity.whenMobIsHurt);
+        onRightClickedOn.setSelectedProcedure(livingEntity.onRightClickedOn);
+        whenThisMobKillsAnother.setSelectedProcedure(livingEntity.whenThisMobKillsAnother);
+        onMobTickUpdate.setSelectedProcedure(livingEntity.onMobTickUpdate);
+        onPlayerCollidesWith.setSelectedProcedure(livingEntity.onPlayerCollidesWith);
+        onInitialSpawn.setSelectedProcedure(livingEntity.onInitialSpawn);
+        mobBehaviourType.setSelectedItem(livingEntity.mobBehaviourType);
+        mobCreatureType.setSelectedItem(livingEntity.mobCreatureType);
+        attackStrength.setValue(livingEntity.attackStrength);
+        attackKnockback.setValue(livingEntity.attackKnockback);
+        knockbackResistance.setValue(livingEntity.knockbackResistance);
+        movementSpeed.setValue(livingEntity.movementSpeed);
+        stepHeight.setValue(livingEntity.stepHeight);
+        mobDrop.setBlock(livingEntity.mobDrop);
+        equipmentMainHand.setBlock(livingEntity.equipmentMainHand);
+        equipmentHelmet.setBlock(livingEntity.equipmentHelmet);
+        equipmentBody.setBlock(livingEntity.equipmentBody);
+        equipmentLeggings.setBlock(livingEntity.equipmentLeggings);
+        equipmentBoots.setBlock(livingEntity.equipmentBoots);
+        health.setValue(livingEntity.health);
+        trackingRange.setValue(livingEntity.trackingRange);
+        followRange.setValue(livingEntity.followRange);
+        immuneToFire.setSelected(livingEntity.immuneToFire);
+        immuneToArrows.setSelected(livingEntity.immuneToArrows);
+        immuneToFallDamage.setSelected(livingEntity.immuneToFallDamage);
+        immuneToCactus.setSelected(livingEntity.immuneToCactus);
+        immuneToDrowning.setSelected(livingEntity.immuneToDrowning);
+        immuneToLightning.setSelected(livingEntity.immuneToLightning);
+        immuneToPotions.setSelected(livingEntity.immuneToPotions);
+        immuneToPlayer.setSelected(livingEntity.immuneToPlayer);
+        immuneToExplosion.setSelected(livingEntity.immuneToExplosion);
+        immuneToTrident.setSelected(livingEntity.immuneToTrident);
+        immuneToAnvil.setSelected(livingEntity.immuneToAnvil);
+        immuneToWither.setSelected(livingEntity.immuneToWither);
+        immuneToDragonBreath.setSelected(livingEntity.immuneToDragonBreath);
+        xpAmount.setValue(livingEntity.xpAmount);
+        livingSound.setSound(livingEntity.livingSound);
+        hurtSound.setSound(livingEntity.hurtSound);
+        deathSound.setSound(livingEntity.deathSound);
+        stepSound.setSound(livingEntity.stepSound);
+        raidCelebrationSound.setSound(livingEntity.raidCelebrationSound);
+        hasAI.setSelected(livingEntity.hasAI);
+        isBoss.setSelected(livingEntity.isBoss);
+        hasSpawnEgg.setSelected(livingEntity.hasSpawnEgg);
+        disableCollisions.setSelected(livingEntity.disableCollisions);
+        aiBase.setSelectedItem(livingEntity.aiBase);
+        spawningProbability.setValue(livingEntity.spawningProbability);
+        numberOfMobsPerGroup.setMinValue(livingEntity.minNumberOfMobsPerGroup);
+        numberOfMobsPerGroup.setMaxValue(livingEntity.maxNumberOfMobsPerGroup);
+        spawnInDungeons.setSelected(livingEntity.spawnInDungeons);
+        restrictionBiomes.setListElements(livingEntity.restrictionBiomes);
+        spawningCondition.setSelectedProcedure(livingEntity.spawningCondition);
+        breedTriggerItems.setListElements(livingEntity.breedTriggerItems);
+        bossBarColor.setSelectedItem(livingEntity.bossBarColor);
+        bossBarType.setSelectedItem(livingEntity.bossBarType);
+        equipmentOffHand.setBlock(livingEntity.equipmentOffHand);
+        ridable.setSelected(livingEntity.ridable);
+        canControlStrafe.setSelected(livingEntity.canControlStrafe);
+        canControlForward.setSelected(livingEntity.canControlForward);
+        breedable.setSelected(livingEntity.breedable);
+        tameable.setSelected(livingEntity.tameable);
+        ranged.setSelected(livingEntity.ranged);
+        rangedAttackItem.setBlock(livingEntity.rangedAttackItem);
+        rangedAttackInterval.setValue(livingEntity.rangedAttackInterval);
+        rangedAttackRadius.setValue(livingEntity.rangedAttackRadius);
+        spawnThisMob.setSelected(livingEntity.spawnThisMob);
+        doesDespawnWhenIdle.setSelected(livingEntity.doesDespawnWhenIdle);
+        modelWidth.setValue(livingEntity.modelWidth);
+        modelHeight.setValue(livingEntity.modelHeight);
+        mountedYOffset.setValue(livingEntity.mountedYOffset);
+        modelShadowSize.setValue(livingEntity.modelShadowSize);
+        armorBaseValue.setValue(livingEntity.armorBaseValue);
+        waterMob.setSelected(livingEntity.waterMob);
+        breatheUnderwater.setSelectedProcedure(livingEntity.breatheUnderwater);
+        pushedByFluids.setSelectedProcedure(livingEntity.pushedByFluids);
+        flyingMob.setSelected(livingEntity.flyingMob);
+        guiBoundTo.setEntry(livingEntity.guiBoundTo);
+        inventorySize.setValue(livingEntity.inventorySize);
+        inventoryStackSize.setValue(livingEntity.inventoryStackSize);
+        for (int i = 0; i < livingEntity.raidSpawnsCount.length; i++)
+            raidSpawnsCount[i].setValue(livingEntity.raidSpawnsCount[i]);
+        modelLayers.setEntries(livingEntity.modelLayers);
+        animations.setEntries(livingEntity.animations);
+
+        entityDataList.setEntries(livingEntity.entityDataEntries);
+
+        creativeTabs.setListElements(livingEntity.creativeTabs);
+
+        Model model = livingEntity.getEntityModel();
+        if (model != null)
+            mobModel.setSelectedItem(model);
+
+        blocklyPanel.addTaskToRunAfterLoaded(() -> blocklyPanel.setXML(livingEntity.aixml));
+
+        enableOrDisableFields();
+
+        disableMobModelCheckBoxListener = false;
+        editorReady = true;
     }
+
+    @Override public LivingEntity getElementFromGUI() {
+        LivingEntity livingEntity = new LivingEntity(modElement);
+        livingEntity.mobName = mobName.getText();
+        livingEntity.mobLabel = mobLabel.getText();
+        livingEntity.mobModelTexture = mobModelTexture.getTextureName();
+        livingEntity.spawnEggBaseColor = spawnEggBaseColor.getColor();
+        livingEntity.transparentModelCondition = transparentModelCondition.getSelectedProcedure();
+        livingEntity.isShakingCondition = isShakingCondition.getSelectedProcedure();
+        livingEntity.solidBoundingBox = solidBoundingBox.getSelectedProcedure();
+        livingEntity.visualScale = visualScale.getSelectedProcedure();
+        livingEntity.boundingBoxScale = boundingBoxScale.getSelectedProcedure();
+        livingEntity.spawnEggDotColor = spawnEggDotColor.getColor();
+        livingEntity.hasSpawnEgg = hasSpawnEgg.isSelected();
+        livingEntity.disableCollisions = disableCollisions.isSelected();
+        livingEntity.isBoss = isBoss.isSelected();
+        livingEntity.bossBarColor = (String) bossBarColor.getSelectedItem();
+        livingEntity.bossBarType = (String) bossBarType.getSelectedItem();
+        livingEntity.equipmentMainHand = equipmentMainHand.getBlock();
+        livingEntity.equipmentOffHand = equipmentOffHand.getBlock();
+        livingEntity.equipmentHelmet = equipmentHelmet.getBlock();
+        livingEntity.equipmentBody = equipmentBody.getBlock();
+        livingEntity.equipmentLeggings = equipmentLeggings.getBlock();
+        livingEntity.equipmentBoots = equipmentBoots.getBlock();
+        livingEntity.mobBehaviourType = (String) mobBehaviourType.getSelectedItem();
+        livingEntity.mobCreatureType = (String) mobCreatureType.getSelectedItem();
+        livingEntity.attackStrength = (int) attackStrength.getValue();
+        livingEntity.attackKnockback = (double) attackKnockback.getValue();
+        livingEntity.knockbackResistance = (double) knockbackResistance.getValue();
+        livingEntity.movementSpeed = (double) movementSpeed.getValue();
+        livingEntity.stepHeight = (double) stepHeight.getValue();
+        livingEntity.health = (int) health.getValue();
+        livingEntity.trackingRange = (int) trackingRange.getValue();
+        livingEntity.followRange = (int) followRange.getValue();
+        livingEntity.immuneToFire = immuneToFire.isSelected();
+        livingEntity.immuneToArrows = immuneToArrows.isSelected();
+        livingEntity.immuneToFallDamage = immuneToFallDamage.isSelected();
+        livingEntity.immuneToCactus = immuneToCactus.isSelected();
+        livingEntity.immuneToDrowning = immuneToDrowning.isSelected();
+        livingEntity.immuneToLightning = immuneToLightning.isSelected();
+        livingEntity.immuneToPotions = immuneToPotions.isSelected();
+        livingEntity.immuneToPlayer = immuneToPlayer.isSelected();
+        livingEntity.immuneToExplosion = immuneToExplosion.isSelected();
+        livingEntity.immuneToTrident = immuneToTrident.isSelected();
+        livingEntity.immuneToAnvil = immuneToAnvil.isSelected();
+        livingEntity.immuneToWither = immuneToWither.isSelected();
+        livingEntity.immuneToDragonBreath = immuneToDragonBreath.isSelected();
+        livingEntity.xpAmount = (int) xpAmount.getValue();
+        livingEntity.ridable = ridable.isSelected();
+        livingEntity.canControlForward = canControlForward.isSelected();
+        livingEntity.canControlStrafe = canControlStrafe.isSelected();
+        livingEntity.mobDrop = mobDrop.getBlock();
+        livingEntity.livingSound = livingSound.getSound();
+        livingEntity.hurtSound = hurtSound.getSound();
+        livingEntity.deathSound = deathSound.getSound();
+        livingEntity.stepSound = stepSound.getSound();
+        livingEntity.raidCelebrationSound = raidCelebrationSound.getSound();
+        livingEntity.spawningCondition = spawningCondition.getSelectedProcedure();
+        livingEntity.onStruckByLightning = onStruckByLightning.getSelectedProcedure();
+        livingEntity.whenMobFalls = whenMobFalls.getSelectedProcedure();
+        livingEntity.whenMobDies = whenMobDies.getSelectedProcedure();
+        livingEntity.whenMobIsHurt = whenMobIsHurt.getSelectedProcedure();
+        livingEntity.onRightClickedOn = onRightClickedOn.getSelectedProcedure();
+        livingEntity.whenThisMobKillsAnother = whenThisMobKillsAnother.getSelectedProcedure();
+        livingEntity.onMobTickUpdate = onMobTickUpdate.getSelectedProcedure();
+        livingEntity.onPlayerCollidesWith = onPlayerCollidesWith.getSelectedProcedure();
+        livingEntity.onInitialSpawn = onInitialSpawn.getSelectedProcedure();
+        livingEntity.hasAI = hasAI.isSelected();
+        livingEntity.aiBase = aiBase.getSelectedItem();
+        livingEntity.aixml = blocklyPanel.getXML();
+        livingEntity.breedable = breedable.isSelected();
+        livingEntity.tameable = tameable.isSelected();
+        livingEntity.breedTriggerItems = breedTriggerItems.getListElements();
+        livingEntity.ranged = ranged.isSelected();
+        livingEntity.rangedAttackItem = rangedAttackItem.getBlock();
+        livingEntity.rangedAttackInterval = (int) rangedAttackInterval.getValue();
+        livingEntity.rangedAttackRadius = (double) rangedAttackRadius.getValue();
+        livingEntity.spawnThisMob = spawnThisMob.isSelected();
+        livingEntity.doesDespawnWhenIdle = doesDespawnWhenIdle.isSelected();
+        livingEntity.spawningProbability = (int) spawningProbability.getValue();
+        livingEntity.mobSpawningType = (String) mobSpawningType.getSelectedItem();
+        livingEntity.rangedItemType = rangedItemType.getSelectedItem();
+        livingEntity.minNumberOfMobsPerGroup = numberOfMobsPerGroup.getIntMinValue();
+        livingEntity.maxNumberOfMobsPerGroup = numberOfMobsPerGroup.getIntMaxValue();
+        livingEntity.restrictionBiomes = restrictionBiomes.getListElements();
+        livingEntity.spawnInDungeons = spawnInDungeons.isSelected();
+        livingEntity.modelWidth = (double) modelWidth.getValue();
+        livingEntity.modelHeight = (double) modelHeight.getValue();
+        livingEntity.mountedYOffset = (double) mountedYOffset.getValue();
+        livingEntity.modelShadowSize = (double) modelShadowSize.getValue();
+        livingEntity.armorBaseValue = (double) armorBaseValue.getValue();
+        livingEntity.mobModelName = Objects.requireNonNull(mobModel.getSelectedItem()).getReadableName();
+        livingEntity.waterMob = waterMob.isSelected();
+        livingEntity.breatheUnderwater = breatheUnderwater.getSelectedProcedure();
+        livingEntity.pushedByFluids = pushedByFluids.getSelectedProcedure();
+        livingEntity.flyingMob = flyingMob.isSelected();
+        livingEntity.creativeTabs = creativeTabs.getListElements();
+        livingEntity.inventorySize = (int) inventorySize.getValue();
+        livingEntity.inventoryStackSize = (int) inventoryStackSize.getValue();
+        livingEntity.guiBoundTo = guiBoundTo.getEntry();
+        livingEntity.entityDataEntries = entityDataList.getEntries();
+        for (int i = 0; i < livingEntity.raidSpawnsCount.length; i++)
+            livingEntity.raidSpawnsCount[i] = (int) raidSpawnsCount[i].getValue();
+        livingEntity.modelLayers = modelLayers.getEntries();
+        livingEntity.animations = animations.getEntries();
+        livingEntity.xpAmount = (int) xpAmount.getValue();
+        return livingEntity;
+    }
+
+    @Override public @Nullable URI contextURL() throws URISyntaxException {
+        return new URI(MCreatorApplication.SERVER_DOMAIN + "/wiki/how-make-mob");
+    }
+
+    @Override public Set<BlocklyPanel> getBlocklyPanels() {
+        return Set.of(blocklyPanel);
+    }
+
 }

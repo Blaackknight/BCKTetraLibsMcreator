@@ -1,0 +1,1 @@
+(Entity)(world instanceof ServerLevel _serverLevel ? _serverLevel.getServer().getPlayerList().getPlayerByName(${input$name}) : null)
